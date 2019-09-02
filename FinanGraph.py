@@ -22,8 +22,11 @@ canvas = FigureCanvasTkAgg(fig, master=ventana)
 canvas.draw()
 canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
-
-
-
+button = tkinter.Button(master=ventana, text="SET", bg="gray69")
+button.pack(side=tkinter.BOTTOM)
+et = tkinter.Entry(master=ventana,width=60)
+et.config(bg="gray87", justify="left")
+et.pack(side=tkinter.BOTTOM)
 
 tkinter.mainloop()
+
