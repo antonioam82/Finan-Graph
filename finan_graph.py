@@ -9,16 +9,17 @@ from VALID import ns
 
 #style.use('ggplot')
 
-fecha_partida = datetime.now() - timedelta(days = 30)
+fecha_partida = datetime.now() - timedelta(days = 90)
 
 while True:
     co=input("Comp: ")
+    param=input("Param: ")
     
     try:
         comp = pdr.get_data_yahoo(co,start= fecha_partida)
         print(comp)
 
-        datos = comp['Adj Close']
+        datos = comp[param]
         datos.plot(grid=True)
         plt.show()
     except:
@@ -27,5 +28,4 @@ while True:
     conti=ns(input("¿Continuar?: "))
     if conti == "n":
         break
-    
     
