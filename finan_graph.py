@@ -21,6 +21,7 @@ while True:
 
         datos = comp[param]
         datos.plot(grid=True,figsize=(15,7))
+        plt.title("Datos "+co)
         plt.show()
     except:
         print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
