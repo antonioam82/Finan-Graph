@@ -20,7 +20,7 @@ while True:
         print(comp)
 
         datos = comp[param]
-        datos.plot(grid=True)
+        datos.plot(grid=True,figsize=(15,7))
         plt.show()
     except:
         print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
