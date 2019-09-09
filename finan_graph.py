@@ -9,6 +9,9 @@ from VALID import ns, OKI
 
 style.use('dark_background')
 
+comps={"GOGL":"GOOGLE","AAPL":"Apple","GM":"General Motors","F":"SILVER",
+       "AMZN":"Amazon","BNK":"Bankia"}
+
 while True:
     co=input("Comp: ")
     param=input("Param: ")
@@ -22,6 +25,8 @@ while True:
 
         datos = comp[param]
         datos.plot(grid=True,figsize=(13,7))
+        if co in comps:
+            co = comps[co]
         plt.title("Datos "+co)
         plt.show()
     except:
@@ -30,4 +35,5 @@ while True:
     conti=ns(input("¿Continuar?: "))
     if conti == "n":
         break
+    
     
