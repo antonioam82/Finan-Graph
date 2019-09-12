@@ -10,7 +10,7 @@ from VALID import ns, OKI
 style.use('dark_background')
 
 comps={"GOGL":"GOOGLE","AAPL":"Apple","GM":"General Motors","F":"SILVER",
-       "AMZN":"Amazon","BNK":"Bankia"}
+       "AMZN":"Amazon","BNK":"Bankia","GOLD":"Oro"}
 
 while True:
     co=input("Comp: ")
@@ -27,7 +27,7 @@ while True:
         datos.plot(grid=True,figsize=(13,7))
         if co in comps:
             co = comps[co]
-        plt.title("Datos "+co)
+        plt.title("Datos: "+co)
         plt.show()
     except:
         print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
