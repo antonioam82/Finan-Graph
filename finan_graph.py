@@ -18,10 +18,14 @@ while True:
     period=OKI(input("Periodo en días: "))
 
     fecha_partida = datetime.now() - timedelta(days = period)
+
     
     try:
         comp = pdr.get_data_yahoo(co,start= fecha_partida)
         print(comp)
+        
+        diferencia=float(comp[param][-1]-comp[param][-2])
+        print(diferencia)
 
         datos = comp[param]
         datos.plot(grid=True,figsize=(13,7))
