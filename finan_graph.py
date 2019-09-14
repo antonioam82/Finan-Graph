@@ -13,7 +13,7 @@ comps={"GOGL":"GOOGLE","AAPL":"Apple","GM":"General Motors","F":"SILVER",
        "AMZN":"Amazon","BNK":"Bankia","GOLD":"Oro"}
 
 while True:
-    co=input("Comp: ")
+    co=(input("Comp: ")).upper()
     param=input("Param: ")
     period=OKI(input("Periodo en días: "))
 
@@ -31,7 +31,7 @@ while True:
         datos.plot(grid=True,figsize=(13,7))
         if co in comps:
             co = comps[co]
-        plt.title("Datos: "+co)
+        plt.title("Datos: "+co+" "+"("+str(diferencia)+")")
         plt.show()
     except:
         print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
