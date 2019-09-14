@@ -25,13 +25,12 @@ while True:
         print(comp)
         
         diferencia=float(comp[param][-1]-comp[param][-2])
-        print(diferencia)
 
         datos = comp[param]
         datos.plot(grid=True,figsize=(13,7))
         if co in comps:
             co = comps[co]
-        plt.title("Datos: "+co+" "+"("+str(diferencia)+")")
+        plt.title("Datos: "+co+" "+"("+str(round(diferencia,2))+")")
         plt.show()
     except:
         print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
@@ -39,5 +38,4 @@ while True:
     conti=ns(input("¿Continuar?: "))
     if conti == "n":
         break
-    
     
