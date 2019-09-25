@@ -9,7 +9,7 @@ from VALID import ns, OKI
 
 style.use('dark_background')
 
-comps={"GOGL":"GOOGLE","AAPL":"Apple","GM":"General Motors","F":"SILVER",
+comps={"NFLX":"NETFLIX","GOGL":"GOOGLE","AAPL":"Apple","GM":"General Motors","F":"SILVER",
        "AMZN":"Amazon","BNK":"Bankia","GOLD":"Oro"}
 
 while True:
