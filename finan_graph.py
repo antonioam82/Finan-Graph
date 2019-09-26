@@ -9,14 +9,16 @@ from VALID import ns, OKI
 
 style.use('dark_background')
 
-comps={"NFLX":"NETFLIX","GOGL":"GOOGLE","AAPL":"Apple","GM":"General Motors","F":"SILVER",
-       "AMZN":"Amazon","BNK":"Bankia","GOLD":"Oro"}
+comps={"NETFLIX":"NFLX","GOOGLE":"GOGL","APPLE":"AAPL","GENERAL MOTORS":"GM","SILVER":"F",
+      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD"}
 
 while True:
-    co=(input("Comp: ")).upper()
+    compa=(input("Comp: ")).upper()
     param=input("Param: ")
     period=OKI(input("Periodo en días: "))
-
+    co=compa
+    if co in comps:
+        co=comps[co]
     fecha_partida = datetime.now() - timedelta(days = period)
 
     
@@ -28,9 +30,7 @@ while True:
 
         datos = comp[param]
         datos.plot(grid=True,figsize=(13,7))
-        if co in comps:
-            co = comps[co]
-        plt.title("Datos: "+co+" "+"("+str(round(diferencia,2))+")")
+        plt.title("Datos: "+compa+" "+"("+str(round(diferencia,2))+")")
         plt.show()
     except:
         print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
