@@ -10,7 +10,7 @@ from VALID import ns, OKI
 style.use('dark_background')
 
 comps={"NETFLIX":"NFLX","GOOGLE":"GOGL","APPLE":"AAPL","GENERAL MOTORS":"GM","SILVER":"F",
-      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD"}
+      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY"}
 
 while True:
     compa=(input("Comp: ")).upper()
