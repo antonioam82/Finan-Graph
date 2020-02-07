@@ -1,4 +1,4 @@
-t pandas_datareader as pdr
+import pandas_datareader as pdr
 import matplotlib.pyplot as plt
 from matplotlib import style
 from datetime import datetime, timedelta
@@ -10,7 +10,7 @@ from VALID import ns, OKI
 style.use('dark_background')
 
 comps={"NETFLIX":"NFLX","GOOGLE":"GOGL","APPLE":"AAPL","GENERAL MOTORS":"GM","SILVER":"F",
-      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY","BITCOIN":"BTC-EUR"}
+      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY","BITCOIN":"BTC-EUR","TESLA":"TSLA"}
 
 while True:
     compa=(input("Comp: ")).upper()
