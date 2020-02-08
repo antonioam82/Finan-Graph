@@ -9,12 +9,26 @@ from VALID import ns, OKI
 
 style.use('dark_background')
 
+tipos_datos = ["High","Low","Volume","Adj Close"]
+
 comps={"NETFLIX":"NFLX","GOOGLE":"GOGL","APPLE":"AAPL","GENERAL MOTORS":"GM","SILVER":"F",
       "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY","BITCOIN":"BTC-EUR","TESLA":"TSLA"}
 
+def enum(opcions):
+    for i,opcion in enumerate(opcions):
+        print(i,opcion)
+    eleccion = OKI(input("Introduzca número correspondiente a su opción: "))
+    while eleccion > (len(opcions)-1):
+        eleccion = OKI(input("Introduzca indice válido correspondiente a su opción: "))
+    assert eleccion in range(len(opcions))
+    tex_elec = opcions[eleccion]
+    return tex_elec
+
+
 while True:
     compa=(input("Comp: ")).upper()
-    param=input("Param: ")
+    print("\n****TIPO DE DATO****")
+    param=enum(tipos_datos)
     period=OKI(input("Periodo en días: "))
     co=compa
     if co in comps:
@@ -33,9 +47,8 @@ while True:
         plt.title("Datos: "+compa+" "+"("+str(round(diferencia,2))+")")
         plt.show()
     except:
-        print("HUBO UN PROBLEMA AL ESTABLECER LA CONEXION")
+        print("HUBO UN PROBLEMA AL GENERAR LA GRÁFICA")
 
     conti=ns(input("¿Continuar?: "))
     if conti == "n":
         break
-    
