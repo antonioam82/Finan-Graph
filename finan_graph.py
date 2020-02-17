@@ -12,7 +12,8 @@ style.use('dark_background')
 tipos_datos = ["High","Low","Volume","Adj Close"]
 
 comps={"NETFLIX":"NFLX","GOOGLE":"GOGL","APPLE":"AAPL","GENERAL MOTORS":"GM","SILVER":"F",
-      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY","BITCOIN":"BTC-EUR","TESLA":"TSLA"}
+      "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY","BITCOIN":"BTC-EUR","TESLA":"TSLA",
+       "IBEX":"^IBEX"}
 
 def enum(opcions):
     for i,opcion in enumerate(opcions):
@@ -52,3 +53,4 @@ while True:
     conti=ns(input("¿Continuar?: "))
     if conti == "n":
         break
+    
