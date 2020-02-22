@@ -13,7 +13,7 @@ tipos_datos = ["High","Low","Volume","Adj Close"]
 
 comps={"NETFLIX":"NFLX","GOOGLE":"GOGL","APPLE":"AAPL","GENERAL MOTORS":"GM","SILVER":"F",
       "AMAZON":"AMZN","BANKIA":"BNK","ORO":"GOLD","FANUC":"FANUY","BITCOIN":"BTC-EUR","TESLA":"TSLA",
-       "IBEX":"^IBEX"}
+       "IBEX":"^IBEX","NASDAQ":"^IXIC"}
 
 def enum(opcions):
     for i,opcion in enumerate(opcions):
