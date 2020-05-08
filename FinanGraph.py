@@ -13,7 +13,10 @@ ax1 = fig.add_subplot(111)
 
 canvas = FigureCanvasTkAgg(fig, master=ventana)
 canvas.draw()
-canvas.get_tk_widget().pack(side=tkinter.TOP,fill=tkinter.BOTH, expand=1)
+canvas.get_tk_widget().pack(side=tkinter.BOTTOM,fill=tkinter.BOTH, expand=1)
+
+entry = tkinter.Entry(master=ventana,width=30)
+entry.pack(side=tkinter.LEFT)
 
 plt.show()
 
