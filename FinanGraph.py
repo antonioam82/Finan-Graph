@@ -1,8 +1,13 @@
+import pandas_datareader as pdr
 from tkinter import *
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
+
+"""def get_info():
+    init_date = datetime.now() - timedelta(days = int(entry3.get()))
+    info = pdr.get_data_yahoo(entry.get(),start = init_date)"""
 
 ventana = Tk()
 ventana.title("Finan Graph")
@@ -25,6 +30,8 @@ labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10)
 labelCom.place(x=153,y=0)
 entry2 = Entry(master=ventana,width=8)
 entry2.place(x=240,y=1)
+labelRange = Label(master=ventana,text="Periodo en días",width=13)
+labelRange.place(x=270,y=0)
 
 plt.show()
 
