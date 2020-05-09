@@ -3,8 +3,7 @@ from tkinter import *
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
-
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import numpy as np
 
 def get_info():
@@ -24,6 +23,9 @@ ax1 = fig.add_subplot(111)
 
 canvas = FigureCanvasTkAgg(fig, master=ventana)
 canvas.draw()
+
+toolbar = NavigationToolbar2Tk(canvas, ventana)
+toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
