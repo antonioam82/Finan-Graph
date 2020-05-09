@@ -20,11 +20,12 @@ time_range = IntVar()
 
 fig = Figure()
 ax1 = fig.add_subplot(111)
+ax1.grid()
 
 canvas = FigureCanvasTkAgg(fig, master=ventana)
 canvas.draw()
 
-toolbar = NavigationToolbar2Tk(canvas, ventana)
+toolbar = NavigationToolbar2Tk(canvas, ventana)# barra de iconos
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
@@ -42,8 +43,6 @@ entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=369,y=8)
 graph = Button(master=ventana,text="VIEW GRAPH",command=get_info,height=1)
 graph.place(x=958,y=6)
-
-plt.show()
 
 ventana.mainloop()
 
