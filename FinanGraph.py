@@ -66,7 +66,7 @@ entry3.place(x=369,y=8)
 graph = Button(master=ventana,text="VIEW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
 
-plt.show()
+#plt.show()
 
 ventana.mainloop()
 
