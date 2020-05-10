@@ -1,5 +1,6 @@
 import pandas_datareader as pdr
 from tkinter import *
+from tkinter import messagebox
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -43,7 +44,7 @@ def get_info():
         ax1.plot(info)
         ax1.legend((info),loc='upper right', shadow=False)
     except:
-        print("DATOS INCORRECTOS")
+        messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
 
 def represent(i):
