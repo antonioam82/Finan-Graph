@@ -40,6 +40,7 @@ def get_info():
     init_date = datetime.now() - timedelta(days = int(entry3.get()))
     info = pdr.get_data_yahoo(entry.get(),start = init_date)
     ax1.plot(info)
+    ax1.legend((info),loc='upper right', shadow=False)
     actv = False
 
 def represent(i):
