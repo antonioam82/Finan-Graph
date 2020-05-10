@@ -64,9 +64,10 @@ labelRange.place(x=272,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=369,y=8)
 graph = Button(master=ventana,text="VIEW GRAPH",command=activate,height=1)
-graph.place(x=958,y=6)
+graph.pack(side=RIGHT)
 
 plt.show()
 
 ventana.mainloop()
+
 
