@@ -35,12 +35,15 @@ def activate():
 
 def get_info():
     global actv
-    ax1.clear()
-    ax1.grid()
-    init_date = datetime.now() - timedelta(days = int(entry3.get()))
-    info = pdr.get_data_yahoo(entry.get(),start = init_date)
-    ax1.plot(info)
-    ax1.legend((info),loc='upper right', shadow=False)
+    try:
+        ax1.clear()
+        ax1.grid()
+        init_date = datetime.now() - timedelta(days = int(entry3.get()))
+        info = pdr.get_data_yahoo(entry.get(),start = init_date)
+        ax1.plot(info)
+        ax1.legend((info),loc='upper right', shadow=False)
+    except:
+        print("DATOS INCORRECTOS")
     actv = False
 
 def represent(i):
@@ -59,8 +62,8 @@ labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,he
 labelCom.place(x=125,y=0)
 entry2 = Entry(master=ventana,width=8)
 entry2.place(x=210,y=8)
-labelRange = Label(master=ventana,text="Periodo en días:",bg="light blue",width=13,height=2)
-labelRange.place(x=272,y=0)
+labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
+labelRange.place(x=279,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=369,y=8)
 graph = Button(master=ventana,text="VIEW GRAPH",command=activate,height=1)
