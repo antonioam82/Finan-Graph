@@ -9,7 +9,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.animation as animation
 import numpy as np
 
-
 ventana = Tk()
 ventana.title("Finan Graph")
 ventana.geometry("1040x700")
@@ -22,7 +21,6 @@ info = ""
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
-
 
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
