@@ -47,7 +47,7 @@ def get_info():
             ax1.legend((info),loc='upper right', shadow=False)
         else:
             ax1.plot(info[combo.get()])
-        
+        ax1.set_title(entry.get()+"-"+combo.get()+" Last "+str(entry3.get())+" Days")
     except:
         messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
@@ -80,6 +80,7 @@ labelInfo.place(x=436,y=8)
 combo = ttk.Combobox(master=ventana, state="readonly")
 combo["values"]=["High","Low","Volume","Adj Close","All Data"]
 combo.place(x=473,y=8)
+
 #plt.show()
 
 ventana.mainloop()
