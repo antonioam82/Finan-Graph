@@ -1,5 +1,6 @@
 import pandas_datareader as pdr
 from tkinter import *
+from tkinter import ttk
 from tkinter import messagebox
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
@@ -41,14 +42,19 @@ def get_info():
         ax1.grid()
         init_date = datetime.now() - timedelta(days = int(entry3.get()))
         info = pdr.get_data_yahoo(entry.get(),start = init_date)
-        ax1.plot(info)
-        ax1.legend((info),loc='upper right', shadow=False)
+        if combo.get() == "All Data":
+            ax1.plot(info)
+            ax1.legend((info),loc='upper right', shadow=False)
+        else:
+            ax1.plot(info[combo.get()])
+        
     except:
         messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
 
 def represent(i):
     global actv
+    #ax1.grid()
     if actv == True:
         get_info()
     #ani.event_source.start()
@@ -69,7 +75,11 @@ entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=369,y=8)
 graph = Button(master=ventana,text="VIEW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
-
+labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
+labelInfo.place(x=436,y=8)
+combo = ttk.Combobox(master=ventana, state="readonly")
+combo["values"]=["High","Low","Volume","Adj Close","All Data"]
+combo.place(x=473,y=8)
 #plt.show()
 
 ventana.mainloop()
