@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import matplotlib.animation as animation
+from matplotlib import style
 import numpy as np
+
 
 ventana = Tk()
 ventana.title("Finan Graph")
@@ -16,11 +18,19 @@ ventana.configure(background="light blue")
 symbol_entry = StringVar()
 time_range = IntVar()
 actv = False
-info = ""
+#info = ""
+
+"""['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
+ 'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
+ 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
+ 'tableau-colorblind10', '_classic_test']"""
+
+style.use('seaborn-notebook')
 
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
+
 
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
@@ -51,7 +61,7 @@ def get_info():
     actv = False
 
 def represent(i):
-    global actv
+    global actv   
     #ax1.grid()
     if actv == True:
         get_info()
