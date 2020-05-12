@@ -57,6 +57,9 @@ def get_info():
             ax1.legend((info),loc='upper right', shadow=False)
         else:
             ax1.plot(info[combo.get()])
+            if not entry.get() in used_symbols:
+                used_symbols.append(entry.get())
+                pickle.dump(used_symbols,open("symbols","wb"))
         ax1.set_title(entry.get()+"-"+combo.get()+" Last "+str(entry3.get())+" Days")
     except:
         messagebox.showwarning("ERROR","Datos Incorrectos")
