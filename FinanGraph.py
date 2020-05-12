@@ -19,6 +19,7 @@ ventana.configure(background="light blue")
 symbol_entry = StringVar()
 time_range = IntVar()
 actv = False
+used_symbols = pickle.load(open("symbols","rb"))
 #info = ""
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
@@ -73,8 +74,9 @@ ani = animation.FuncAnimation(fig, represent, interval=1000)
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
 labelSym.pack(side=LEFT)
 entry = ttk.Combobox(master=ventana,width=8)
-entry["values"]=["NFLX","GOGL","AAPL","GM","F","AMZN","BNK","GOLD","FANUY","BTC-EUR","TSLA",
-       "^IBEX","^IXIC","^N225","BTC-EUR"]
+#entry["values"]=["NFLX","GOGL","AAPL","GM","F","AMZN","BNK","GOLD","FANUY","BTC-EUR","TSLA",
+       #"^IBEX","^IXIC","^N225","BTC-EUR"]
+entry["values"]=used_symbols
 entry.pack(side=LEFT)
 #labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
 #labelCom.place(x=125,y=0)
@@ -95,4 +97,5 @@ combo.place(x=325,y=8)
 #plt.show()
 
 ventana.mainloop()
+
 
