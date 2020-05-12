@@ -20,7 +20,6 @@ symbol_entry = StringVar()
 time_range = IntVar()
 actv = False
 used_symbols = pickle.load(open("symbols","rb"))
-#info = ""
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
