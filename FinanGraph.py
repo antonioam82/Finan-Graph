@@ -20,6 +20,7 @@ symbol_entry = StringVar()
 time_range = IntVar()
 actv = False
 used_symbols = pickle.load(open("symbols","rb"))
+#info = ""
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
@@ -89,7 +90,7 @@ labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,h
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=220,y=8)
-graph = Button(master=ventana,text="VIEW GRAPH",command=activate,height=1)
+graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
 labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
 labelInfo.place(x=290,y=8)
@@ -100,5 +101,6 @@ combo.place(x=325,y=8)
 #plt.show()
 
 ventana.mainloop()
+
 
 
