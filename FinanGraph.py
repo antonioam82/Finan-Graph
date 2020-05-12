@@ -1,4 +1,5 @@
 import pandas_datareader as pdr
+import pickle
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -94,5 +95,4 @@ combo.place(x=325,y=8)
 #plt.show()
 
 ventana.mainloop()
-
 
