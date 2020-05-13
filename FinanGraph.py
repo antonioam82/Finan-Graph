@@ -20,7 +20,8 @@ symbol_entry = StringVar()
 time_range = IntVar()
 actv = False
 used_symbols = pickle.load(open("symbols","rb"))
-#info = ""
+datas = []
+selected_items = []
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
@@ -41,30 +42,40 @@ toolbar = NavigationToolbar2Tk(canvas, ventana)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
+def select_items(i):
+    global selected_items
+    selected_items.append(i)
+    print(selected_items)
+
 def activate():
     global actv
     actv = True
 
 def get_info():
-    global actv
-    try:
-        ax1.clear()
-        ax1.grid()
-        init_date = datetime.now() - timedelta(days = int(entry3.get()))
-        info = pdr.get_data_yahoo(entry.get(),start = init_date)
-        if combo.get() == "All Data":
-            ax1.plot(info)
-            ax1.legend((info),loc='upper right', shadow=False)
-        else:
-            ax1.plot(info[combo.get()])
-            if not entry.get() in used_symbols:
-                used_symbols.append(entry.get())
-                pickle.dump(used_symbols,open("symbols","wb"))
-                entry["values"]=pickle.load(open("symbols","rb"))
-        ax1.set_title(entry.get()+"-"+combo.get()+" Last "+str(entry3.get())+" Days")
-    except:
-        messagebox.showwarning("ERROR","Datos Incorrectos")
+    global actv, datas
+    #try:
+    ax1.clear()
+    ax1.grid()
+    init_date = datetime.now() - timedelta(days = int(entry3.get()))
+    info = pdr.get_data_yahoo(entry.get(),start = init_date)
+    for item in item_list:
+        if item in selected_items:
+            datas.append(item)
+    for i in datas:
+        print(i)
+        ax1.plot(info[i])
+    print("OK")
+    ax1.legend((info),loc='upper right', shadow=False)
+
+    if not entry.get() in used_symbols:
+        used_symbols.append(entry.get())
+        pickle.dump(used_symbols,open("symbols","wb"))
+        entry["values"]=pickle.load(open("symbols","rb"))
+    ax1.set_title(entry.get()+" Last "+str(entry3.get())+" Days")
+    #except:
+        #messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
+    
 
 def represent(i):
     global actv   
@@ -94,9 +105,17 @@ graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
 labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
 labelInfo.place(x=290,y=8)
-combo = ttk.Combobox(master=ventana, state="readonly")
-combo["values"]=["High","Low","Volume","Adj Close","All Data"]
-combo.place(x=325,y=8)
+btnH=Button(master=ventana,text="High",command=lambda:select_items("High"))
+btnH.place(x=325,y=5)
+btnL=Button(master=ventana,text="Low",command=lambda:select_items("Low"))
+btnL.place(x=364,y=5)
+btnV=Button(master=ventana,text="Open",command=lambda:select_items("Open"))
+btnV.place(x=399,y=5)
+btnC=Button(master=ventana,text="Close",command=lambda:select_items("Close"))
+btnC.place(x=441,y=5)
+#combo = ttk.Combobox(master=ventana, state="readonly")
+item_list=["High","Low","Open","Close"]
+#combo.place(x=325,y=8)
 
 #plt.show()
 
