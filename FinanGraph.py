@@ -52,7 +52,7 @@ def activate():
     actv = True
 
 def get_info():
-    global actv, datas
+    global actv, datas, selected_items
     #try:
     ax1.clear()
     ax1.grid()
@@ -65,7 +65,7 @@ def get_info():
         print(i)
         ax1.plot(info[i])
     print("OK")
-    ax1.legend((info),loc='upper right', shadow=False)
+    ax1.legend((datas),loc='upper right', shadow=False)
 
     if not entry.get() in used_symbols:
         used_symbols.append(entry.get())
@@ -75,7 +75,8 @@ def get_info():
     #except:
         #messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
-    
+    selected_items=[]
+    datas = []
 
 def represent(i):
     global actv   
