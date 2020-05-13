@@ -53,27 +53,27 @@ def activate():
 
 def get_info():
     global actv, datas, selected_items
-    #try:
-    ax1.clear()
-    ax1.grid()
-    init_date = datetime.now() - timedelta(days = int(entry3.get()))
-    info = pdr.get_data_yahoo(entry.get(),start = init_date)
-    for item in item_list:
-        if item in selected_items:
-            datas.append(item)
-    for i in datas:
-        print(i)
-        ax1.plot(info[i])
-    print("OK")
-    ax1.legend((datas),loc='upper right', shadow=False)
+    try:
+        ax1.clear()
+        ax1.grid()
+        init_date = datetime.now() - timedelta(days = int(entry3.get()))
+        info = pdr.get_data_yahoo(entry.get(),start = init_date)
+        for item in item_list:
+            if item in selected_items:
+                datas.append(item)
+        for i in datas:
+            print(i)
+            ax1.plot(info[i])
+        print("OK")
+        ax1.legend((datas),loc='upper right', shadow=False)
 
-    if not entry.get() in used_symbols:
-        used_symbols.append(entry.get())
-        pickle.dump(used_symbols,open("symbols","wb"))
-        entry["values"]=pickle.load(open("symbols","rb"))
-    ax1.set_title(entry.get()+" Last "+str(entry3.get())+" Days")
-    #except:
-        #messagebox.showwarning("ERROR","Datos Incorrectos")
+        if not entry.get() in used_symbols:
+            used_symbols.append(entry.get())
+            pickle.dump(used_symbols,open("symbols","wb"))
+            entry["values"]=pickle.load(open("symbols","rb"))
+        ax1.set_title(entry.get()+" Last "+str(entry3.get())+" Days")
+    except:
+        messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
     selected_items=[]
     datas = []
