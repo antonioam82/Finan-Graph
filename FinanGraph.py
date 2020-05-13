@@ -44,7 +44,10 @@ canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
 def select_items(i):
     global selected_items
-    selected_items.append(i)
+    if i not in selected_items:
+        selected_items.append(i)
+    else:
+        selected_items.remove(i)
     print(selected_items)
 
 def activate():
@@ -75,7 +78,7 @@ def get_info():
     except:
         messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
-    selected_items=[]
+    #selected_items=[]
     datas = []
 
 def represent(i):
@@ -121,6 +124,7 @@ item_list=["High","Low","Open","Close"]
 #plt.show()
 
 ventana.mainloop()
+
 
 
 
