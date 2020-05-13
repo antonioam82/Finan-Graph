@@ -76,15 +76,12 @@ def get_info():
     except:
         messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
-    #selected_items=[]
     datas = []
 
 def represent(i):
     global actv   
-    #ax1.grid()
     if actv == True:
         get_info()
-    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
@@ -118,8 +115,6 @@ btnC.place(x=441,y=5)
 #combo = ttk.Combobox(master=ventana, state="readonly")
 item_list=["High","Low","Open","Close"]
 #combo.place(x=325,y=8)
-
-#plt.show()
 
 ventana.mainloop()
 
