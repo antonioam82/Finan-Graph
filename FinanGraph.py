@@ -65,9 +65,7 @@ def get_info():
             if item in selected_items:
                 datas.append(item)
         for i in datas:
-            print(i)
             ax1.plot(info[i])
-        print("OK")
         ax1.legend((datas),loc='upper right', shadow=False)
 
         if not entry.get() in used_symbols:
