@@ -11,6 +11,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
+
 ventana = Tk()
 ventana.title("Finan Graph")
 ventana.geometry("1040x700")
@@ -21,6 +22,7 @@ actv = False
 used_symbols = pickle.load(open("symbols","rb"))
 datas = []
 selected_items = []
+
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
@@ -76,9 +78,11 @@ def get_info():
             pickle.dump(used_symbols,open("symbols","wb"))
             entry["values"]=pickle.load(open("symbols","rb"))
         ax1.set_title(entry.get()+" Last "+str(entry3.get())+" Days")
+        ax1.set_xlabel("Date")
     except:
         messagebox.showwarning("ERROR","Datos Incorrectos")
     actv = False
+    #selected_items=[]
     datas = []
 
 def represent(i):
@@ -97,6 +101,10 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
+#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
+#labelCom.place(x=125,y=0)
+#entry2 = Entry(master=ventana,width=8)
+#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
