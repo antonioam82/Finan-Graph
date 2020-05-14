@@ -23,6 +23,7 @@ used_symbols = pickle.load(open("symbols","rb"))
 datas = []
 selected_items = []
 
+
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
  'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
@@ -46,8 +47,10 @@ def select_items(i):
     global selected_items
     if i not in selected_items:
         selected_items.append(i)
+        buttons[i].configure(bg="orange")
     else:
         selected_items.remove(i)
+        buttons[i].configure(bg="gray83")
     print(selected_items)
 
 def activate():
@@ -65,7 +68,9 @@ def get_info():
             if item in selected_items:
                 datas.append(item)
         for i in datas:
+            print(i)
             ax1.plot(info[i])
+        print("OK")
         ax1.legend((datas),loc='upper right', shadow=False)
 
         if not entry.get() in used_symbols:
@@ -80,8 +85,10 @@ def get_info():
 
 def represent(i):
     global actv   
+    #ax1.grid()
     if actv == True:
         get_info()
+    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
@@ -92,10 +99,6 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
-#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
-#labelCom.place(x=125,y=0)
-#entry2 = Entry(master=ventana,width=8)
-#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
@@ -104,17 +107,19 @@ graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
 labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
 labelInfo.place(x=290,y=8)
-btnH=Button(master=ventana,text="High",command=lambda:select_items("High"))
+btnH=Button(master=ventana,text="High",bg="gray83",command=lambda:select_items("High"))
 btnH.place(x=325,y=5)
-btnL=Button(master=ventana,text="Low",command=lambda:select_items("Low"))
+btnL=Button(master=ventana,text="Low",bg="gray83",command=lambda:select_items("Low"))
 btnL.place(x=364,y=5)
-btnV=Button(master=ventana,text="Open",command=lambda:select_items("Open"))
+btnV=Button(master=ventana,text="Open",bg="gray83",command=lambda:select_items("Open"))
 btnV.place(x=399,y=5)
-btnC=Button(master=ventana,text="Close",command=lambda:select_items("Close"))
+btnC=Button(master=ventana,text="Close",bg="gray83",command=lambda:select_items("Close"))
 btnC.place(x=441,y=5)
-#combo = ttk.Combobox(master=ventana, state="readonly")
+
 item_list=["High","Low","Open","Close"]
-#combo.place(x=325,y=8)
+buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
+
+#plt.show()
 
 ventana.mainloop()
 
