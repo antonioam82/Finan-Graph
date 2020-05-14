@@ -11,7 +11,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
 ventana = Tk()
 ventana.title("Finan Graph")
 ventana.geometry("1040x700")
