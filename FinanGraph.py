@@ -22,7 +22,6 @@ used_symbols = pickle.load(open("symbols","rb"))
 datas = []
 selected_items = []
 
-
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
  'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
@@ -57,7 +56,7 @@ def activate():
     actv = True
 
 def get_info():
-    global actv, datas, selected_items
+    global actv, datas
     try:
         ax1.clear()
         ax1.grid()
