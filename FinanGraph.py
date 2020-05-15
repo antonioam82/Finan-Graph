@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
@@ -66,7 +67,9 @@ def get_info():
             if item in selected_items:
                 datas.append(item)
         for i in datas:
+            print(i)
             ax1.plot(info[i])
+        print("OK")
         ax1.legend((datas),loc='upper right', shadow=False)
 
         if not entry.get() in used_symbols:
@@ -82,7 +85,10 @@ def get_info():
     datas = []
 
 def table():
-    print(info)
+    top = Toplevel()
+    display = sct.ScrolledText(master=top,width=90)
+    display.pack(padx=0,pady=0)
+    #print(info)
 
 def represent(i):
     global actv   
