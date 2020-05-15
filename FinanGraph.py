@@ -23,7 +23,6 @@ used_symbols = pickle.load(open("symbols","rb"))
 datas = []
 selected_items = []
 
-
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
  'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
@@ -34,7 +33,6 @@ style.use('seaborn-notebook')
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
-
 
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
@@ -68,9 +66,7 @@ def get_info():
             if item in selected_items:
                 datas.append(item)
         for i in datas:
-            print(i)
             ax1.plot(info[i])
-        print("OK")
         ax1.legend((datas),loc='upper right', shadow=False)
 
         if not entry.get() in used_symbols:
@@ -87,7 +83,7 @@ def get_info():
 
 def table():
     top = Toplevel()
-    display = sct.ScrolledText(master=top,width=90)
+    display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
     display.insert(END,info)
 
