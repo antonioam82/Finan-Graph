@@ -83,7 +83,7 @@ def get_info():
 
 def table():
     top = Toplevel()
-    display = sct.ScrolledText(master=top,width=80)
+    display = sct.ScrolledText(master=top,width=76)
     display.pack(padx=0,pady=0)
     display.insert(END,info)
 
@@ -124,7 +124,6 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
 ventana.mainloop()
-
 
 
 
