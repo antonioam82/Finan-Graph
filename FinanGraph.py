@@ -11,7 +11,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
 ventana = Tk()
 ventana.title("Finan Graph")
 ventana.geometry("1040x700")
@@ -57,7 +56,7 @@ def activate():
     actv = True
 
 def get_info():
-    global actv, datas
+    global actv, datas, info
     try:
         ax1.clear()
         ax1.grid()
@@ -76,16 +75,20 @@ def get_info():
             entry["values"]=pickle.load(open("symbols","rb"))
         ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
         ax1.set_xlabel("Date")
+        more_info.configure(state='normal')
     except:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
     actv = False
     datas = []
 
+def table():
+    print(info)
+
 def represent(i):
     global actv   
     if actv == True:
         get_info()
-      
+
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
@@ -99,6 +102,8 @@ labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,h
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=220,y=8)
+more_info = Button(master=ventana,text="GET TABLE",state='disabled',command=table)
+more_info.pack(side=RIGHT)
 graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
 labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
@@ -114,6 +119,7 @@ btnC.place(x=441,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
+
 
 ventana.mainloop()
 
