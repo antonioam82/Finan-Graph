@@ -11,6 +11,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
+
 ventana = Tk()
 ventana.title("Finan Graph")
 ventana.geometry("1040x700")
@@ -49,6 +50,7 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
+    print(selected_items)
 
 def activate():
     global actv
@@ -72,7 +74,7 @@ def get_info():
             used_symbols.append(entry.get())
             pickle.dump(used_symbols,open("symbols","wb"))
             entry["values"]=pickle.load(open("symbols","rb"))
-        ax1.set_title(entry.get()+" Last "+str(entry3.get())+" Days")
+        ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
         ax1.set_xlabel("Date")
     except:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -83,7 +85,7 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
-
+      
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
