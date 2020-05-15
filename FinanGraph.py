@@ -11,7 +11,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
 ventana = Tk()
 ventana.title("Finan Graph")
 ventana.geometry("1040x700")
@@ -35,7 +34,6 @@ fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
 
-
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
 
@@ -51,7 +49,6 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    print(selected_items)
 
 def activate():
     global actv
@@ -68,9 +65,7 @@ def get_info():
             if item in selected_items:
                 datas.append(item)
         for i in datas:
-            print(i)
             ax1.plot(info[i])
-        print("OK")
         ax1.legend((datas),loc='upper right', shadow=False)
 
         if not entry.get() in used_symbols:
@@ -82,15 +77,12 @@ def get_info():
     except:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
     actv = False
-    #selected_items=[]
     datas = []
 
 def represent(i):
     global actv   
-    #ax1.grid()
     if actv == True:
         get_info()
-    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
@@ -101,10 +93,6 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
-#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
-#labelCom.place(x=125,y=0)
-#entry2 = Entry(master=ventana,width=8)
-#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
@@ -124,8 +112,6 @@ btnC.place(x=441,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
-
-#plt.show()
 
 ventana.mainloop()
 
