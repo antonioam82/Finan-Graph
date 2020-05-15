@@ -105,7 +105,7 @@ labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,h
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=220,y=8)
-more_info = Button(master=ventana,text="GET TABLE",state='normal',command=table)
+more_info = Button(master=ventana,text="GET TABLE",state='disabled',command=table)
 more_info.pack(side=RIGHT)
 graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
