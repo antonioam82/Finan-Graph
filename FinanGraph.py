@@ -23,6 +23,7 @@ used_symbols = pickle.load(open("symbols","rb"))
 datas = []
 selected_items = []
 
+
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
  'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
@@ -33,6 +34,7 @@ style.use('seaborn-notebook')
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
+
 
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
@@ -49,7 +51,6 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    print(selected_items)
 
 def activate():
     global actv
@@ -83,7 +84,7 @@ def get_info():
 
 def table():
     top = Toplevel()
-    display = sct.ScrolledText(master=top,width=76)
+    display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
     display.insert(END,info)
 
@@ -105,7 +106,7 @@ labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,h
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
 entry3.place(x=220,y=8)
-more_info = Button(master=ventana,text="GET TABLE",state='disabled',command=table)
+more_info = Button(master=ventana,text="SHOW TABLE",state='disabled',command=table)
 more_info.pack(side=RIGHT)
 graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
@@ -124,6 +125,7 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
 ventana.mainloop()
+
 
 
 
