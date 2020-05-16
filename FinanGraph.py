@@ -12,10 +12,9 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
 ventana = Tk()
 ventana.title("Finan Graph")
-ventana.geometry("1040x700")
+ventana.geometry("1070x800")
 ventana.configure(background="light blue")
 symbol_entry = StringVar()
 time_range = IntVar()
@@ -50,6 +49,7 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
+    print(selected_items)
 
 def activate():
     global actv
@@ -62,9 +62,9 @@ def get_info():
         ax1.grid()
         init_date = datetime.now() - timedelta(days = int(entry3.get()))
         info = pdr.get_data_yahoo(entry.get(),start = init_date)
-
         labels = ax1.get_xticklabels()
-        plt.setp(labels,rotation=45, horizontalalignment='right')        
+        plt.setp(labels,rotation=45, horizontalalignment='right')
+
         for item in item_list:
             if item in selected_items:
                 datas.append(item)
@@ -77,7 +77,7 @@ def get_info():
             pickle.dump(used_symbols,open("symbols","wb"))
             entry["values"]=pickle.load(open("symbols","rb"))
         ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
-        ax1.set_xlabel("Date")
+        #ax1.set_xlabel("Date")
         more_info.configure(state='normal')
     except:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
