@@ -136,8 +136,6 @@ btnC.place(x=441,y=5)
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
-#plt.show()
-
 ventana.mainloop()
 
 
