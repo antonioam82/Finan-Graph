@@ -106,10 +106,6 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
-#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
-#labelCom.place(x=125,y=0)
-#entry2 = Entry(master=ventana,width=8)
-#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
