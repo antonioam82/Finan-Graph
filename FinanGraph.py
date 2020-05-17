@@ -45,7 +45,7 @@ def select_items(i):
     global selected_items
     if i not in selected_items:
         selected_items.append(i)
-        buttons[i].configure(bg="orange")
+        buttons[i].configure(bg="light green")
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
