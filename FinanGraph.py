@@ -70,17 +70,14 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
-                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
-            print("OK")
 
             if not entry.get() in used_symbols:
                 used_symbols.append(entry.get())
                 pickle.dump(used_symbols,open("symbols","wb"))
                 entry["values"]=pickle.load(open("symbols","rb"))
             ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
-            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -99,7 +96,6 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
-    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
