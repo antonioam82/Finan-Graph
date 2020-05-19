@@ -87,6 +87,7 @@ def get_info():
 
 def table():
     top = Toplevel()
+    top.title("INFO TABLE")
     display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
     display.insert(END,entry.get()+" (Last "+str(entry3.get())+" Days)\n\n"+str(info))
@@ -95,7 +96,7 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
-
+     
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
@@ -128,6 +129,7 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
 ventana.mainloop()
+
 
 
 
