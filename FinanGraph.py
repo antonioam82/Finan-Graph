@@ -49,7 +49,6 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    print(selected_items)
 
 def activate():
     global actv
@@ -90,7 +89,7 @@ def table():
     top = Toplevel()
     display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
-    display.insert(END,info)
+    display.insert(END,entry.get()+" (Last "+str(entry3.get())+" Days)\n\n"+str(info))
 
 def represent(i):
     global actv   
