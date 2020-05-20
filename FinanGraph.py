@@ -1,4 +1,5 @@
 import pandas_datareader as pdr
+from alpha_vantage.techindicators import TechIndicators
 import pickle
 from tkinter import *
 from tkinter import ttk
@@ -69,8 +70,10 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
+                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
+            print("OK")
 
             if not entry.get() in used_symbols:
                 used_symbols.append(entry.get())
@@ -96,7 +99,7 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
-     
+
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
@@ -129,6 +132,7 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
 ventana.mainloop()
+
 
 
 
