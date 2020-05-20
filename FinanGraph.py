@@ -1,5 +1,4 @@
 import pandas_datareader as pdr
-from alpha_vantage.techindicators import TechIndicators
 import pickle
 from tkinter import *
 from tkinter import ttk
