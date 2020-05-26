@@ -79,7 +79,6 @@ def get_info():
                 pickle.dump(used_symbols,open("symbols","wb"))
                 entry["values"]=pickle.load(open("symbols","rb"))
             ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
-            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -130,6 +129,7 @@ btnC.place(x=441,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
+
 
 ventana.mainloop()
 
