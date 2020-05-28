@@ -72,17 +72,14 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
-                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
-            print("OK")
 
             if not entry.get() in used_symbols:
                 used_symbols.insert(0,entry.get())
                 pickle.dump(used_symbols,open("symbols","wb"))
                 entry["values"]=pickle.load(open("symbols","rb"))
             ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
-            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -102,7 +99,6 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
-    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
@@ -113,10 +109,6 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
-#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
-#labelCom.place(x=125,y=0)
-#entry2 = Entry(master=ventana,width=8)
-#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
