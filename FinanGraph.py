@@ -1,4 +1,5 @@
 import pandas_datareader as pdr
+from alpha_vantage.techindicators import TechIndicators
 import pickle
 from tkinter import *
 from tkinter import ttk
@@ -21,7 +22,8 @@ time_range = IntVar()
 actv = False
 used_symbols = pickle.load(open("symbols","rb"))
 datas = []
-selected_items = []
+selected_items = ["Close"]
+info = []
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
@@ -73,12 +75,14 @@ def get_info():
                 print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
+            print("OK")
 
             if not entry.get() in used_symbols:
                 used_symbols.insert(0,entry.get())
                 pickle.dump(used_symbols,open("symbols","wb"))
                 entry["values"]=pickle.load(open("symbols","rb"))
             ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
+            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -98,6 +102,7 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
+    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
@@ -108,6 +113,10 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
+#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
+#labelCom.place(x=125,y=0)
+#entry2 = Entry(master=ventana,width=8)
+#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
@@ -124,12 +133,11 @@ btnL=Button(master=ventana,text="Low",bg="gray83",command=lambda:select_items("L
 btnL.place(x=364,y=5)
 btnV=Button(master=ventana,text="Open",bg="gray83",command=lambda:select_items("Open"))
 btnV.place(x=399,y=5)
-btnC=Button(master=ventana,text="Close",bg="gray83",command=lambda:select_items("Close"))
+btnC=Button(master=ventana,text="Close",bg="light green",command=lambda:select_items("Close"))
 btnC.place(x=441,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
-
 
 ventana.mainloop()
 
