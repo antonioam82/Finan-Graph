@@ -51,11 +51,20 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    print(selected_items)
 
 def activate():
     global actv
     actv = True
+
+def bands():
+    global info
+    ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
+    ax1.clear()
+    ax1.grid()
+    info, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
+    ax1.plot(info)
+    plt.show()
+    more_info.configure(state='normal')
 
 def get_info():
     global actv, datas, info
@@ -72,14 +81,17 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
+                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
+            print("OK")
 
             if not entry.get() in used_symbols:
                 used_symbols.insert(0,entry.get())
                 pickle.dump(used_symbols,open("symbols","wb"))
                 entry["values"]=pickle.load(open("symbols","rb"))
             ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
+            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -117,6 +129,8 @@ more_info = Button(master=ventana,text="SHOW TABLE",state='disabled',command=tab
 more_info.pack(side=RIGHT)
 graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
+btnTech = Button(master=ventana,text="BBbands",height=1,command=bands)
+btnTech.place(x=495,y=5)
 labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
 labelInfo.place(x=290,y=8)
 btnH=Button(master=ventana,text="High",bg="gray83",command=lambda:select_items("High"))
