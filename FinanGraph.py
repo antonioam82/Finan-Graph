@@ -24,6 +24,7 @@ used_symbols = pickle.load(open("symbols","rb"))
 datas = []
 selected_items = ["Close"]
 info = []
+table_head = ""
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
@@ -57,7 +58,7 @@ def activate():
     actv = True
 
 def bands():
-    global info
+    global info,table_head
     ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
     try:
         ax1.clear()
@@ -66,7 +67,8 @@ def bands():
         ax1.plot(info)
         labels = ax1.get_xticklabels()
         plt.setp(labels,rotation=45, horizontalalignment='right')
-        ax1.set_title('BBbands indicator for {} stock (60 min)'.format(entry.get()))
+        table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
+        ax1.set_title(table_head)
         plt.show()
         more_info.configure(state='normal')
         update_symbols_file()
@@ -74,7 +76,7 @@ def bands():
         messagebox.showwarning("ERROR","Información no disponible")
 
 def get_info():
-    global actv, datas, info
+    global actv, datas, info, table_head
     if selected_items != []:
         try:
             ax1.clear()
@@ -88,13 +90,11 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
-                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
-            print("OK")
-
+            table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
+            ax1.set_title(table_head)
             update_symbols_file()
-            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -114,7 +114,7 @@ def table():
     top.title("INFO TABLE")
     display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
-    display.insert(END,entry.get()+" (Last "+str(entry3.get())+" Days)\n\n"+str(info))
+    display.insert(END,table_head+"\n\n"+str(info))
 
 def represent(i):
     global actv   
