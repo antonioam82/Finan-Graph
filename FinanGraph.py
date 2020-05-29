@@ -59,12 +59,18 @@ def activate():
 def bands():
     global info
     ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
-    ax1.clear()
-    ax1.grid()
-    info, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
-    ax1.plot(info)
-    plt.show()
-    more_info.configure(state='normal')
+    try:
+        ax1.clear()
+        ax1.grid()
+        info, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
+        ax1.plot(info)
+        labels = ax1.get_xticklabels()
+        plt.setp(labels,rotation=45, horizontalalignment='right')
+        ax1.set_title('BBbands indicator for {} stock (60 min)'.format(entry.get()))
+        plt.show()
+        more_info.configure(state='normal')
+    except:
+        messagebox.showwarning("ERROR","Información no disponible")
 
 def get_info():
     global actv, datas, info
@@ -81,17 +87,14 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
-                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
-            print("OK")
 
             if not entry.get() in used_symbols:
                 used_symbols.insert(0,entry.get())
                 pickle.dump(used_symbols,open("symbols","wb"))
                 entry["values"]=pickle.load(open("symbols","rb"))
             ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
-            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
