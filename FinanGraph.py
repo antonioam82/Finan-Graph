@@ -69,6 +69,7 @@ def bands():
         ax1.set_title('BBbands indicator for {} stock (60 min)'.format(entry.get()))
         plt.show()
         more_info.configure(state='normal')
+        update_symbols_file()
     except:
         messagebox.showwarning("ERROR","Información no disponible")
 
@@ -87,14 +88,13 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
+                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
+            print("OK")
 
-            if not entry.get() in used_symbols:
-                used_symbols.insert(0,entry.get())
-                pickle.dump(used_symbols,open("symbols","wb"))
-                entry["values"]=pickle.load(open("symbols","rb"))
-            ax1.set_title(entry.get()+" (Last "+str(entry3.get())+" Days)")
+            update_symbols_file()
+            #ax1.set_xlabel("Date")
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -103,6 +103,12 @@ def get_info():
     actv = False
     datas = []
 
+def update_symbols_file():
+    if not entry.get() in used_symbols:
+        used_symbols.insert(0,entry.get())
+        pickle.dump(used_symbols,open("symbols","wb"))
+        entry["values"]=pickle.load(open("symbols","rb"))
+        
 def table():
     top = Toplevel()
     top.title("INFO TABLE")
