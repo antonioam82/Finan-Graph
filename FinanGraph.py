@@ -58,22 +58,13 @@ def activate():
     actv = True
 
 def bands():
-    global info,table_head
+    global table_head
     ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
-    try:
-        ax1.clear()
-        ax1.grid()
-        info, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
-        ax1.plot(info)
-        labels = ax1.get_xticklabels()
-        plt.setp(labels,rotation=45, horizontalalignment='right')
-        table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
-        ax1.set_title(table_head)
-        plt.show()
-        more_info.configure(state='normal')
-        update_symbols_file()
-    except:
-        messagebox.showwarning("ERROR","Información no disponible")
+    data, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
+    table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
+    data.plot()
+    plt.title(table_head)
+    plt.show()
 
 def get_info():
     global actv, datas, info, table_head
@@ -90,6 +81,7 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
+                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
