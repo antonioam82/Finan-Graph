@@ -25,6 +25,7 @@ datas = []
 selected_items = ["Close"]
 info = []
 table_head = ""
+display_content = ""
 
 """['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
@@ -58,16 +59,18 @@ def activate():
     actv = True
 
 def bands():
-    global table_head
+    global table_head, display_content
     ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
-    data, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
+    BBdata, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
     table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
-    data.plot()
+    more_info.configure(state='normal')
+    BBdata.plot()
     plt.title(table_head)
+    display_content = BBdata
     plt.show()
 
 def get_info():
-    global actv, datas, info, table_head
+    global actv, datas, info, table_head, display_content
     if selected_items != []:
         try:
             ax1.clear()
@@ -87,6 +90,7 @@ def get_info():
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
             ax1.set_title(table_head)
             update_symbols_file()
+            display_content = info
             more_info.configure(state='normal')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
@@ -106,7 +110,7 @@ def table():
     top.title("INFO TABLE")
     display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
-    display.insert(END,table_head+"\n\n"+str(info))
+    display.insert(END,table_head+"\n\n"+str(display_content))
 
 def represent(i):
     global actv   
@@ -122,6 +126,10 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
+#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
+#labelCom.place(x=125,y=0)
+#entry2 = Entry(master=ventana,width=8)
+#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
