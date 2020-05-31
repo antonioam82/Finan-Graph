@@ -88,14 +88,17 @@ class app:
         self.actv = True
 
     def bands(self):
-        ti = TechIndicators(key='MY_API_KEY',output_format='pandas')
-        self.BBdata,meta_data = ti.get_bbands(symbol=self.entry.get(),interval='60min',time_period=60)
-        self.table_head = 'BBbands indicator for {} stock (60 min)'.format(self.entry.get())
-        self.more_info.configure(state='normal')
-        self.BBdata.plot()
-        plt.title(self.table_head)
-        self.display_content = self.BBdata
-        plt.show()
+        try:
+            ti = TechIndicators(key='MY_API_KEY',output_format='pandas')
+            self.BBdata,meta_data = ti.get_bbands(symbol=self.entry.get(),interval='60min',time_period=60)
+            self.table_head = 'BBbands indicator for {} stock (60 min)'.format(self.entry.get())
+            self.more_info.configure(state='normal')
+            self.BBdata.plot()
+            plt.title(self.table_head)
+            self.display_content = self.BBdata
+            plt.show()
+        except:
+            messagebox.showwarning("ERROR","Información no disponible")
 
     def get_info(self):
         if self.selected_items != []:
@@ -144,5 +147,5 @@ class app:
 
 
 if __name__=="__main__":
-    app()        
+    app()      
         
