@@ -113,7 +113,7 @@ class app:
                 for i in self.datas:
                     self.ax1.plot(self.info[i])
                 self.ax1.legend((self.datas),loc='upper right', shadow=False)
-                self.table_head = self.entry.get()+" (Last "+str(self.entry3.get())+" Days)"
+                self.table_head = '{} (Last {} Days)'.format(self.entry.get(),int(self.entry3.get()))
                 self.ax1.set_title(self.table_head)
                 self.update_symbols_file()
                 self.display_content = self.info
@@ -144,4 +144,5 @@ class app:
 
 
 if __name__=="__main__":
-    app() 
+    app()        
+        
