@@ -46,10 +46,15 @@ class app:
         self.entryMarket = ttk.Combobox(self.root,width=8)
         self.entryMarket["values"]=self.usedsymbolsM
         self.entryMarket.pack(side=LEFT)
+        self.btnTable = Button(self.root,text="SHOW TABLE",height=1)
+        self.btnTable.pack(side=RIGHT)
+        self.btnGraph = Button(self.root,text="SHOW GRAPH",height=1)
+        self.btnGraph.pack(side=RIGHT)
         
 
         self.root.mainloop()
 
 if __name__=="__main__":
     app()
+
 
