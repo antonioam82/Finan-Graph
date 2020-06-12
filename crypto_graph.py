@@ -18,8 +18,6 @@ class app:
         self.root.title("Crypto Graph")
         self.root.geometry("1070x800")
         self.root.configure(background="light green")
-        self.symbol_entry = StringVar()
-        self.market_entry = StringVar()
         self.used_symbolsC = pickle.load(open("symbolsC","rb"))
         self.usedsymbolsM = pickle.load(open("markets","rb"))
 
