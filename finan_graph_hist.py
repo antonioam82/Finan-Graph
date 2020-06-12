@@ -19,7 +19,7 @@ class app:
         self.ventana.title("Finan Graph")
         self.ventana.geometry("1070x800")
         self.ventana.configure(background="light blue")
-        self.symbol_entry = StringVar()
+        #self.symbol_entry = StringVar()
         self.time_range = IntVar()
         self.actv = False
         self.used_symbols = pickle.load(open("symbols","rb"))
