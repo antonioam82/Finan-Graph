@@ -9,6 +9,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
+import threading
 from matplotlib import style
 import numpy as np
 
@@ -20,6 +21,8 @@ class app:
         self.root.configure(background="light green")
         self.used_symbolsC = pickle.load(open("symbolsC","rb"))
         self.usedsymbolsM = pickle.load(open("markets","rb"))
+        self.cc = CryptoCurrencies(key='YOUR_API_KEY', output_format='pandas')
+        self.actv = False
 
         self.fig = Figure()
         self.ax1 = self.fig.add_subplot(111)
@@ -46,11 +49,24 @@ class app:
         self.entryMarket.pack(side=LEFT)
         self.btnTable = Button(self.root,text="SHOW TABLE",height=1)
         self.btnTable.pack(side=RIGHT)
-        self.btnGraph = Button(self.root,text="SHOW GRAPH",height=1)
+        self.btnGraph = Button(self.root,text="SHOW GRAPH",height=1,command=self.init_drawing)
         self.btnGraph.pack(side=RIGHT)
         
 
         self.root.mainloop()
+
+    def draw_graph(self):
+        self.ax1.clear()
+        self.ax1.grid()
+        data,meta_data = (self.cc.get_digital_currency_daily(symbol=self.entry.get(),market=self.entryMarket.get()))
+        print("OK")
+
+    def init_drawing(self):
+        t = threading.Thread(target=self.draw_graph)
+        t.start()
+        
+        
+        
 
 if __name__=="__main__":
     app()
