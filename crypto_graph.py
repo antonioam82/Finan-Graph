@@ -21,6 +21,7 @@ class app:
         self.symbol_entry = StringVar()
         self.market_entry = StringVar()
         self.used_symbolsC = pickle.load(open("symbolsC","rb"))
+        self.usedsymbolsM = pickle.load(open("markets","rb"))
 
         self.fig = Figure()
         self.ax1 = self.fig.add_subplot(111)
@@ -33,15 +34,22 @@ class app:
         self.toolbar.update()
         self.canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH,expand=1)
 
-        self.labelSym = Label(self.root,bg="light green",text="Symbol:",width=8,height=2)
+        self.labelSym = Label(self.root,text="Symbol:",bg="light green",width=8,height=2)
         self.labelSym.pack(side=LEFT)
 
         self.entry = ttk.Combobox(self.root,width=8)
         self.entry["values"]=self.used_symbolsC
-        self.entry.pack(side=LEFT)        
+        self.entry.pack(side=LEFT)
+
+        self.labelMarket = Label(self.root,text="Market:",bg="light green",width=8,height=2)
+        self.labelMarket.pack(side=LEFT)
+        self.entryMarket = ttk.Combobox(self.root,width=8)
+        self.entryMarket["values"]=self.usedsymbolsM
+        self.entryMarket.pack(side=LEFT)
         
 
         self.root.mainloop()
 
 if __name__=="__main__":
     app()
+
