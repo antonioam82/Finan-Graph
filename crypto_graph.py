@@ -63,22 +63,15 @@ class app:
  
         self.ax1.plot(data['4b. close (USD)'])
         self.actv = False
-        print("done")
+        print("HOLAAAAA")
 
     def representation(self,i):
         if self.actv == True:
-            self.init_drawing()        
-        
-    def init_drawing(self):
-        t = threading.Thread(target=self.draw_graph)
-        t.start()
+            self.draw_graph()        
 
     def activate(self):
         self.actv = True
         
-        
-        
-
 if __name__=="__main__":
     app()
 
