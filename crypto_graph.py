@@ -49,21 +49,32 @@ class app:
         self.entryMarket.pack(side=LEFT)
         self.btnTable = Button(self.root,text="SHOW TABLE",height=1)
         self.btnTable.pack(side=RIGHT)
-        self.btnGraph = Button(self.root,text="SHOW GRAPH",height=1,command=self.init_drawing)
+        self.btnGraph = Button(self.root,text="SHOW GRAPH",height=1,command=self.activate)
         self.btnGraph.pack(side=RIGHT)
         
-
+        ani = animation.FuncAnimation(self.fig, self.representation, interval=1000)
+        
         self.root.mainloop()
 
     def draw_graph(self):
         self.ax1.clear()
         self.ax1.grid()
         data,meta_data = (self.cc.get_digital_currency_daily(symbol=self.entry.get(),market=self.entryMarket.get()))
-        print("OK")
+ 
+        self.ax1.plot(data['4b. close (USD)'])
+        self.actv = False
+        print("done")
 
+    def representation(self,i):
+        if self.actv == True:
+            self.init_drawing()        
+        
     def init_drawing(self):
         t = threading.Thread(target=self.draw_graph)
         t.start()
+
+    def activate(self):
+        self.actv = True
         
         
         
