@@ -9,7 +9,6 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
-import threading
 from matplotlib import style
 import numpy as np
 
@@ -63,7 +62,6 @@ class app:
  
         self.ax1.plot(data['4b. close (USD)'])
         self.actv = False
-        print("HOLAAAAA")
 
     def representation(self,i):
         if self.actv == True:
