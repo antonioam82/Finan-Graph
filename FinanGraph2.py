@@ -37,7 +37,6 @@ style.use('seaborn-notebook')
 
 fig = Figure()
 ax1 = fig.add_subplot(111)
-ax1.grid()
 
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
@@ -79,7 +78,6 @@ def get_info():
     if selected_items != []:
         try:
             ax1.clear()
-            ax1.grid()
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             labels = ax1.get_xticklabels()
@@ -105,10 +103,13 @@ def get_info():
     datas = []
 
 def candles():
-    global info, init_date
-    init_date = datetime.now() - timedelta(days = int(entry3.get()))
-    info = pdr.get_data_yahoo(entry.get(),start = init_date)
-    mpf.plot(info,type='candle')
+    global init_date, info
+    try:
+        init_date = datetime.now() - timedelta(days = int(entry3.get()))
+        info = pdr.get_data_yahoo(entry.get(),start = init_date)
+        mpf.plot(info,type='candle')
+    except:
+        messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
 def update_symbols_file():
     if not entry.get() in used_symbols:
@@ -126,6 +127,7 @@ def table():
 def represent(i):
     global actv   
     if actv == True:
+        ax1.grid()
         get_info()
     #ani.event_source.start()
 
