@@ -102,12 +102,12 @@ def get_info():
     actv = False
     datas = []
 
-def candles():
+def special_graphs(n):
     global init_date, info
     try:
         init_date = datetime.now() - timedelta(days = int(entry3.get()))
         info = pdr.get_data_yahoo(entry.get(),start = init_date)
-        mpf.plot(info,type='candle')
+        mpf.plot(info,type=graph_types[n])
     except:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
@@ -158,11 +158,17 @@ btnV=Button(master=ventana,text="Open",bg="gray83",command=lambda:select_items("
 btnV.place(x=399,y=5)
 btnC=Button(master=ventana,text="Close",bg="light green",command=lambda:select_items("Close"))
 btnC.place(x=441,y=5)
-btnCand=Button(master=ventana,text="Candles Graph",command=candles)
+btnCand=Button(master=ventana,text="Candles Graph",command=lambda:special_graphs(0))
 btnCand.place(x=560,y=5)
+btnRenko=Button(master=ventana,text="Renko Graph",command=lambda:special_graphs(1))
+btnRenko.place(x=650,y=5)
+btnPnf=Button(master=ventana,text="Pnf Graph",command=lambda:special_graphs(2))
+btnPnf.place(x=730,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
+graph_types = ['candle','renko','pnf']
 
 
 ventana.mainloop()
+
