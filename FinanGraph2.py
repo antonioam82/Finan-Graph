@@ -53,7 +53,6 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    print(selected_items)
 
 def activate():
     global actv
@@ -87,7 +86,6 @@ def get_info():
                 if item in selected_items:
                     datas.append(item)
             for i in datas:
-                print(i)
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper right', shadow=False)
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
@@ -129,7 +127,6 @@ def represent(i):
     if actv == True:
         ax1.grid()
         get_info()
-    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
@@ -171,7 +168,6 @@ btnOhlc.place(x=795,y=5)
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 graph_types = ['candle','renko','pnf','ohlc']
-
 
 ventana.mainloop()
 
