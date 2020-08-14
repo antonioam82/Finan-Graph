@@ -164,10 +164,13 @@ btnRenko=Button(master=ventana,text="Renko Graph",command=lambda:special_graphs(
 btnRenko.place(x=650,y=5)
 btnPnf=Button(master=ventana,text="Pnf Graph",command=lambda:special_graphs(2))
 btnPnf.place(x=730,y=5)
+btnOhlc=Button(master=ventana,text="Ohlc Graph",command=lambda:special_graphs(3))
+btnOhlc.place(x=795,y=5)
+
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
-graph_types = ['candle','renko','pnf']
+graph_types = ['candle','renko','pnf','ohlc']
 
 
 ventana.mainloop()
