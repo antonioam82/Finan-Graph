@@ -74,7 +74,7 @@ def bands():
 
 def get_info():
     global actv, datas, info, table_head, display_content
-    if selected_items != []:
+    if selected_items != []: #and entry3.get() != "" and entry3.get() != "0" and entry.get != "":
         try:
             ax1.clear()
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
@@ -102,12 +102,12 @@ def get_info():
 
 def special_graphs(n):
     global init_date, info, table_head
-    try:
+    if entry3.get() != "" and entry3.get() != "0" and entry.get() != "":
         table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
         init_date = datetime.now() - timedelta(days = int(entry3.get()))
         info = pdr.get_data_yahoo(entry.get(),start = init_date)
         mpf.plot(info,type=graph_types[n],title=table_head)
-    except:
+    else:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
 def update_symbols_file():
