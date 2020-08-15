@@ -77,6 +77,7 @@ def get_info():
     if selected_items != []: #and entry3.get() != "" and entry3.get() != "0" and entry.get != "":
         try:
             ax1.clear()
+            ax1.grid()
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             labels = ax1.get_xticklabels()
@@ -108,7 +109,6 @@ def special_graphs(n):
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             mpf.plot(info,type=graph_types[n],title=table_head)
-            #update_symbols_file()
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
@@ -128,7 +128,6 @@ def table():
 def represent(i):
     global actv   
     if actv == True:
-        ax1.grid()
         get_info()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
