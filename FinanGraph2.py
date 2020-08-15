@@ -103,12 +103,14 @@ def get_info():
 def special_graphs(n):
     global init_date, info, table_head
     if entry3.get() != "" and entry3.get() != "0" and entry.get() != "":
-        table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
-        init_date = datetime.now() - timedelta(days = int(entry3.get()))
-        info = pdr.get_data_yahoo(entry.get(),start = init_date)
-        mpf.plot(info,type=graph_types[n],title=table_head)
-    else:
-        messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
+        try:
+            table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
+            init_date = datetime.now() - timedelta(days = int(entry3.get()))
+            info = pdr.get_data_yahoo(entry.get(),start = init_date)
+            mpf.plot(info,type=graph_types[n],title=table_head)
+            #update_symbols_file()
+        except:
+            messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
 def update_symbols_file():
     if not entry.get() in used_symbols:
