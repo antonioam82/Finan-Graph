@@ -101,11 +101,12 @@ def get_info():
     datas = []
 
 def special_graphs(n):
-    global init_date, info
+    global init_date, info, table_head
     try:
+        table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
         init_date = datetime.now() - timedelta(days = int(entry3.get()))
         info = pdr.get_data_yahoo(entry.get(),start = init_date)
-        mpf.plot(info,type=graph_types[n])
+        mpf.plot(info,type=graph_types[n],title=table_head)
     except:
         messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
@@ -168,6 +169,7 @@ btnOhlc.place(x=795,y=5)
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 graph_types = ['candle','renko','pnf','ohlc']
+
 
 ventana.mainloop()
 
