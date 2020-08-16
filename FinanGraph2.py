@@ -170,6 +170,5 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 graph_types = ['candle','renko','pnf','ohlc']
 
-
 ventana.mainloop()
 
