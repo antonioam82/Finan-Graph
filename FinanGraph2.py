@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import pandas_datareader as pdr
 from alpha_vantage.techindicators import TechIndicators
 import pickle
@@ -77,6 +79,7 @@ def get_info():
     if selected_items != []: #and entry3.get() != "" and entry3.get() != "0" and entry.get != "":
         try:
             ax1.clear()
+            ax1.grid()
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             labels = ax1.get_xticklabels()
@@ -170,5 +173,5 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 graph_types = ['candle','renko','pnf','ohlc']
 
-ventana.mainloop()
 
+ventana.mainloop()
