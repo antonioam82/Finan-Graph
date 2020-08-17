@@ -79,7 +79,6 @@ def get_info():
     if selected_items != []: #and entry3.get() != "" and entry3.get() != "0" and entry.get != "":
         try:
             ax1.clear()
-            ax1.grid()
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             labels = ax1.get_xticklabels()
@@ -104,7 +103,7 @@ def get_info():
     datas = []
 
 def special_graphs(n):
-    global init_date, info, table_head
+    global init_date, info, table_head, interr
     if entry3.get() != "" and entry3.get() != "0" and entry.get() != "":
         try:
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
@@ -168,10 +167,8 @@ btnPnf.place(x=730,y=5)
 btnOhlc=Button(master=ventana,text="Ohlc Graph",command=lambda:special_graphs(3))
 btnOhlc.place(x=795,y=5)
 
-
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 graph_types = ['candle','renko','pnf','ohlc']
-
 
 ventana.mainloop()
