@@ -26,7 +26,22 @@ class App:
         style.use('seaborn-notebook')
         
         fig = Figure()
-        ax1 = fig.add_subplot(111)
+        fig.add_subplot(111)
+        init_date = datetime.now() - timedelta(days = 100)
+        info = pdr.get_data_yahoo('GOOGL',start = init_date)
+        print(info)
+        fig, ax = mpf.plot(
+            data=info,
+            type='candle',
+            #style='charles',
+            title="GOOGLE",
+            ylabel='Price ($)',
+            volume=False,
+            #ylabel_lower='Shares\nTraded',
+            show_nontrading=False,
+            returnfig = True
+            )
+        
 
         canvas = FigureCanvasTkAgg(fig,master=self.ventana)
         canvas.draw()
