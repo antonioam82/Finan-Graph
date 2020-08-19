@@ -109,7 +109,7 @@ def special_graphs(n):
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
-            mpf.plot(info,type=graph_types[n],title=table_head)
+            mpf.plot(info,type=graph_types[n],title=table_head,style='charles')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
 
@@ -167,8 +167,10 @@ btnPnf.place(x=730,y=5)
 btnOhlc=Button(master=ventana,text="Ohlc Graph",command=lambda:special_graphs(3))
 btnOhlc.place(x=795,y=5)
 
+
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 graph_types = ['candle','renko','pnf','ohlc']
+
 
 ventana.mainloop()
