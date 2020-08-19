@@ -23,12 +23,12 @@ class App:
         self.ventana.title("Finan Graph")
         self.ventana.geometry("1070x800")
         self.ventana.configure(background="light blue")
-        self.labelSym = Label(master=self.ventana,bg="light blue",text="",width=8,height=2)
+        self.labelSym = Label(master=self.ventana,bg="light blue",height=2)
         self.labelSym.pack(side=TOP) 
         self.entry = ttk.Combobox(master=self.ventana,width=8)
-        self.entry.place(x=67,y=8)
+        self.entry.place(x=64,y=8)
         self.labelSy = Label(master=self.ventana,bg="light blue",text="Symbol:",width=8,height=2)
-        self.labelSy.place(x=5,y=3) 
+        self.labelSy.place(x=2,y=3) 
         
 
         style.use('seaborn-notebook')
@@ -58,9 +58,6 @@ class App:
         toolbar.update()
         canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
         
-
-
-
         self.ventana.mainloop()
 
 if __name__=="__main__":
