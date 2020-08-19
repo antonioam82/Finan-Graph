@@ -18,7 +18,7 @@ import numpy as np
 
 class App:
     def __init__(self):
-
+        
         self.ventana = Tk()
         self.ventana.title("Finan Graph")
         self.ventana.geometry("1070x800")
@@ -29,10 +29,12 @@ class App:
         self.entry.place(x=64,y=8)
         self.labelSy = Label(master=self.ventana,bg="light blue",text="Symbol:",width=8,height=2)
         self.labelSy.place(x=2,y=3)
+        self.time_range = IntVar()
         self.timeLabel = Label(master=self.ventana,text="Time(Days):",bg="light blue",height=2)
         self.timeLabel.place(x=145,y=3)
-        self.timeEntry = Entry(master=self.ventana,width=8)
+        self.timeEntry = Entry(master=self.ventana,width=8,textvariable=self.time_range)
         self.timeEntry.place(x=218,y=9)
+        self.time_range = IntVar()
         
         
 
@@ -63,9 +65,6 @@ class App:
         toolbar.update()
         canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
         
-
-
-
         self.ventana.mainloop()
 
 if __name__=="__main__":
