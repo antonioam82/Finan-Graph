@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pandas_datareader as pdr
-from alpha_vantage.techindicators import TechIndicators
+#from alpha_vantage.techindicators import TechIndicators
 import pickle
 from tkinter import *
 from tkinter import ttk
