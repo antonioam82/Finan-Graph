@@ -18,17 +18,25 @@ import numpy as np
 
 class App:
     def __init__(self):
+
         self.ventana = Tk()
         self.ventana.title("Finan Graph")
         self.ventana.geometry("1070x800")
         self.ventana.configure(background="light blue")
+        self.labelSym = Label(master=self.ventana,bg="light blue",text="",width=8,height=2)
+        self.labelSym.pack(side=TOP) 
+        self.entry = ttk.Combobox(master=self.ventana,width=8)
+        self.entry.place(x=67,y=8)
+        self.labelSy = Label(master=self.ventana,bg="light blue",text="Symbol:",width=8,height=2)
+        self.labelSy.place(x=5,y=3) 
+        
 
         style.use('seaborn-notebook')
         
         fig = Figure()
         fig.add_subplot(111)
-        init_date = datetime.now() - timedelta(days = 100)
-        info = pdr.get_data_yahoo('GOOGL',start = init_date)
+        """init_date = datetime.now() - timedelta(days = 100)
+        info = pdr.get_data_yahoo('F',start = init_date)
         print(info)
         fig, ax = mpf.plot(
             data=info,
@@ -40,7 +48,7 @@ class App:
             #ylabel_lower='Shares\nTraded',
             show_nontrading=False,
             returnfig = True
-            )
+            )"""
         
 
         canvas = FigureCanvasTkAgg(fig,master=self.ventana)
@@ -49,6 +57,9 @@ class App:
         toolbar = NavigationToolbar2Tk(canvas, self.ventana)
         toolbar.update()
         canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
+        
+
+
 
         self.ventana.mainloop()
 
