@@ -37,7 +37,17 @@ class App:
         self.timeLabel.place(x=145,y=3)
         self.timeEntry = Entry(master=self.ventana,width=8,textvariable=self.time_range)
         self.timeEntry.place(x=218,y=9)
-        self.time_range = IntVar()
+        self.btnCandles = Button(master=self.ventana,text="Candles Graph")
+        self.btnCandles.place(x=310,y=6)
+        self.btnRenko = Button(master=self.ventana,text="Renko Graph")
+        self.btnRenko.place(x=400,y=6)
+        self.btnPnf = Button(master=self.ventana,text="Pnf Graph")
+        self.btnPnf.place(x=481,y=6)
+        self.btnOhlc = Button(master=self.ventana,text="Ohlc Graph")
+        self.btnOhlc.place(x=547,y=6)
+        self.btnLine = Button(master=self.ventana,text="Line Graph")
+        self.btnLine.place(x=620,y=6)
+        
         
         
 
