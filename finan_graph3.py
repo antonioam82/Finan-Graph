@@ -29,6 +29,9 @@ class App:
         self.entry.place(x=64,y=8)
         self.labelSy = Label(master=self.ventana,bg="light green",text="Symbol:",width=8,height=2)
         self.labelSy.place(x=2,y=3)
+        self.used_symbols = pickle.load(open("symbols","rb"))
+        self.symbol_entry = StringVar()
+        self.entry["values"]=self.used_symbols
         self.time_range = IntVar()
         self.timeLabel = Label(master=self.ventana,text="Time(Days):",bg="light green",height=2)
         self.timeLabel.place(x=145,y=3)
@@ -65,6 +68,9 @@ class App:
         toolbar.update()
         canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
         
+
+
+
         self.ventana.mainloop()
 
 if __name__=="__main__":
