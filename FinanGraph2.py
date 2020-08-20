@@ -89,7 +89,7 @@ def get_info():
                     datas.append(item)
             for i in datas:
                 ax1.plot(info[i])
-            ax1.legend((datas),loc='upper right', shadow=False)
+            ax1.legend((datas),loc='upper left', shadow=False)
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
             ax1.set_title(table_head)
             update_symbols_file()
