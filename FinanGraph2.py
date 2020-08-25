@@ -86,7 +86,7 @@ def get_info():
             update_symbols_file()
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
-            pass#########################################################################
+            #########################################################################
         labels = ax1.get_xticklabels()
         plt.setp(labels,rotation=45, horizontalalignment='right')
 
