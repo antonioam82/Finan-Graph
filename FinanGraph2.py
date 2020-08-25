@@ -77,7 +77,6 @@ def get_info():
     global actv, datas, info, table_head, display_content
     if selected_items != []: #and entry3.get() != "" and entry3.get() != "0" and entry.get != "":
         try:
-            ax1.clear()
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             labels = ax1.get_xticklabels()
@@ -85,6 +84,7 @@ def get_info():
             for item in item_list:
                 if item in selected_items:
                     datas.append(item)
+            ax1.clear()
             for i in datas:
                 ax1.plot(info[i])
             ax1.legend((datas),loc='upper left', shadow=False)
