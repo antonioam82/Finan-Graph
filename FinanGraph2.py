@@ -39,6 +39,7 @@ style.use('seaborn-notebook')
 
 fig = Figure()
 ax1 = fig.add_subplot(111)
+ax1.grid()
 
 canvas = FigureCanvasTkAgg(fig,master=ventana)
 canvas.draw()
@@ -90,6 +91,7 @@ def get_info():
             ax1.legend((datas),loc='upper left', shadow=False)
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
             ax1.set_title(table_head)
+            ax1.grid()
             update_symbols_file()
             display_content = info
             more_info.configure(state='normal')
