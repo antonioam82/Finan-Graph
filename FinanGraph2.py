@@ -83,6 +83,7 @@ def get_info():
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
+            update_symbols_file()
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
             pass#########################################################################
@@ -97,7 +98,7 @@ def get_info():
         ax1.legend((datas),loc='upper left', shadow=False)
         
         ax1.set_title(table_head)
-        update_symbols_file()
+ 
         display_content = info
         more_info.configure(state='normal')
     else:
