@@ -126,7 +126,6 @@ def represent(i):
     global actv   
     if actv == True:
         get_info()
-    #ani.event_source.start()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
 
