@@ -53,6 +53,7 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
+    print(selected_items)
 
 def activate():
     global actv
@@ -88,6 +89,7 @@ def get_info():
                     datas.append(item)
             for i in datas:
                 ax1.plot(info[i])
+                
             ax1.legend((datas),loc='upper left', shadow=False)
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
             ax1.set_title(table_head)
@@ -129,6 +131,10 @@ entry = ttk.Combobox(master=ventana,width=8)
        #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
+#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
+#labelCom.place(x=125,y=0)
+#entry2 = Entry(master=ventana,width=8)
+#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
@@ -152,6 +158,8 @@ btnC.place(x=441,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
+
+#plt.show()
 
 ventana.mainloop()
 
