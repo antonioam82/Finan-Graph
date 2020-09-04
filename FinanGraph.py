@@ -1,6 +1,7 @@
 import pandas_datareader as pdr
 from alpha_vantage.techindicators import TechIndicators
 import pickle
+import os
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -12,6 +13,11 @@ import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
+
+if not 'symbols' in os.listdir():
+    fichero = open('symbols','wb')
+    pickle.dump([],fichero)
+    fichero.close()
 
 ventana = Tk()
 ventana.title("Finan Graph")
@@ -127,14 +133,8 @@ ani = animation.FuncAnimation(fig, represent, interval=1000)
 labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
 labelSym.pack(side=LEFT)
 entry = ttk.Combobox(master=ventana,width=8)
-#entry["values"]=["NFLX","GOGL","AAPL","GM","F","AMZN","BNK","GOLD","FANUY","BTC-EUR","TSLA",
-       #"^IBEX","^IXIC","^N225","BTC-EUR"]
 entry["values"]=used_symbols
 entry.pack(side=LEFT)
-#labelCom = Label(master=ventana,bg="light blue",text="Compare with:",width=10,height=2)
-#labelCom.place(x=125,y=0)
-#entry2 = Entry(master=ventana,width=8)
-#entry2.place(x=210,y=8)
 labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
 labelRange.place(x=135,y=0)
 entry3 = Entry(master=ventana,width=8,textvariable=time_range)
@@ -158,8 +158,6 @@ btnC.place(x=441,y=5)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
-
-#plt.show()
 
 ventana.mainloop()
 
