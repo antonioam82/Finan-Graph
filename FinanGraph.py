@@ -59,7 +59,7 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    #print(selected_items)
+    print(selected_items)
 
 def activate():
     global actv
@@ -81,7 +81,7 @@ def bands():
 
 def get_info():
     global actv, datas, info, table_head, display_content
-    if entry.get() != "" and entry3.get() != "" and int(entry3.get()) > 0:
+    if selected_items != [] and entry.get() != "" and entry3.get() != "" and int(entry3.get()) > 0:
         try:
             ax1.clear()
             ax1.grid()
