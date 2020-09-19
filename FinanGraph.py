@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import pandas_datareader as pdr
 from alpha_vantage.techindicators import TechIndicators
 import pickle
@@ -59,7 +61,7 @@ def select_items(i):
     else:
         selected_items.remove(i)
         buttons[i].configure(bg="gray83")
-    print(selected_items)
+    #print(selected_items)
 
 def activate():
     global actv
