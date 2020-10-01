@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pandas_datareader as pdr
-#from alpha_vantage.techindicators import TechIndicators
+from alpha_vantage.techindicators import TechIndicators
 import pickle
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from datetime import datetime, timedelta
+import threading
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
@@ -16,72 +17,160 @@ from matplotlib import style
 import mplfinance as mpf
 import numpy as np
 
-class App:
-    def __init__(self):
-        
-        self.ventana = Tk()
-        self.ventana.title("Finan Graph")
-        self.ventana.geometry("1070x800")
-        self.ventana.configure(background="light green")
-        self.labelSym = Label(master=self.ventana,bg="light green",height=2)
-        self.labelSym.pack(side=TOP) 
-        self.entry = ttk.Combobox(master=self.ventana,width=8)
-        self.entry.place(x=64,y=8)
-        self.labelSy = Label(master=self.ventana,bg="light green",text="Symbol:",width=8,height=2)
-        self.labelSy.place(x=2,y=3)
-        self.used_symbols = pickle.load(open("symbols","rb"))
-        self.symbol_entry = StringVar()
-        self.entry["values"]=self.used_symbols
-        self.time_range = IntVar()
-        self.timeLabel = Label(master=self.ventana,text="Time(Days):",bg="light green",height=2)
-        self.timeLabel.place(x=145,y=3)
-        self.timeEntry = Entry(master=self.ventana,width=8,textvariable=self.time_range)
-        self.timeEntry.place(x=218,y=9)
-        self.btnCandles = Button(master=self.ventana,text="Candles Graph")
-        self.btnCandles.place(x=310,y=6)
-        self.btnRenko = Button(master=self.ventana,text="Renko Graph")
-        self.btnRenko.place(x=400,y=6)
-        self.btnPnf = Button(master=self.ventana,text="Pnf Graph")
-        self.btnPnf.place(x=481,y=6)
-        self.btnOhlc = Button(master=self.ventana,text="Ohlc Graph")
-        self.btnOhlc.place(x=547,y=6)
-        self.btnLine = Button(master=self.ventana,text="Line Graph")
-        self.btnLine.place(x=620,y=6)
-        
-        
-        
+ventana = Tk()
+ventana.title("Finan Graph")
+ventana.geometry("1070x800")
+ventana.configure(background="light blue")
+symbol_entry = StringVar()
+time_range = IntVar()
+actv = False
+used_symbols = pickle.load(open("symbols","rb"))
+datas = []
+selected_items = ["Close"]
+info = []
+sg = False
+table_head = ""
+display_content = ""
 
-        style.use('seaborn-notebook')
+"""['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
+ 'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
+ 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
+ 'tableau-colorblind10', '_classic_test']"""
+
+style.use('seaborn-notebook')
+
+fig = Figure()
+ax1 = fig.add_subplot(111)
+ax1.grid()
+
+canvas = FigureCanvasTkAgg(fig,master=ventana)
+canvas.draw()
+toolbar = NavigationToolbar2Tk(canvas, ventana)
+toolbar.update()
+canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
+
+def select_items(i):
+    global selected_items
+    if i not in selected_items:
+        selected_items.append(i)
+        buttons[i].configure(bg="light green")
+    else:
+        selected_items.remove(i)
+        buttons[i].configure(bg="gray83")
         
-        fig = Figure()
-        fig.add_subplot(111)
-        """init_date = datetime.now() - timedelta(days = 100)
-        info = pdr.get_data_yahoo('F',start = init_date)
-        print(info)
-        fig, ax = mpf.plot(
-            data=info,
-            type='candle',
-            #style='charles',
-            title="GOOGLE",
-            ylabel='Price ($)',
-            volume=False,
-            #ylabel_lower='Shares\nTraded',
-            show_nontrading=False,
-            returnfig = True
-            )"""
+def activate():
+    global actv
+    actv = True
+    
+def bands():
+    global table_head, display_content
+    try:
+        ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
+        BBdata, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
+        table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
+        more_info.configure(state='normal')
+        BBdata.plot()
+        plt.title(table_head)
+        display_content = BBdata
+        plt.show()
+    except:
+        messagebox.showwarning("ERROR","Información no disponible")
         
-
-        canvas = FigureCanvasTkAgg(fig,master=self.ventana)
-        canvas.draw()
-
-        toolbar = NavigationToolbar2Tk(canvas, self.ventana)
-        toolbar.update()
-        canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
+def get_info():
+    global actv, datas, info, table_head, display_content
+    if entry.get() != "" and entry3.get() != "" and int(entry3.get()) > 0:
+        try:
+            init_date = datetime.now() - timedelta(days = int(entry3.get()))
+            info = pdr.get_data_yahoo(entry.get(),start = init_date)
+            labels = ax1.get_xticklabels()
+            plt.setp(labels,rotation=45, horizontalalignment='right')
+            for item in item_list:
+                if item in selected_items:
+                    datas.append(item)
+            ax1.clear()
+            for i in datas:
+                ax1.plot(info[i])
+            ax1.legend((datas),loc='best', shadow=False)
+            table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
+            ax1.set_title(table_head)
+            ax1.grid()
+            update_symbols_file()
+            display_content = info
+            more_info.configure(state='normal')
+        except:
+            messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
+    else:
+        messagebox.showwarning("DATOS INSUFICIENTES","Especificar información a mostrar")
+    actv = False
+    datas = []
+    
+def special_graphs(n):
+    global init_date, info, table_head, interr, display_content
+    if entry3.get() != "" and entry3.get() != "0" and entry.get() != "":
+        try:
+            table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
+            init_date = datetime.now() - timedelta(days = int(entry3.get()))
+            info = pdr.get_data_yahoo(entry.get(),start = init_date)
+            mpf.plot(info,type=graph_types[n],title=table_head)#style='charles')
+        except:
+            messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
+            
+def update_symbols_file():
+    if not entry.get() in used_symbols:
+        used_symbols.insert(0,entry.get())
+        pickle.dump(used_symbols,open("symbols","wb"))
+        entry["values"]=pickle.load(open("symbols","rb"))
         
+def table():
+    top = Toplevel()
+    top.title("INFO TABLE")
+    display = sct.ScrolledText(master=top,width=80)
+    display.pack(padx=0,pady=0)
+    display.insert(END,table_head+"\n\n"+str(display_content))
+    
+def represent(i):
+    global actv   
+    if actv == True:
+        get_info()
+        
+ani = animation.FuncAnimation(fig, represent, interval=1000)
 
+labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
+labelSym.pack(side=LEFT)
+entry = ttk.Combobox(master=ventana,width=8)
+entry["values"]=used_symbols
+entry.pack(side=LEFT)
+labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
+labelRange.place(x=135,y=0)
+entry3 = Entry(master=ventana,width=8,textvariable=time_range)
+entry3.place(x=220,y=8)
+more_info = Button(master=ventana,text="SHOW TABLE",state='disabled',command=table)
+more_info.pack(side=RIGHT)
+graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
+graph.pack(side=RIGHT)
+btnTech = Button(master=ventana,text="BBbands",height=1,command=bands)
+btnTech.place(x=495,y=5)
+labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
+labelInfo.place(x=290,y=8)
+btnH=Button(master=ventana,text="High",bg="gray83",command=lambda:select_items("High"))
+btnH.place(x=325,y=5)
+btnL=Button(master=ventana,text="Low",bg="gray83",command=lambda:select_items("Low"))
+btnL.place(x=364,y=5)
+btnV=Button(master=ventana,text="Open",bg="gray83",command=lambda:select_items("Open"))
+btnV.place(x=399,y=5)
+btnC=Button(master=ventana,text="Close",bg="light green",command=lambda:select_items("Close"))
+btnC.place(x=441,y=5)
+btnCand=Button(master=ventana,text="Candles Graph",command=lambda:special_graphs(0))
+btnCand.place(x=560,y=5)
+btnRenko=Button(master=ventana,text="Renko Graph",command=lambda:special_graphs(1))
+btnRenko.place(x=650,y=5)
+btnPnf=Button(master=ventana,text="Pnf Graph",command=lambda:special_graphs(2))
+btnPnf.place(x=730,y=5)
+btnOhlc=Button(master=ventana,text="Ohlc Graph",command=lambda:special_graphs(3))
+btnOhlc.place(x=795,y=5)
 
+item_list=["High","Low","Open","Close"]
+buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
+graph_types = ['candle','renko','pnf','ohlc']
 
-        self.ventana.mainloop()
-
-if __name__=="__main__":
-    App()
+ventana.mainloop()
