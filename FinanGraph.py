@@ -27,6 +27,7 @@ ventana.geometry("1070x800")
 ventana.configure(background="light blue")
 symbol_entry = StringVar()
 time_range = IntVar()
+time_range.set(90)
 actv = False
 used_symbols = pickle.load(open("symbols","rb"))
 datas = []
@@ -161,6 +162,7 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
 ventana.mainloop()
+
 
 
 
