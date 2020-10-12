@@ -35,13 +35,15 @@ selected_items = ["Close"]
 info = []
 table_head = ""
 display_content = ""
+styl = ('seaborn-notebook')
 
-"""['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
+styles=['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
  'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
  'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
- 'tableau-colorblind10', '_classic_test']"""
+ 'tableau-colorblind10', '_classic_test']
 
-style.use('seaborn-notebook')
+style.use(styl)
+
 
 fig = Figure()
 ax1 = fig.add_subplot(111)
@@ -79,8 +81,8 @@ def bands():
         plt.title(table_head)
         display_content = BBdata
         plt.show()
-    except:
-        messagebox.showwarning("ERROR","Información no disponible")
+    except Exception as e:
+        messagebox.showwarning("ERROR","Información no disponible.")
 
 def get_info():
     global actv, datas, info, table_head, display_content
@@ -105,10 +107,11 @@ def get_info():
             update_symbols_file()
             display_content = info
             more_info.configure(state='normal')
-        except:
-            messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
+        except Exception as e:
+            print(str(e))
+            messagebox.showwarning("ERROR","ERROR: {}".format(str(e)))
     else:
-        messagebox.showwarning("DATOS INSUFICIENTES","Especificar información a mostrar")
+        messagebox.showwarning("DATOS INSUFICIENTES","Información de entrada insuficiente.")
     actv = False
     datas = []
 
@@ -128,6 +131,7 @@ def table():
 def represent(i):
     global actv   
     if actv == True:
+        style.use(entry_styles.get())
         get_info()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)  
@@ -157,6 +161,12 @@ btnV=Button(master=ventana,text="Open",bg="gray83",command=lambda:select_items("
 btnV.place(x=399,y=5)
 btnC=Button(master=ventana,text="Close",bg="light green",command=lambda:select_items("Close"))
 btnC.place(x=441,y=5)
+entry_styles = ttk.Combobox(master=ventana,state='readonly',width=19)
+entry_styles.pack(padx=3,side=RIGHT)
+entry_styles.set(styl)
+label_styles = Label(master=ventana,text="STYLE:",bg="light blue")
+label_styles.pack(side=RIGHT)
+entry_styles['values']=styles
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
