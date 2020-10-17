@@ -23,6 +23,7 @@ ventana.geometry("1070x800")
 ventana.configure(background="light blue")
 symbol_entry = StringVar()
 time_range = IntVar()
+time_range.set(90)
 actv = False
 used_symbols = pickle.load(open("symbols","rb"))
 datas = []
