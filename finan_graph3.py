@@ -111,7 +111,7 @@ def special_graphs(n):
             table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
             init_date = datetime.now() - timedelta(days = int(entry3.get()))
             info = pdr.get_data_yahoo(entry.get(),start = init_date)
-            mpf.plot(info,type=graph_types[n],title=table_head)#style='charles')
+            mpf.plot(info,type=graph_types[n],title=table_head,volume=True)#style='charles')
         except:
             messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
             
