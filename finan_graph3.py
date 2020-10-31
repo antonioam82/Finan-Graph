@@ -44,7 +44,7 @@ class graph:
         self.entry3.place(x=220,y=8)
         self.more_info = Button(master=self.ventana,text="SHOW TABLE",state='disabled')
         self.more_info.pack(side=RIGHT)
-        self.graph = Button(master=self.ventana,text="SHOW GRAPH",height=1)
+        self.graph = Button(master=self.ventana,text="SHOW GRAPH",height=1,command=self.change_actv)
         self.graph.pack(side=RIGHT)
         self.typeLabel = Label(master=self.ventana,text="GRAPH TYPE:",bg="light blue")
         self.typeLabel.place(x=286,y=8)
@@ -64,7 +64,11 @@ class graph:
 
         self.ventana.mainloop()
 
-
+    def change_actv(self):
+        if self.actv == True:
+            self.actv = False
+        else:
+            self.actv = True
         
 
     def repGraph(self,i):
