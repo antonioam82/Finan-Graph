@@ -23,11 +23,12 @@ class graph:
         self.ventana.title("Finan Graph")
         self.ventana.geometry("1070x800")
         self.ventana.configure(background="light blue")
-        fig = Figure()
-        ax1 = fig.add_subplot(111)
+        self.fig = Figure()
+        ax1 = self.fig.add_subplot(111)
         ax1.grid()
+        self.actv = False
         
-        self.canvas = FigureCanvasTkAgg(fig,master=self.ventana)
+        self.canvas = FigureCanvasTkAgg(self.fig,master=self.ventana)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH,expand=1)
 
@@ -58,11 +59,19 @@ class graph:
         self.label_styles = Label(master=self.ventana,text="STYLE:",bg="light blue")
         self.label_styles.pack(side=RIGHT)
         #self.entry_styles['values']=styles
-        
-        
+
+        animat = animation.FuncAnimation(self.fig, self.repGraph, interval=1000)
 
         self.ventana.mainloop()
 
 
+        
+
+    def repGraph(self,i):
+        if self.actv == True:
+            print("None")
+
+
+    
 if __name__=="__main__":
     graph()
