@@ -26,6 +26,8 @@ class graph:
         self.fig = Figure()
         ax1 = self.fig.add_subplot(111)
         ax1.grid()
+        self.time_range = IntVar()
+        self.time_range.set(90)
         self.actv = False
         
         self.canvas = FigureCanvasTkAgg(self.fig,master=self.ventana)
@@ -40,7 +42,7 @@ class graph:
 
         self.labelRange = Label(master=self.ventana,text="Time (days):",bg="light blue",width=13,height=2)
         self.labelRange.place(x=135,y=0)
-        self.entry3 = Entry(master=self.ventana,width=8)
+        self.entry3 = Entry(master=self.ventana,width=8,textvariable=self.time_range)
         self.entry3.place(x=220,y=8)
         self.more_info = Button(master=self.ventana,text="SHOW TABLE",state='disabled')
         self.more_info.pack(side=RIGHT)
@@ -74,6 +76,7 @@ class graph:
     def repGraph(self,i):
         if self.actv == True:
             print("None")
+            self.actv = False
 
 
     
