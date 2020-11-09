@@ -76,16 +76,21 @@ class graph:
         self.ventana.mainloop()
 
     def change_actv(self):
-        if self.actv == True:
-            self.actv = False
-        else:
+        if self.actv == False:
             self.actv = True
+
+
+    def get_graph(self):
+        init_date = datetime.now() - timedelta(days = int(self.entry3.get()))
+        print(init_date)
+        self.actv = False
         
 
     def repGraph(self,i):
         if self.actv == True:
             print("None")
-            self.actv = False
+            self.get_graph()
+
 
 
     
