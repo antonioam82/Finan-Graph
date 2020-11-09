@@ -35,7 +35,9 @@ class graph:
         ax1.grid()
         self.time_range = IntVar()
         self.time_range.set(90)
+        self.symbol_entry = StringVar()
         self.actv = False
+        self.used_symbols = pickle.load(open("symbols","rb"))
         
         self.canvas = FigureCanvasTkAgg(self.fig,master=self.ventana)
         self.canvas.draw()
@@ -44,7 +46,7 @@ class graph:
         self.labelSym = Label(master=self.ventana,bg="light blue",text="Symbol:",width=8,height=2)
         self.labelSym.pack(side=LEFT)
         self.entry = ttk.Combobox(master=self.ventana,width=8)
-        #self.entry["values"]
+        self.entry["values"]=self.used_symbols
         self.entry.pack(side=LEFT)
 
         self.labelRange = Label(master=self.ventana,text="Time (days):",bg="light blue",width=13,height=2)
