@@ -83,6 +83,8 @@ class graph:
     def get_graph(self):
         init_date = datetime.now() - timedelta(days = int(self.entry3.get()))
         print(init_date)
+        info = pdr.get_data_yahoo(self.entry.get(),start = init_date)
+        print(info)
         self.actv = False
         
 
