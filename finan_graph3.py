@@ -16,7 +16,14 @@ import matplotlib.animation as animation
 from matplotlib import style
 import mplfinance as mpf
 import numpy as np
+import os
 
+if not 'symbols' in os.listdir():
+    fichero = open('symbols','wb')
+    pickle.dump([],fichero)
+    fichero.close()
+
+    
 class graph:
     def __init__(self):
         self.ventana = Tk()
