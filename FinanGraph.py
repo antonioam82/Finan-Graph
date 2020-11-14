@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import pandas_datareader as pdr
 from alpha_vantage.techindicators import TechIndicators
+from alpha_vantage.sectorperformance import SectorPerformances
 import pickle
 import os
 from tkinter import *
@@ -108,12 +109,24 @@ def get_info():
             display_content = info
             more_info.configure(state='normal')
         except Exception as e:
-            print(str(e))
             messagebox.showwarning("ERROR","ERROR: {}".format(str(e)))
     else:
         messagebox.showwarning("DATOS INSUFICIENTES","Información de entrada insuficiente.")
     actv = False
     datas = []
+
+def sectors_performance():
+    try:
+        sp = SectorPerformances(key='YOUR_API_KEY', output_format='pandas')
+        data, meta_data = sp.get_sector()
+        data['Rank A: Real-Time Performance'].plot(kind='bar')
+        plt.title('Real Time Performance (%) per Sector')
+        plt.tight_layout()
+        plt.grid()
+        plt.show()
+    except Exception as e:
+        messagebox.showwarning("ERROR",str(e))
+    
 
 def update_symbols_file():
     if not entry.get() in used_symbols:
@@ -151,6 +164,8 @@ graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
 graph.pack(side=RIGHT)
 btnTech = Button(master=ventana,text="BBbands",height=1,command=bands)
 btnTech.place(x=495,y=5)
+btnSectors = Button(master=ventana,text="Sectors Performance",command=sectors_performance)
+btnSectors.place(x=560,y=5)
 labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
 labelInfo.place(x=290,y=8)
 btnH=Button(master=ventana,text="High",bg="gray83",command=lambda:select_items("High"))
