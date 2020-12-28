@@ -80,6 +80,7 @@ def bands():
         more_info.configure(state='normal')
         BBdata.plot()
         plt.title(table_head)
+        plt.grid()
         display_content = BBdata
         plt.show()
     except Exception as e:
