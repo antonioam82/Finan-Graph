@@ -155,7 +155,7 @@ def save_table():
             lin = lin+i
         archivo_guardar.write(lin)
         archivo_guardar.close()
-        messagebox.showinfo("SAVED","Document saved successfully")
+        messagebox.showinfo("GUARDADO","Documento guardado correctamente.")
 
 def represent(i):
     global actv   
