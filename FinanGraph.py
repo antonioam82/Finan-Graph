@@ -7,7 +7,7 @@ import pickle
 import os
 from tkinter import *
 from tkinter import ttk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -141,6 +141,21 @@ def table():
     display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
     display.insert(END,table_head+"\n\n"+str(display_content))
+    btnSvae = Button(top,text="SAVE TABLE",bg="azure3",command=save_table)
+    btnSvae.pack(side=BOTTOM)
+
+def save_table():
+    documento = filedialog.asksaveasfilename(initialdir="/",
+                title="Save",defaultextension='.txt')
+    if documento != "":
+        archivo_guardar = open(documento,"w",encoding="utf-8")
+        lin = ""
+        content = table_head+"\n\n"+str(display_content)
+        for i in content:
+            lin = lin+i
+        archivo_guardar.write(lin)
+        archivo_guardar.close()
+        print("saved")
 
 def represent(i):
     global actv   
