@@ -128,7 +128,6 @@ def sectors_performance():
     except Exception as e:
         messagebox.showwarning("ERROR",str(e))
     
-
 def update_symbols_file():
     if not entry.get() in used_symbols:
         used_symbols.insert(0,entry.get())
@@ -138,10 +137,11 @@ def update_symbols_file():
 def table():
     top = Toplevel()
     top.title("INFO TABLE")
+    top.configure(background="light blue")
     display = sct.ScrolledText(master=top,width=80)
     display.pack(padx=0,pady=0)
     display.insert(END,table_head+"\n\n"+str(display_content))
-    btnSvae = Button(top,text="SAVE TABLE",bg="azure3",command=save_table)
+    btnSvae = Button(top,text="SAVE TABLE",command=save_table)
     btnSvae.pack(side=BOTTOM)
 
 def save_table():
