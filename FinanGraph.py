@@ -75,7 +75,9 @@ def bands():
     global table_head, display_content
     try:
         ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
+        print(ti)
         BBdata, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
+        print(type(BBdata))
         table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
         more_info.configure(state='normal')
         BBdata.plot()
@@ -84,6 +86,7 @@ def bands():
         display_content = BBdata
         plt.show()
     except Exception as e:
+        print(str(e))
         messagebox.showwarning("ERROR","Información no disponible.")
 
 def get_info():
@@ -126,8 +129,10 @@ def sectors_performance():
         plt.grid()
         plt.show()
     except Exception as e:
+        print(str(e))
         messagebox.showwarning("ERROR",str(e))
     
+
 def update_symbols_file():
     if not entry.get() in used_symbols:
         used_symbols.insert(0,entry.get())
@@ -148,6 +153,7 @@ def save_table():
     documento = filedialog.asksaveasfilename(initialdir="/",
                 title="Save",defaultextension='.txt')
     if documento != "":
+        document_name = (documento).split("/")[-1]
         archivo_guardar = open(documento,"w",encoding="utf-8")
         lin = ""
         content = table_head+"\n\n"+str(display_content)
@@ -155,7 +161,7 @@ def save_table():
             lin = lin+i
         archivo_guardar.write(lin)
         archivo_guardar.close()
-        messagebox.showinfo("GUARDADO","Documento guardado correctamente.")
+        messagebox.showinfo("SAVED","Saved '{}'.".format(document_name))
 
 def represent(i):
     global actv   
@@ -203,7 +209,6 @@ item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
 
 ventana.mainloop()
-
 
 
 
