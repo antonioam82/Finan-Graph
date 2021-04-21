@@ -16,6 +16,7 @@ import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
+import yfinance as yf
 
 if not 'symbols' in os.listdir():
     fichero = open('symbols','wb')
@@ -138,6 +139,20 @@ def update_symbols_file():
         used_symbols.insert(0,entry.get())
         pickle.dump(used_symbols,open("symbols","wb"))
         entry["values"]=pickle.load(open("symbols","rb"))
+
+def general():
+    if entry.get():
+        try:
+            top = Toplevel()
+            top.title("GENERAL INFO")
+            top.configure(background="light blue")
+            display = sct.ScrolledText(master=top,width=100)
+            display.pack(padx=0,pady=0)
+            ti = yf.Ticker(entry.get())
+            display.insert(END,'{} GENERAL INFO:\n\n'.format(entry.get())+str(ti.info))
+        except Exception as e:
+            messagebox.showwarning("ERROR",str(e))
+    
         
 def table():
     top = Toplevel()
@@ -204,6 +219,7 @@ entry_styles.set(styl)
 label_styles = Label(master=ventana,text="STYLE:",bg="light blue")
 label_styles.pack(side=RIGHT)
 entry_styles['values']=styles
+Button(master=ventana,text="GENERAL INFO",command=general).place(x=0,y=36)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
