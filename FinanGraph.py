@@ -153,6 +153,8 @@ def general(i):
                 display.insert(END,'{} GENERAL INFO:\n\n'.format(entry.get())+str(ti.info))
             elif i == "actions":
                 display.insert(END,'{} ACTIONS:\n\n'.format(entry.get())+str(ti.actions))
+            elif i == "mholders":
+                display.insert(END,'{} MAJOR HOLDERS:\n\n'.format(entry.get())+str(ti.major_holders))
         except Exception as e:
             messagebox.showwarning("ERROR",str(e))
     
@@ -223,7 +225,8 @@ label_styles = Label(master=ventana,text="STYLE:",bg="light blue")
 label_styles.pack(side=RIGHT)
 entry_styles['values']=styles
 Button(master=ventana,text="GENERAL INFO",width=12,command=lambda:general("general")).place(x=0,y=36)
-Button(master=ventana,text="ACTIONS",width=12,command=lambda:general("actions")).place(x=96,y=36)
+Button(master=ventana,text="ACTIONS",width=12,command=lambda:general("actions")).place(x=94,y=36)
+Button(master=ventana,text="MAJOR HOLDERS",width=18,command=lambda:general("mholders")).place(x=188,y=36)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
