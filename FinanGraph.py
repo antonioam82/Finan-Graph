@@ -140,7 +140,7 @@ def update_symbols_file():
         pickle.dump(used_symbols,open("symbols","wb"))
         entry["values"]=pickle.load(open("symbols","rb"))
 
-def general():
+def general(i):
     if entry.get():
         try:
             top = Toplevel()
@@ -149,7 +149,10 @@ def general():
             display = sct.ScrolledText(master=top,width=100)
             display.pack(padx=0,pady=0)
             ti = yf.Ticker(entry.get())
-            display.insert(END,'{} GENERAL INFO:\n\n'.format(entry.get())+str(ti.info))
+            if i == "general":
+                display.insert(END,'{} GENERAL INFO:\n\n'.format(entry.get())+str(ti.info))
+            elif i == "actions":
+                display.insert(END,'{} ACTIONS:\n\n'.format(entry.get())+str(ti.actions))
         except Exception as e:
             messagebox.showwarning("ERROR",str(e))
     
@@ -219,7 +222,8 @@ entry_styles.set(styl)
 label_styles = Label(master=ventana,text="STYLE:",bg="light blue")
 label_styles.pack(side=RIGHT)
 entry_styles['values']=styles
-Button(master=ventana,text="GENERAL INFO",command=general).place(x=0,y=36)
+Button(master=ventana,text="GENERAL INFO",width=12,command=lambda:general("general")).place(x=0,y=36)
+Button(master=ventana,text="ACTIONS",width=12,command=lambda:general("actions")).place(x=96,y=36)
 
 item_list=["High","Low","Open","Close"]
 buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
