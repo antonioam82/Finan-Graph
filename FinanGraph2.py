@@ -2,19 +2,18 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 from pandas_datareader import data as pdr
-import pickle
+#import pickle
 from tkinter import *
-from tkinter import ttk
-from tkinter import messagebox
+#from tkinter import ttk
+#from tkinter import messagebox
 import datetime as date
-import threading
+#import threading
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-import tkinter.scrolledtext as sct
+#import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
 from matplotlib import style
-import mplfinance as mpf
 import numpy as np
 
 style.use('dark_background')
@@ -23,7 +22,7 @@ class finance:
     def __init__(self):
         self.root = Tk()
         self.root.title("Finan Graph 5")
-        self.root.geometry("1070x800")
+        self.root.geometry("1160x800")
         self.fig = Figure()
         self.ax1 = self.fig.add_subplot(111)
         self.ax1.grid()
