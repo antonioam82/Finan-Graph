@@ -23,6 +23,15 @@ class finance:
         self.root = Tk()
         self.root.title("Finan Graph 5")
         self.root.geometry("1070x800")
+        self.fig = Figure()
+        self.ax1 = self.fig.add_subplot(111)
+        self.ax1.grid()
+
+        canvas = FigureCanvasTkAgg(self.fig,master=self.root)
+        canvas.draw()
+        toolbar = NavigationToolbar2Tk(canvas, self.root)
+        toolbar.update()
+        canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
         self.root.mainloop()
 
