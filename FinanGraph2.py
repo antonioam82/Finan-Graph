@@ -35,9 +35,6 @@ class finance:
 
         self.make_graph()
 
-
-        #ani = animation.FuncAnimation(self.fig, represent, interval=1000)
-
         self.root.mainloop()
 
     def MA(self, df, n):
