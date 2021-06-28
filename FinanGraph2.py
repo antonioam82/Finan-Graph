@@ -31,11 +31,6 @@ toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
-def MA(df, n):
-    MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='MA_'+str(n))
-    df = df.join(MA)
-    return df
-
 def EMA(df, n):
     EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
     df = df.join(EMA)
@@ -47,11 +42,11 @@ def make_graph():
     tick = 'IBM'
     ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
     df = EMA(ipc, 50)
-    df2 = MA(df, 50)
-    df2 = df2[['Close','MA_50','EMA_50']]
+    df2 = EMA(df, 200)
+    df2 = df2[['Close','EMA_50','EMA_200']]
     for i in df2:
         ax1.plot(df2[i])
-    ax1.legend(['Close','MA_50','EMA_50'],loc='best', shadow=False)
+    ax1.legend(['Close','EMA_50','EMA_200'],loc='best', shadow=False)
 
 def represent(i):
     global actv
