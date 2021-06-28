@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import pandas_datareader as pdr
+import pandas as pd
+from pandas_datareader import data as pdr
 import pickle
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-from datetime import datetime, timedelta
+import datetime as date
 import threading
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
@@ -33,7 +34,35 @@ class finance:
         toolbar.update()
         canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
+        self.make_graph()
+
+
+        #ani = animation.FuncAnimation(self.fig, represent, interval=1000)
+
         self.root.mainloop()
+
+    def MA(self, df, n):
+        MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='MA_'+str(n))
+        df = df.join(MA)
+        return df
+
+    def EMA(self, df, n):
+        EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
+        df = df.join(EMA)
+        return df
+
+    def make_graph(self):
+        enddate = date.datetime(2019,11,1)
+        startdate = date.datetime(2010,1,1)
+        tick = 'IBM'
+        ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
+        df = self.EMA(ipc, 50)
+        df2 = self.MA(df, 50)
+        df2 = df2[['Close','MA_50','EMA_50']]
+
+        #df2.plot(figsize = (8,8))#16,8
+        self.ax1.plot(df2)
+        
 
 if __name__=="__main__":
     finance()
