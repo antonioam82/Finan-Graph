@@ -16,7 +16,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-style.use('dark_background')
+#style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
 root.geometry("1160x800")
@@ -49,8 +49,9 @@ def make_graph():
     df = EMA(ipc, 50)
     df2 = MA(df, 50)
     df2 = df2[['Close','MA_50','EMA_50']]
-
-    ax1.plot(df2)
+    for i in df2:
+        ax1.plot(df2[i])
+    ax1.legend(['Close','MA_50','EMA_50'],loc='best', shadow=False)
 
 def represent(i):
     global actv
