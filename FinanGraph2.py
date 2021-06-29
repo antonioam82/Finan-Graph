@@ -4,7 +4,7 @@ import pandas as pd
 from pandas_datareader import data as pdr
 #import pickle
 from tkinter import *
-#from tkinter import ttk
+from tkinter import ttk
 #from tkinter import messagebox
 import datetime as date
 #import threading
@@ -19,8 +19,10 @@ import numpy as np
 #style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
-root.geometry("1160x800")
-actv = True
+root.configure(background="gray")
+root.geometry("1070x800")#1160
+
+actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
@@ -53,8 +55,13 @@ def represent(i):
     if actv == True:
         print("activo")
 
-ani = animation.FuncAnimation(fig, represent, interval=1000)
+#ani = animation.FuncAnimation(fig, represent, interval=1000)
 
-make_graph()
+#make_graph()
+
+Label(root,height=2,bg="gray").pack(side=LEFT)
+Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
+tick_entry = ttk.Combobox(root,width=8)
+tick_entry.place(x=58,y=8)
 
 root.mainloop()
