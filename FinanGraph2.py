@@ -58,9 +58,9 @@ def represent(i):
     if actv == True:
         print("activo")
 
-ani = animation.FuncAnimation(fig, represent, interval=1000)
+#ani = animation.FuncAnimation(fig, represent, interval=1000)
 
-make_graph()
+#make_graph()
 
 Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
@@ -86,3 +86,4 @@ btnEMA200 = Button(root,text="EMA 200",width=8)
 btnEMA200.place(x=716,y=5)
 
 root.mainloop()
+
