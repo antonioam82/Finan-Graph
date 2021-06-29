@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 from pandas_datareader import data as pdr
-#import pickle
+import pickle
 from tkinter import *
 from tkinter import ttk
 #from tkinter import messagebox
@@ -24,7 +24,7 @@ root.geometry("1160x800")#1160
 
 start_date = StringVar()
 end_date = StringVar()
-
+used_symbols = pickle.load(open("symbols","rb"))
 actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
@@ -65,6 +65,7 @@ def represent(i):
 Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
 tick_entry = ttk.Combobox(root,width=8)
+tick_entry["values"]=used_symbols
 tick_entry.place(x=58,y=8)
 Label(root,text="START DATE:",bg="gray",fg="white").place(x=165,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
