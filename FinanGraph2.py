@@ -20,7 +20,10 @@ import numpy as np
 root = Tk()
 root.title("Finan Graph 5")
 root.configure(background="gray")
-root.geometry("1070x800")#1160
+root.geometry("1160x800")#1160
+
+start_date = StringVar()
+end_date = StringVar()
 
 actv = False
 fig = Figure()
@@ -63,5 +66,11 @@ Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
 tick_entry = ttk.Combobox(root,width=8)
 tick_entry.place(x=58,y=8)
+Label(root,text="START DATE:",bg="gray",fg="white").place(x=165,y=8)
+sts_entry = Entry(root,textvariable=start_date,width=10)
+sts_entry.place(x=240,y=8)
+Label(root,text="END DATE:",bg="gray",fg="white").place(x=316,y=8)
+end_date = Entry(root,textvariable=end_date,width=10)
+end_date.place(x=382,y=8)
 
 root.mainloop()
