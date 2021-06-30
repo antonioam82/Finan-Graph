@@ -16,6 +16,10 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
+def activate():
+    global actv
+    actv = True
+
 #style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
@@ -25,7 +29,7 @@ root.geometry("1160x800")#1160
 start_date = StringVar()
 end_date = StringVar()
 used_symbols = pickle.load(open("symbols","rb"))
-actv = True
+actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
@@ -60,6 +64,7 @@ btnEMA50 = Button(root,text="EMA 50",width=8)
 btnEMA50.place(x=650,y=5)
 btnEMA200 = Button(root,text="EMA 200",width=8)
 btnEMA200.place(x=716,y=5)
+Button(root,text="SHOW GRAPH",command=activate).place(x=950,y=5)
 
 def EMA(df, n):
     EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
@@ -67,9 +72,11 @@ def EMA(df, n):
     return df
 
 def make_graph():
-    global tick_entry
+    global actv
+    ax1.clear()
+    ax1.grid()
     enddate = date.datetime(2021,6,30)
-    startdate = date.datetime(2019,1,1)
+    startdate = date.datetime(2017,1,1)
     tick = tick_entry.get()
     ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
     df = EMA(ipc, 50)
@@ -78,15 +85,13 @@ def make_graph():
     for i in df2:
         ax1.plot(df2[i])
     ax1.legend(['Close','EMA_50','EMA_200'],loc='best', shadow=False)
-
+    actv = False
+    
 def represent(i):
     global actv
     if actv == True:
-        print("activo")
+        make_graph()
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-
-make_graph()
-
 root.mainloop()
 
