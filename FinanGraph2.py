@@ -25,7 +25,7 @@ root.geometry("1160x800")#1160
 start_date = StringVar()
 end_date = StringVar()
 used_symbols = pickle.load(open("symbols","rb"))
-actv = False
+actv = True
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
@@ -36,37 +36,12 @@ toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
-def EMA(df, n):
-    EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
-    df = df.join(EMA)
-    return df
-
-def make_graph():
-    enddate = date.datetime(2019,11,1)
-    startdate = date.datetime(2010,1,1)
-    tick = 'IBM'
-    ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
-    df = EMA(ipc, 50)
-    df2 = EMA(df, 200)
-    df2 = df2[['High','Low','Open','Close','EMA_50','EMA_200']]
-    for i in df2:
-        ax1.plot(df2[i])
-    ax1.legend(['High','Low','Open','Close','EMA_50','EMA_200'],loc='best', shadow=False)
-
-def represent(i):
-    global actv
-    if actv == True:
-        print("activo")
-
-#ani = animation.FuncAnimation(fig, represent, interval=1000)
-
-#make_graph()
-
-Label(root,height=2,bg="gray").pack(side=LEFT)
-Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
 tick_entry = ttk.Combobox(root,width=8)
 tick_entry["values"]=used_symbols
+tick_entry.set('IBM')
 tick_entry.place(x=58,y=8)
+Label(root,height=2,bg="gray").pack(side=LEFT)
+Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
 Label(root,text="START DATE:",bg="gray",fg="white").place(x=165,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=240,y=8)
@@ -85,6 +60,33 @@ btnEMA50 = Button(root,text="EMA 50",width=8)
 btnEMA50.place(x=650,y=5)
 btnEMA200 = Button(root,text="EMA 200",width=8)
 btnEMA200.place(x=716,y=5)
+
+def EMA(df, n):
+    EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
+    df = df.join(EMA)
+    return df
+
+def make_graph():
+    global tick_entry
+    enddate = date.datetime(2021,6,30)
+    startdate = date.datetime(2019,1,1)
+    tick = tick_entry.get()
+    ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
+    df = EMA(ipc, 50)
+    df2 = EMA(df, 200)
+    df2 = df2[['Close','EMA_50','EMA_200']]#['High','Low','Open','Close','EMA_50','EMA_200']]
+    for i in df2:
+        ax1.plot(df2[i])
+    ax1.legend(['Close','EMA_50','EMA_200'],loc='best', shadow=False)
+
+def represent(i):
+    global actv
+    if actv == True:
+        print("activo")
+
+ani = animation.FuncAnimation(fig, represent, interval=1000)
+
+make_graph()
 
 root.mainloop()
 
