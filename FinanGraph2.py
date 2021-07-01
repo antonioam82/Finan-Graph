@@ -46,24 +46,24 @@ tick_entry.set('IBM')
 tick_entry.place(x=58,y=8)
 Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
-Label(root,text="START DATE:",bg="gray",fg="white").place(x=165,y=8)
-sts_entry = Entry(root,textvariable=start_date,width=10)
-sts_entry.place(x=240,y=8)
-Label(root,text="END DATE:",bg="gray",fg="white").place(x=316,y=8)
-end_date = Entry(root,textvariable=end_date,width=10)
-end_date.place(x=382,y=8)
+Button(root,text="START DATE").place(x=135+11,y=5)
+Button(root,text="END DATE").place(x=316+11,y=5)
+sts_entry = Entry(root,textvariable=start_date,font=('arial',13),width=10)
+sts_entry.place(x=210+11,y=5)
+end_date = Entry(root,textvariable=end_date,font=('arial',13),width=10)
+end_date.place(x=382+11,y=5)
 btnHigh = Button(root,text="High",width=5)
-btnHigh.place(x=450,y=5)
+btnHigh.place(x=450+60,y=5)
 btnLow = Button(root,text="Low",width=5)
-btnLow.place(x=497,y=5)
+btnLow.place(x=497+60,y=5)
 btnOpen = Button(root,text="Open",width=5)
-btnOpen.place(x=544,y=5)
+btnOpen.place(x=544+60,y=5)
 btnClose = Button(root,text="Close",width=5)
-btnClose.place(x=591,y=5)
+btnClose.place(x=591+60,y=5)
 btnEMA50 = Button(root,text="EMA 50",width=8)
-btnEMA50.place(x=650,y=5)
+btnEMA50.place(x=650+60,y=5)
 btnEMA200 = Button(root,text="EMA 200",width=8)
-btnEMA200.place(x=716,y=5)
+btnEMA200.place(x=776,y=5)
 Button(root,text="SHOW GRAPH",command=activate).place(x=950,y=5)
 
 def EMA(df, n):
@@ -75,8 +75,9 @@ def make_graph():
     global actv
     ax1.clear()
     ax1.grid()
-    enddate = date.datetime(2021,6,30)
-    startdate = date.datetime(2017,1,1)
+    enddate = date.datetime(end_datee.get())
+    print(enddate)
+    startdate = date.datetime(sts_date.get())
     tick = tick_entry.get()
     ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
     df = EMA(ipc, 50)
@@ -87,6 +88,8 @@ def make_graph():
     ax1.legend(['Close','EMA_50','EMA_200'],loc='best', shadow=False)
     actv = False
     
+    
+
 def represent(i):
     global actv
     if actv == True:
