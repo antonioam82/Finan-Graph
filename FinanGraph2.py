@@ -23,22 +23,6 @@ def activate():
     global actv
     actv = True
 
-def define_date(n):
-    def new_date(st):
-        if st == 'start':
-            start_date.set(cal.get_date())
-        else:
-            end_date.set(cal.get_date())
-            
-    top = Toplevel()
-    top.title("SET DATE")
-    cal = Calendar(top,selectmode="day",year=2021,month=6,day=22)
-    cal.pack(pady=20)
-    Label(top,text=cal.get_date()).pack(side='bottom')
-    Button(top,text="SET DATE",command=lambda:new_date(n)).pack(side='bottom')
-
-    top.mainloop()
-
 #style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
@@ -64,24 +48,24 @@ tick_entry.set('IBM')
 tick_entry.place(x=58,y=8)
 Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
-Button(root,text="START DATE",command=lambda:define_date("start")).place(x=135+11,y=5)
-Button(root,text="END DATE",width=8,command=lambda:define_date("end")).place(x=316+11,y=5)
-sts_entry = Entry(root,textvariable=start_date,font=('arial',13),width=10)
-sts_entry.place(x=210+11,y=5)
-end_datee = Entry(root,textvariable=end_date,font=('arial',13),width=10)
-end_datee.place(x=382+11,y=5)
+Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
+Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
+sts_entry = Entry(root,textvariable=start_date,width=10)
+sts_entry.place(x=210+11,y=8)
+end_datee = Entry(root,textvariable=end_date,width=10)
+end_datee.place(x=362,y=8)
 btnHigh = Button(root,text="High",width=5)
-btnHigh.place(x=450+60,y=5)
+btnHigh.place(x=450,y=5)
 btnLow = Button(root,text="Low",width=5)
-btnLow.place(x=497+60,y=5)
+btnLow.place(x=497,y=5)
 btnOpen = Button(root,text="Open",width=5)
-btnOpen.place(x=544+60,y=5)
+btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",width=5)
-btnClose.place(x=591+60,y=5)
+btnClose.place(x=591,y=5)
 btnEMA50 = Button(root,text="EMA 50",width=8)
-btnEMA50.place(x=650+60,y=5)
+btnEMA50.place(x=650,y=5)
 btnEMA200 = Button(root,text="EMA 200",width=8)
-btnEMA200.place(x=776,y=5)
+btnEMA200.place(x=716,y=5)
 Button(root,text="SHOW GRAPH",command=activate).place(x=950,y=5)
     
 
@@ -94,9 +78,8 @@ def make_graph():
     global actv
     ax1.clear()
     ax1.grid()
-    enddate = date.datetime(end_datee.get())
-    print(enddate)
-    startdate = date.datetime(sts_date.get())
+    enddate = date.datetime(2019,11,1)
+    startdate = date.datetime(2010,1,1)
     tick = tick_entry.get()
     ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
     df = EMA(ipc, 50)
