@@ -78,8 +78,11 @@ def make_graph():
     global actv
     ax1.clear()
     ax1.grid()
-    enddate = date.datetime(2019,11,1)
-    startdate = date.datetime(2010,1,1)
+    end_list=(end_datee.get().split("/"))#2019,11,1
+    start_list=(sts_entry.get().split("/"))#2010,1,1
+    print(start_list)
+    enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
+    startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
     tick = tick_entry.get()
     ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
     df = EMA(ipc, 50)
@@ -97,4 +100,3 @@ def represent(i):
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 root.mainloop()
-
