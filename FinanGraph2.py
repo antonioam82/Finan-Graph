@@ -24,7 +24,7 @@ def activate():
     global actv
     actv = True
 
-#style.use('dark_background')
+style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
 root.configure(background="gray")
@@ -111,6 +111,8 @@ def make_graph():
         for i in df2:
             ax1.plot(df2[i])
         ax1.legend(variables,loc='best', shadow=False)
+        table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
+        ax1.set_title(table_head)
         print(variables)
         
     except Exception as e:
