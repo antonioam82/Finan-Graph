@@ -6,7 +6,7 @@ from tkcalendar import *
 import pickle
 from tkinter import *
 from tkinter import ttk
-#from tkinter import messagebox
+from tkinter import messagebox
 import datetime as date
 #import threading
 import matplotlib.pyplot as plt
@@ -88,27 +88,31 @@ def selection(n):
         
 
 def make_graph():
-    global actv
-    variables = []
-    ax1.clear()
-    ax1.grid()
-    end_list=(end_datee.get().split("/"))#2019,11,1
-    start_list=(sts_entry.get().split("/"))#2010,1,1
+    try:
+        global actv
+        variables = []
+        ax1.clear()
+        ax1.grid()
+        end_list=(end_datee.get().split("/"))#2019,11,1
+        start_list=(sts_entry.get().split("/"))#2010,1,1
     
-    enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
-    startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
-    tick = tick_entry.get()
-    ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
-    df = EMA(ipc, 50)
-    df2 = EMA(df, 200)
-    for i in item_list:
-        if i in selected_items:
-            variables.append(i)
-    df2 = df2[variables]
-    for i in df2:
-        ax1.plot(df2[i])
-    ax1.legend(variables,loc='best', shadow=False)
-    print(variables)
+        enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
+        startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
+        tick = tick_entry.get()
+        ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
+        df = EMA(ipc, 50)
+        df2 = EMA(df, 200)
+        for i in item_list:
+            if i in selected_items:
+                variables.append(i)
+        df2 = df2[variables]
+        for i in df2:
+            ax1.plot(df2[i])
+        ax1.legend(variables,loc='best', shadow=False)
+        print(variables)
+        
+    except Exception as e:
+        messagebox.showwarning("UNEXPECTED ERROR",str(e))
     actv = False
     
 def represent(i):
