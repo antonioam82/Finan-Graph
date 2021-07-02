@@ -4,6 +4,7 @@ import pandas as pd
 from pandas_datareader import data as pdr
 from tkcalendar import *
 import pickle
+import yfinance as yf
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
@@ -99,6 +100,7 @@ def make_graph():
         enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
         startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
         tick = tick_entry.get()
+        yf.pdr_override()
         ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
         df = EMA(ipc, 50)
         df2 = EMA(df, 200)
