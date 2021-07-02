@@ -18,8 +18,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
-
 def activate():
     global actv
     actv = True
