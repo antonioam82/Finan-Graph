@@ -18,6 +18,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
+
 def activate():
     global actv
     actv = True
@@ -46,7 +47,6 @@ canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
 tick_entry = ttk.Combobox(root,width=8)
 tick_entry["values"]=used_symbols
-tick_entry.set('IBM')
 tick_entry.place(x=58,y=8)
 Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
@@ -56,20 +56,21 @@ sts_entry = Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=210+11,y=8)
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
-btnHigh = Button(root,text="High",command=lambda:selection("High"),width=5)
+btnHigh = Button(root,text="High",bg="gray83",command=lambda:selection("High"),width=5)
 btnHigh.place(x=450,y=5)
-btnLow = Button(root,text="Low",command=lambda:selection("Low"),width=5)
+btnLow = Button(root,text="Low",bg="gray83",command=lambda:selection("Low"),width=5)
 btnLow.place(x=497,y=5)
-btnOpen = Button(root,text="Open",command=lambda:selection("Open"),width=5)
+btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),width=5)
 btnOpen.place(x=544,y=5)
-btnClose = Button(root,text="Close",command=lambda:selection("Close"),width=5)
+btnClose = Button(root,text="Close",bg="gray83",command=lambda:selection("Close"),width=5)
 btnClose.place(x=591,y=5)
-btnEMA50 = Button(root,text="EMA 50",command=lambda:selection("EMA_50"),width=8)
+btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
 btnEMA50.place(x=650,y=5)
-btnEMA200 = Button(root,text="EMA 200",command=lambda:selection("EMA_200"),width=8)
+btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
 btnEMA200.place(x=716,y=5)
-Button(root,text="SHOW GRAPH",command=activate).place(x=950,y=5)
-    
+Button(root,text="SHOW GRAPH",bg="gray83",command=activate).place(x=950,y=5)
+if len(used_symbols)>0:
+    tick_entry.set(used_symbols[0])    
 
 def EMA(df, n):
     EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
@@ -111,11 +112,18 @@ def make_graph():
         ax1.legend(variables,loc='best', shadow=False)
         table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
         ax1.set_title(table_head)
+        update_tickers(tick)
         print(variables)
         
     except Exception as e:
         messagebox.showwarning("UNEXPECTED ERROR",str(e))
     actv = False
+
+def update_tickers(t):
+    if t not in used_symbols:
+        used_symbols.insert(0,tick_entry.get())
+        pickle.dump(used_symbols,open("symbols","wb"))
+        tick_entry["values"]=pickle.load(open("symbols","rb"))
     
 def represent(i):
     global actv
