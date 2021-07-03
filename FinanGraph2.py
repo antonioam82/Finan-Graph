@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 from pandas_datareader import data as pdr
-from tkcalendar import *
 import pickle
 import yfinance as yf
 from tkinter import *
@@ -17,6 +16,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
+
 
 def activate():
     global actv
@@ -36,7 +36,6 @@ ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = []
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
-
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
