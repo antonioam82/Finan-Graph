@@ -17,6 +17,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
+
 def activate():
     global actv
     actv = True
@@ -35,6 +36,7 @@ ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
+
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
@@ -67,8 +69,9 @@ btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_5
 btnEMA50.place(x=650,y=5)
 btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
 btnEMA200.place(x=716,y=5)
-Button(root,text="SHOW GRAPH",bg="gray83",command=activate).place(x=950,y=5)
-Button(root,text="SHOW TABLE",bg="gray83").place(x=1047,y=5)
+Button(root,text="SHOW TABLE",bg="gray83").pack(side="right",padx=2)
+Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
+
 if len(used_symbols)>0:
     tick_entry.set(used_symbols[0])    
 
