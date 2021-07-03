@@ -37,6 +37,7 @@ ax1.grid()
 selected_items = []
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
 
+
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
 toolbar = NavigationToolbar2Tk(canvas, root)
@@ -67,6 +68,7 @@ btnEMA50.place(x=650,y=5)
 btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
 btnEMA200.place(x=716,y=5)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).place(x=950,y=5)
+Button(root,text="SHOW TABLE",bg="gray83").place(x=1047,y=5)
 if len(used_symbols)>0:
     tick_entry.set(used_symbols[0])    
 
