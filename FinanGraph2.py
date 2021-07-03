@@ -88,6 +88,14 @@ def selection(n):
     else:
         selected_items.remove(n)
         buttons[n].configure(bg="light gray")
+
+def validate_date(l):
+    if int(l[2]) <= 1:
+        if int(l[0]) <= 1970:
+            return None
+    else:
+        return l
+        
         
 
 def make_graph():
@@ -96,27 +104,29 @@ def make_graph():
         variables = []
         ax1.clear()
         ax1.grid()
-        end_list=(end_datee.get().split("/"))#2019,11,1
-        start_list=(sts_entry.get().split("/"))#2010,1,1
-    
-        enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
-        startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
-        tick = tick_entry.get()
-        yf.pdr_override()
-        ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
-        df = EMA(ipc, 50)
-        df2 = EMA(df, 200)
-        for i in item_list:
-            if i in selected_items:
-                variables.append(i)
-        df2 = df2[variables]
-        for i in df2:
-            ax1.plot(df2[i])
-        ax1.legend(variables,loc='best', shadow=False)
-        table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
-        ax1.set_title(table_head)
-        update_tickers(tick)
-        #print(variables)
+        end_list= validate_date(end_datee.get().split("/"))#2019,11,1
+        start_list= validate_date(sts_entry.get().split("/"))#2010,1,1
+
+        if end_list is not None and start_list is not None:
+            enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
+            startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
+            tick = tick_entry.get()
+            yf.pdr_override()
+            ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
+            df = EMA(ipc, 50)
+            df2 = EMA(df, 200)
+            for i in item_list:
+                if i in selected_items:
+                    variables.append(i)
+            df2 = df2[variables]
+            for i in df2:
+                ax1.plot(df2[i])
+            ax1.legend(variables,loc='best', shadow=False)
+            table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
+            ax1.set_title(table_head)
+            update_tickers(tick)
+        else:
+            messagebox.showwarning("ERROR","Bad date")
         
     except Exception as e:
         messagebox.showwarning("UNEXPECTED ERROR",str(e))
