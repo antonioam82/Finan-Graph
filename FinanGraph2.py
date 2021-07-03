@@ -113,7 +113,7 @@ def make_graph():
         table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
         ax1.set_title(table_head)
         update_tickers(tick)
-        print(variables)
+        #print(variables)
         
     except Exception as e:
         messagebox.showwarning("UNEXPECTED ERROR",str(e))
