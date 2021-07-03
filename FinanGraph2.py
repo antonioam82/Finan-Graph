@@ -17,7 +17,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
 def activate():
     global actv
     actv = True
@@ -34,9 +33,8 @@ actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
-selected_items = []
+selected_items = ["Close"]
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
-
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
@@ -53,15 +51,17 @@ Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
 Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=210+11,y=8)
+start_date.set("//")
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
+end_date.set("//")
 btnHigh = Button(root,text="High",bg="gray83",command=lambda:selection("High"),width=5)
 btnHigh.place(x=450,y=5)
 btnLow = Button(root,text="Low",bg="gray83",command=lambda:selection("Low"),width=5)
 btnLow.place(x=497,y=5)
 btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),width=5)
 btnOpen.place(x=544,y=5)
-btnClose = Button(root,text="Close",bg="gray83",command=lambda:selection("Close"),width=5)
+btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
 btnClose.place(x=591,y=5)
 btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
 btnEMA50.place(x=650,y=5)
