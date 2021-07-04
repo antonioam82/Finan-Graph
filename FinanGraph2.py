@@ -47,11 +47,14 @@ def activate():
     actv = True
 
 def show_table():
-    top = Toplevel()
-    top.title("INFO TABLE")
-    display = sct.ScrolledText(master=top,width=70,height=20)
-    display.pack(padx=0,pady=0)
-    display.insert(END,table_head+"\n\n"+str(df2))
+    if str(df2) != "":
+        top = Toplevel()
+        top.title("INFO TABLE")
+        display = sct.ScrolledText(master=top,width=70,height=20)
+        display.pack(padx=0,pady=0)
+        display.insert(END,table_head+"\n\n"+str(df2))
+    else:
+        messagebox.showwarning("EMPTY","No data to show.")
 
 
 def EMA(df, n):
@@ -69,9 +72,8 @@ def selection(n):
         buttons[n].configure(bg="light gray")
 
 def validate_date(l):
-    if int(l[2]) <= 1:
-        if int(l[0]) <= 1970:
-            return None
+    if int(l[2]) <= 1 and int(l[0]) <= 1970:
+        return None
     else:
         return l
         
@@ -90,18 +92,22 @@ def make_graph():
             tick = tick_entry.get()
             yf.pdr_override()
             ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
-            df = EMA(ipc, 50)
-            df2 = EMA(df, 200)
-            for i in item_list:
-                if i in selected_items:
-                    variables.append(i)
-            df2 = df2[variables]
-            for i in df2:
-                ax1.plot(df2[i])
-            ax1.legend(variables,loc='best', shadow=False)
-            table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
-            ax1.set_title(table_head)
-            update_tickers(tick)
+            print("MY INFO: ",ipc)
+            if not "Empty DataFrame" in str(ipc):
+                df = EMA(ipc, 50)
+                df2 = EMA(df, 200)
+                for i in item_list:
+                    if i in selected_items:
+                        variables.append(i)
+                df2 = df2[variables]
+                for i in df2:
+                    ax1.plot(df2[i])
+                ax1.legend(variables,loc='best', shadow=False)
+                table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
+                ax1.set_title(table_head)
+                update_tickers(tick)
+            else:
+                messagebox.showwarning("NO DATA",str(ipc))
         else:
             messagebox.showwarning("ERROR","Bad date")
         
