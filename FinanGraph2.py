@@ -72,7 +72,7 @@ def selection(n):
         buttons[n].configure(bg="light gray")
 
 def validate_date(l):
-    if int(l[2]) <= 1 and int(l[0]) <= 1970:
+    if int(l[2]) <= 1 and int(l[1]) <= 1 and int(l[0]) <= 1970:
         return None
     else:
         return l
