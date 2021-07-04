@@ -7,6 +7,7 @@ import yfinance as yf
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+import tkinter.scrolledtext as sct
 import datetime as date
 #import threading
 import matplotlib.pyplot as plt
@@ -17,11 +18,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import numpy as np
 
-
-def activate():
-    global actv
-    actv = True
-
 style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
@@ -29,6 +25,8 @@ root.configure(background="gray")
 root.geometry("1160x800")#1160
 start_date = StringVar()
 end_date = StringVar()
+df2 = ""
+table_head = ""
 used_symbols = pickle.load(open("symbols","rb"))
 actv = False
 fig = Figure()
@@ -44,36 +42,17 @@ toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
-tick_entry = ttk.Combobox(root,width=8)
-tick_entry["values"]=used_symbols
-tick_entry.place(x=58,y=8)
-Label(root,height=2,bg="gray").pack(side=LEFT)
-Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
-Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
-Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
-sts_entry = Entry(root,textvariable=start_date,width=10)
-sts_entry.place(x=210+11,y=8)
-start_date.set("//")
-end_datee = Entry(root,textvariable=end_date,width=10)
-end_datee.place(x=362,y=8)
-end_date.set("//")
-btnHigh = Button(root,text="High",bg="gray83",command=lambda:selection("High"),width=5)
-btnHigh.place(x=450,y=5)
-btnLow = Button(root,text="Low",bg="gray83",command=lambda:selection("Low"),width=5)
-btnLow.place(x=497,y=5)
-btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),width=5)
-btnOpen.place(x=544,y=5)
-btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
-btnClose.place(x=591,y=5)
-btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
-btnEMA50.place(x=650,y=5)
-btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
-btnEMA200.place(x=716,y=5)
-Button(root,text="SHOW TABLE",bg="gray83").pack(side="right",padx=2)
-Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
+def activate():
+    global actv
+    actv = True
 
-if len(used_symbols)>0:
-    tick_entry.set(used_symbols[0])    
+def show_table():
+    top = Toplevel()
+    top.title("INFO TABLE")
+    display = sct.ScrolledText(master=top,width=70,height=20)
+    display.pack(padx=0,pady=0)
+    display.insert(END,table_head+"\n\n"+str(df2))
+
 
 def EMA(df, n):
     EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
@@ -96,11 +75,9 @@ def validate_date(l):
     else:
         return l
         
-        
-
 def make_graph():
     try:
-        global actv
+        global actv, df2, table_head
         variables = []
         ax1.clear()
         ax1.grid()
@@ -142,6 +119,38 @@ def represent(i):
     global actv
     if actv == True:
         make_graph()
+
+tick_entry = ttk.Combobox(root,width=8)
+tick_entry["values"]=used_symbols
+tick_entry.place(x=58,y=8)
+Label(root,height=2,bg="gray").pack(side=LEFT)
+Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
+Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
+Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
+sts_entry = Entry(root,textvariable=start_date,width=10)
+sts_entry.place(x=210+11,y=8)
+start_date.set("//")
+end_datee = Entry(root,textvariable=end_date,width=10)
+end_datee.place(x=362,y=8)
+end_date.set("//")
+btnHigh = Button(root,text="High",bg="gray83",command=lambda:selection("High"),width=5)
+btnHigh.place(x=450,y=5)
+btnLow = Button(root,text="Low",bg="gray83",command=lambda:selection("Low"),width=5)
+btnLow.place(x=497,y=5)
+btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),width=5)
+btnOpen.place(x=544,y=5)
+btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
+btnClose.place(x=591,y=5)
+btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
+btnEMA50.place(x=650,y=5)
+btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
+btnEMA200.place(x=716,y=5)
+Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
+Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
+
+if len(used_symbols)>0:
+    tick_entry.set(used_symbols[0])    
+
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"EMA_50":btnEMA50,"EMA_200":btnEMA200}
