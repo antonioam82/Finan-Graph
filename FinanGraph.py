@@ -1,182 +1,167 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import pandas as pd
 from pandas_datareader import data as pdr
-from alpha_vantage.techindicators import TechIndicators
 import pickle
+import yfinance as yf
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
-from datetime import datetime, timedelta
-import yfinance as yf
+import tkinter.scrolledtext as sct
+import datetime as date
 #import threading
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-import tkinter.scrolledtext as sct
+#import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
 from matplotlib import style
-import mplfinance as mpf
 import numpy as np
 
-ventana = Tk()
-ventana.title("Finan Graph")
-ventana.geometry("1070x800")
-ventana.configure(background="light blue")
-symbol_entry = StringVar()
-time_range = IntVar()
-time_range.set(90)
-actv = False
-used_symbols = pickle.load(open("symbols","rb"))
-datas = []
-selected_items = ["Close"]
-info = []
-sg = False
+style.use('dark_background')
+root = Tk()
+root.title("Finan Graph 5")
+root.configure(background="gray")
+root.geometry("1160x800")#1160
+start_date = StringVar()
+end_date = StringVar()
+df2 = ""
 table_head = ""
-display_content = ""
-
-"""['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale', 'seaborn-bright', 'seaborn-colorblind',
- 'seaborn-dark-palette', 'seaborn-dark', 'seaborn-darkgrid', 'seaborn-deep', 'seaborn-muted', 'seaborn-notebook', 'seaborn-paper',
- 'seaborn-pastel', 'seaborn-poster', 'seaborn-talk','seaborn-ticks', 'seaborn-white', 'seaborn-whitegrid', 'seaborn', 'Solarize_Light2',
- 'tableau-colorblind10', '_classic_test']"""
-
-style.use('seaborn-notebook')
-
+used_symbols = pickle.load(open("symbols","rb"))
+actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
+selected_items = ["Close"]
+item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
 
-canvas = FigureCanvasTkAgg(fig,master=ventana)
+
+canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
-toolbar = NavigationToolbar2Tk(canvas, ventana)
+toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
-def select_items(i):
-    global selected_items
-    if i not in selected_items:
-        selected_items.append(i)
-        buttons[i].configure(bg="light green")
-    else:
-        selected_items.remove(i)
-        buttons[i].configure(bg="gray83")
-        
 def activate():
     global actv
     actv = True
-    
-def bands():
-    global table_head, display_content
-    try:
-        ti = TechIndicators(key='MY_API_KEY', output_format='pandas')
-        BBdata, meta_data = ti.get_bbands(symbol=entry.get(), interval='60min', time_period=60)
-        table_head = 'BBbands indicator for {} stock (60 min)'.format(entry.get())
-        more_info.configure(state='normal')
-        BBdata.plot()
-        plt.title(table_head)
-        display_content = BBdata
-        plt.show()
-    except:
-        messagebox.showwarning("ERROR","Información no disponible")
-        
-def get_info():
-    global actv, datas, info, table_head, display_content
-    if entry.get() != "" and entry3.get() != "" and int(entry3.get()) > 0:
-        try:
-            init_date = datetime.now() - timedelta(days = int(entry3.get()))
-            yf.pdr_override()###########################################
-            info = pdr.get_data_yahoo(entry.get(),start = init_date)
-            labels = ax1.get_xticklabels()
-            plt.setp(labels,rotation=45, horizontalalignment='right')
-            for item in item_list:
-                if item in selected_items:
-                    datas.append(item)
-            ax1.clear()
-            for i in datas:
-                ax1.plot(info[i])
-            ax1.legend((datas),loc='best', shadow=False)
-            table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
-            ax1.set_title(table_head)
-            ax1.grid()
-            update_symbols_file()
-            display_content = info
-            more_info.configure(state='normal')
-        except:
-            messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
+
+def show_table():
+    if str(df2) != "":
+        top = Toplevel()
+        top.title("INFO TABLE")
+        display = sct.ScrolledText(master=top,width=70,height=20)
+        display.pack(padx=0,pady=0)
+        display.insert(END,table_head+"\n\n"+str(df2))
     else:
-        messagebox.showwarning("DATOS INSUFICIENTES","Especificar información a mostrar")
-    actv = False
-    datas = []
-    
-def special_graphs(n):
-    global init_date, info, table_head, interr, display_content
-    if entry3.get() != "" and entry3.get() != "0" and entry.get() != "":
-        try:
-            table_head = entry.get()+" (Last "+str(entry3.get())+" Days)"
-            init_date = datetime.now() - timedelta(days = int(entry3.get()))
-            info = pdr.get_data_yahoo(entry.get(),start = init_date)
-            mpf.plot(info,type=graph_types[n],title=table_head,volume=True)#style='charles')
-        except:
-            messagebox.showwarning("ERROR","Hubo un error al realizar la operación")
-            
-def update_symbols_file():
-    if not entry.get() in used_symbols:
-        used_symbols.insert(0,entry.get())
-        pickle.dump(used_symbols,open("symbols","wb"))
-        entry["values"]=pickle.load(open("symbols","rb"))
+        messagebox.showwarning("EMPTY","No data to show.")
+
+
+def EMA(df, n):
+    EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
+    df = df.join(EMA)
+    return df
+
+def selection(n):
+    global selected_items
+    if n not in selected_items:
+        selected_items.append(n)
+        buttons[n].configure(bg="light green")
+    else:
+        selected_items.remove(n)
+        buttons[n].configure(bg="light gray")
+
+def validate_date(l):
+    if int(l[2]) <= 1:
+        if int(l[0]) <= 1970:
+            return None
+    else:
+        return l
         
-def table():
-    top = Toplevel()
-    top.title("INFO TABLE")
-    display = sct.ScrolledText(master=top,width=80)
-    display.pack(padx=0,pady=0)
-    display.insert(END,table_head+"\n\n"+str(display_content))
+def make_graph():
+    try:
+        global actv, df2, table_head
+        variables = []
+        ax1.clear()
+        ax1.grid()
+        end_list= validate_date(end_datee.get().split("/"))#2019,11,1
+        start_list= validate_date(sts_entry.get().split("/"))#2010,1,1
+
+        if end_list is not None and start_list is not None:
+            enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
+            startdate = date.datetime(int(start_list[0]),int(start_list[1]),int(start_list[2]))
+            tick = tick_entry.get()
+            yf.pdr_override()
+            ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
+            print("MY INFO: ",ipc)
+            if not "Empty DataFrame" in str(ipc):
+                df = EMA(ipc, 50)
+                df2 = EMA(df, 200)
+                for i in item_list:
+                    if i in selected_items:
+                        variables.append(i)
+                df2 = df2[variables]
+                for i in df2:
+                    ax1.plot(df2[i])
+                ax1.legend(variables,loc='best', shadow=False)
+                table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
+                ax1.set_title(table_head)
+                update_tickers(tick)
+            else:
+                messagebox.showwarning("NO DATA",str(ipc))
+        else:
+            messagebox.showwarning("ERROR","Bad date")
+        
+    except Exception as e:
+        messagebox.showwarning("UNEXPECTED ERROR",str(e))
+    actv = False
+
+def update_tickers(t):
+    if t not in used_symbols:
+        used_symbols.insert(0,tick_entry.get())
+        pickle.dump(used_symbols,open("symbols","wb"))
+        tick_entry["values"]=pickle.load(open("symbols","rb"))
     
 def represent(i):
-    global actv   
+    global actv
     if actv == True:
-        get_info()
-        
+        make_graph()
+
+tick_entry = ttk.Combobox(root,width=8)
+tick_entry["values"]=used_symbols
+tick_entry.place(x=58,y=8)
+Label(root,height=2,bg="gray").pack(side=LEFT)
+Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
+Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
+Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
+sts_entry = Entry(root,textvariable=start_date,width=10)
+sts_entry.place(x=210+11,y=8)
+start_date.set("//")
+end_datee = Entry(root,textvariable=end_date,width=10)
+end_datee.place(x=362,y=8)
+end_date.set("//")
+btnHigh = Button(root,text="High",bg="gray83",command=lambda:selection("High"),width=5)
+btnHigh.place(x=450,y=5)
+btnLow = Button(root,text="Low",bg="gray83",command=lambda:selection("Low"),width=5)
+btnLow.place(x=497,y=5)
+btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),width=5)
+btnOpen.place(x=544,y=5)
+btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
+btnClose.place(x=591,y=5)
+btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
+btnEMA50.place(x=650,y=5)
+btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
+btnEMA200.place(x=716,y=5)
+Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
+Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
+
+if len(used_symbols)>0:
+    tick_entry.set(used_symbols[0])    
+
+
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-
-labelSym = Label(master=ventana,bg="light blue",text="Symbol:",width=8,height=2)
-labelSym.pack(side=LEFT)
-entry = ttk.Combobox(master=ventana,width=8)
-entry["values"]=used_symbols
-entry.pack(side=LEFT)
-labelRange = Label(master=ventana,text="Time (days):",bg="light blue",width=13,height=2)
-labelRange.place(x=135,y=0)
-entry3 = Entry(master=ventana,width=8,textvariable=time_range)
-entry3.place(x=220,y=8)
-more_info = Button(master=ventana,text="SHOW TABLE",state='disabled',command=table)
-more_info.pack(side=RIGHT)
-graph = Button(master=ventana,text="SHOW GRAPH",command=activate,height=1)
-graph.pack(side=RIGHT)
-btnTech = Button(master=ventana,text="BBbands",height=1,command=bands)
-btnTech.place(x=495,y=5)
-labelInfo = Label(master=ventana,text="INFO:",bg="light blue")
-labelInfo.place(x=290,y=8)
-btnH=Button(master=ventana,text="High",bg="gray83",command=lambda:select_items("High"))
-btnH.place(x=325,y=5)
-btnL=Button(master=ventana,text="Low",bg="gray83",command=lambda:select_items("Low"))
-btnL.place(x=364,y=5)
-btnV=Button(master=ventana,text="Open",bg="gray83",command=lambda:select_items("Open"))
-btnV.place(x=399,y=5)
-btnC=Button(master=ventana,text="Close",bg="light green",command=lambda:select_items("Close"))
-btnC.place(x=441,y=5)
-btnCand=Button(master=ventana,text="Candles Graph",command=lambda:special_graphs(0))
-btnCand.place(x=560,y=5)
-btnRenko=Button(master=ventana,text="Renko Graph",command=lambda:special_graphs(1))
-btnRenko.place(x=650,y=5)
-btnPnf=Button(master=ventana,text="Pnf Graph",command=lambda:special_graphs(2))
-btnPnf.place(x=730,y=5)
-btnOhlc=Button(master=ventana,text="Ohlc Graph",command=lambda:special_graphs(3))
-btnOhlc.place(x=795,y=5)
-
-item_list=["High","Low","Open","Close"]
-buttons = {"High":btnH,"Low":btnL,"Open":btnV,"Close":btnC}
-graph_types = ['candle','renko','pnf','ohlc']
-
-ventana.mainloop()
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"EMA_50":btnEMA50,"EMA_200":btnEMA200}
+root.mainloop()
 
 
 
