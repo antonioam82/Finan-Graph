@@ -27,7 +27,7 @@ start_date = StringVar()
 end_date = StringVar()
 df2 = ""
 table_head = ""
-used_symbols = pickle.load(open("symbols","rb"))
+used_symbols = sorted(pickle.load(open("symbols","rb")))
 actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
@@ -126,11 +126,11 @@ def represent(i):
     if actv == True:
         make_graph()
 
-tick_entry = ttk.Combobox(root,width=8)
+tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
-tick_entry.place(x=58,y=8)
+tick_entry.place(x=50,y=8)
 Label(root,height=2,bg="gray").pack(side=LEFT)
-Label(root,text="TICKER:",bg="gray",fg="white").place(x=10,y=8)
+Label(root,text="TICKER:",bg="gray",fg="white").place(x=3,y=8)
 Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
 Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
