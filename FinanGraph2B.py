@@ -33,7 +33,7 @@ fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
-item_list = ["Low","High","Open","Close","EMA_200","EMA_50"]
+item_list = ["Low","High","Open","Close","MA_200","MA_50"]
 
 
 canvas = FigureCanvasTkAgg(fig,master=root)
@@ -50,20 +50,20 @@ def show_table():
     if str(df2) != "":
         top = Toplevel()
         top.title("INFO TABLE")
-        display = sct.ScrolledText(master=top,width=70,height=20)
+        display = sct.ScrolledText(master=top,width=90,height=20)
         display.pack(padx=0,pady=0)
         display.insert(END,table_head+"\n\n"+str(df2))
     else:
         messagebox.showwarning("EMPTY","No data to show.")
 
 
-def EMA(df, n):
+'''def EMA(df, n):
     EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
     df = df.join(EMA)
-    return df
+    return df'''
 
 def MA(df, n):
-    MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='EMA_'+str(n))
+    MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='MA_'+str(n))
     df = df.join(MA)
     #print(df)
     return df
@@ -153,10 +153,10 @@ btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),w
 btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
 btnClose.place(x=591,y=5)
-btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
-btnEMA50.place(x=650,y=5)
-btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
-btnEMA200.place(x=716,y=5)
+btnMA50 = Button(root,text="MA 50",bg="gray83",command=lambda:selection("MA_50"),width=8)
+btnMA50.place(x=650,y=5)
+btnMA200 = Button(root,text="MA 200",bg="gray83",command=lambda:selection("MA_200"),width=8)
+btnMA200.place(x=716,y=5)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
@@ -165,5 +165,5 @@ if len(used_symbols)>0:
 
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"EMA_200":btnEMA200,"EMA_50":btnEMA50}
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_200":btnMA200,"MA_50":btnMA50}
 root.mainloop()
