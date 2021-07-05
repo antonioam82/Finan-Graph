@@ -50,7 +50,7 @@ def show_table():
     if str(df2) != "":
         top = Toplevel()
         top.title("INFO TABLE")
-        display = sct.ScrolledText(master=top,width=70,height=20)
+        display = sct.ScrolledText(master=top,width=90,height=20)
         display.pack(padx=0,pady=0)
         display.insert(END,table_head+"\n\n"+str(df2))
     else:
