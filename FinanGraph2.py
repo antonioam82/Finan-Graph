@@ -24,7 +24,6 @@ if not 'symbols' in os.listdir():
     fichero.close()
 
 now = datetime.now()    
-
 style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
@@ -38,6 +37,8 @@ used_symbols = sorted(pickle.load(open("symbols","rb")))
 actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
+ax1.set_ylabel("PRICE")
+ax1.set_xlabel("DATES")
 ax1.grid()
 selected_items = ["Close"]
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
@@ -109,6 +110,8 @@ def make_graph():
                 for i in df2:
                     ax1.plot(df2[i])
                 ax1.legend(variables,loc='best', shadow=False)
+                ax1.set_ylabel("PRICE")
+                ax1.set_xlabel("DATES")
                 table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
                 ax1.set_title(table_head)
                 update_tickers(tick)
@@ -141,7 +144,7 @@ Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
 Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=210+11,y=8)
-start_date.set("//")
+start_date.set("{}/1/1".format(int(now.year)-1))
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
