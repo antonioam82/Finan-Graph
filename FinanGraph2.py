@@ -10,16 +10,20 @@ from tkinter import messagebox
 import tkinter.scrolledtext as sct
 import datetime as date
 from datetime import datetime
-#import threading
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-#import tkinter.scrolledtext as sct
 import matplotlib.animation as animation
 from matplotlib import style
+import os
 import numpy as np
 
-now = datetime.now()
+if not 'symbols' in os.listdir():
+    fichero = open('symbols','wb')
+    pickle.dump([],fichero)
+    fichero.close()
+
+now = datetime.now()    
 
 style.use('dark_background')
 root = Tk()
@@ -29,7 +33,6 @@ root.geometry("1160x800")#1160
 start_date = StringVar()
 end_date = StringVar()
 df2 = ""
-ema_mode = True
 table_head = ""
 used_symbols = sorted(pickle.load(open("symbols","rb")))
 actv = False
@@ -38,7 +41,6 @@ ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
-
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
@@ -60,12 +62,10 @@ def show_table():
     else:
         messagebox.showwarning("EMPTY","No data to show.")
 
-def MA(df, n, ema):
-    if ema == True:
-        MA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
-    else:
-        MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='MA_'+str(n))
-    df = df.join(MA)
+
+def EMA(df, n):
+    EMA = pd.Series(pd.Series.ewm(df['Close'],span = n, min_periods = n-1, adjust=False).mean(), name='EMA_'+str(n))
+    df = df.join(EMA)
     return df
 
 def selection(n):
@@ -100,8 +100,8 @@ def make_graph():
             ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
             print("MY INFO: ",ipc)
             if not "Empty DataFrame" in str(ipc):
-                df = MA(ipc, 50, ema_mode)
-                df2 = MA(df, 200, ema_mode)
+                df = EMA(ipc, 50)
+                df2 = EMA(df, 200)
                 for i in item_list:
                     if i in selected_items:
                         variables.append(i)
@@ -132,29 +132,6 @@ def represent(i):
     if actv == True:
         make_graph()
 
-def change_mode():
-    global ema_mode, item_list, buttons
-    if ema_mode == True:
-        ema_mode = False
-        item_list[4]="MA_50"
-        item_list[5]="MA_200"
-        buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,
-                   "MA_50":btnEMA50,"MA_200":btnEMA200}
-        print(buttons)
-        btnma.configure(text="MA")
-        btnEMA50.configure(text="MA_50",command=lambda:selection("MA_50"))
-        btnEMA200.configure(text="MA_200",command=lambda:selection("MA_200"))
-    else:
-        ema_mode = True
-        item_list[4]="EMA_50"
-        item_list[5]="EMA_200"
-        buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,
-                   "EMA_50":btnEMA50,"EMA_200":btnEMA200}
-        btnma.configure(text="EMA")
-        btnEMA50.configure(text="EMA_50",command=lambda:selection("EMA_50"))
-        btnEMA200.configure(text="EMA_200",command=lambda:selection("EMA_200"))
-        print(buttons)
-
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 tick_entry.place(x=50,y=8)
@@ -177,17 +154,11 @@ btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
 btnClose.place(x=591,y=5)
 btnEMA50 = Button(root,text="EMA 50",bg="gray83",command=lambda:selection("EMA_50"),width=8)
-btnEMA50.place(x=720,y=5)
+btnEMA50.place(x=650,y=5)
 btnEMA200 = Button(root,text="EMA 200",bg="gray83",command=lambda:selection("EMA_200"),width=8)
-btnEMA200.place(x=788,y=5)
+btnEMA200.place(x=716,y=5)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
-btnma = Button(root,text="EMA",bg="gray83",width=8,command=change_mode)
-btnma.place(x=650,y=5)
-
-'''if len(used_symbols)>0:
-    tick_entry.set(used_symbols[0])'''    
-
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"EMA_50":btnEMA50,"EMA_200":btnEMA200}
