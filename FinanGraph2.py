@@ -24,7 +24,7 @@ if not 'symbols' in os.listdir():
     fichero.close()
 
 now = datetime.now()
-previous = now - timedelta(days = 90)
+previous = now - timedelta(days = 500)
 
 style.use('dark_background')
 root = Tk()
@@ -40,7 +40,7 @@ actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.set_ylabel("PRICE")
-ax1.set_xlabel("DATES")
+ax1.set_xlabel("TIME")
 ax1.grid()
 selected_items = ["Close"]
 item_list = ["Low","High","Open","Close","EMA_50","EMA_200"]
