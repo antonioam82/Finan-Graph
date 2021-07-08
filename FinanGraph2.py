@@ -9,7 +9,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import tkinter.scrolledtext as sct
 import datetime as date
-from datetime import datetime
+from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
@@ -23,7 +23,9 @@ if not 'symbols' in os.listdir():
     pickle.dump([],fichero)
     fichero.close()
 
-now = datetime.now()    
+now = datetime.now()
+previous = now - timedelta(days = 90)
+
 style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 5")
@@ -144,7 +146,7 @@ Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
 Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=210+11,y=8)
-start_date.set("{}/1/1".format(int(now.year)-1))
+start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
