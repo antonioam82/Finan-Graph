@@ -101,7 +101,7 @@ def make_graph():
             tick = tick_entry.get()
             yf.pdr_override()
             ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
-            print("MY INFO: ",ipc)
+            #print("MY INFO: ",ipc)
             if not "Empty DataFrame" in str(ipc):
                 df = EMA(ipc, 50)
                 df2 = EMA(df, 200)
