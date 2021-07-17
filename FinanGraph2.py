@@ -16,6 +16,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.animation as animation
 from matplotlib import style
 import os
+#import mplfinance as mpf
 import numpy as np
 
 if not 'symbols' in os.listdir():
@@ -92,8 +93,8 @@ def make_graph():
         variables = []
         ax1.clear()
         ax1.grid()
-        end_list= validate_date(end_datee.get().split("/"))#2019,11,1
-        start_list= validate_date(sts_entry.get().split("/"))#2010,1,1
+        end_list= validate_date(end_datee.get().split("/"))
+        start_list= validate_date(sts_entry.get().split("/"))
 
         if end_list is not None and start_list is not None:
             enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
@@ -101,6 +102,7 @@ def make_graph():
             tick = tick_entry.get()
             yf.pdr_override()
             ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
+            difer ="{:.4f}".format(ipc['Close'][-1]-ipc['Close'][-2])
             #print("MY INFO: ",ipc)
             if not "Empty DataFrame" in str(ipc):
                 df = EMA(ipc, 50)
@@ -114,7 +116,7 @@ def make_graph():
                 ax1.legend(variables,loc='best', shadow=False)
                 ax1.set_ylabel("PRICE")
                 ax1.set_xlabel("DATES")
-                table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
+                table_head = "{}({}). {}-{}".format(tick,difer,sts_entry.get(),end_datee.get())
                 ax1.set_title(table_head)
                 update_tickers(tick)
             else:
