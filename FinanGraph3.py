@@ -77,7 +77,7 @@ def show_info():
             display.delete('1.0',END)
             display.insert(END,tick_entry.get()+"\n\n")
             for key, value in final.items():
-                display.insert(END,key.upper()+":"+"\n"+str(value)+"\n\n")
+                display.insert(END,key+":"+"\n"+str(value)+"\n\n")
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
     else:
