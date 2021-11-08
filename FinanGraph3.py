@@ -70,7 +70,7 @@ def show_info():
             tic = yf.Ticker(tick_entry.get())
             topp = Toplevel()
             topp.title("MORE INFO")
-            display = sct.ScrolledText(master=topp,width=90,height=20)
+            display = sct.ScrolledText(master=topp,width=95,height=30)
             display.pack(padx=0,pady=0)
             display.insert(END,"COLLECTING INFO...")
             final = tic.info
@@ -183,7 +183,7 @@ btnMA50 = Button(root,text="MA 50",bg="gray83",command=lambda:selection("MA_50")
 btnMA50.place(x=650,y=5)
 btnMA200 = Button(root,text="MA 200",bg="gray83",command=lambda:selection("MA_200"),width=8)
 btnMA200.place(x=716,y=5)
-Button(root,text="MORE INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
+Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
