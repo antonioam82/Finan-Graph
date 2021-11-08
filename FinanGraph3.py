@@ -134,7 +134,7 @@ def make_graph():
                     ax1.plot(df2[i])
                 ax1.legend(variables,loc='best', shadow=False)
                 ax1.set_ylabel("PRICE")
-                ax1.set_xlabel("TIME")
+                ax1.set_xlabel("TIME (YY-MM)")
                 table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
                 ax1.set_title(table_head)
                 update_tickers(tick)
