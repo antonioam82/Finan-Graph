@@ -19,7 +19,8 @@ import os
 #import mplfinance as mpf
 import numpy as np
 
-if not 'symbols' in os.listdir():
+#if not 'symbols' in os.listdir():
+ if not os.path.exists("symbols"):  
     fichero = open('symbols','wb')
     pickle.dump([],fichero)
     fichero.close()
