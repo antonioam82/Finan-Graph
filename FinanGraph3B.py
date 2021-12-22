@@ -42,7 +42,7 @@ fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
-item_list = ["Low","High","Open","Close","MA_50","MA_200","Volume"]
+item_list = ["Low","High","Open","Close","MA_50","MA_200","Adj Close"]
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
@@ -180,7 +180,7 @@ btnOpen = Button(root,text="Open",bg="gray83",command=lambda:selection("Open"),w
 btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",bg="light green",command=lambda:selection("Close"),width=5)
 btnClose.place(x=591,y=5)
-btnVol = Button(root,text="Volume",bg="gray83",width=7,command=lambda:selection("Volume"))
+btnVol = Button(root,text="Adj Close",bg="gray83",width=8,command=lambda:selection("Adj Close"))
 btnVol.place(x=638,y=5)
 btnMA50 = Button(root,text="MA 50",bg="gray83",command=lambda:selection("MA_50"),width=8)
 btnMA50.place(x=730,y=5)
@@ -191,6 +191,6 @@ Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_50":btnMA50,"MA_200":btnMA200,"Volume":btnVol}
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_50":btnMA50,"MA_200":btnMA200,"Adj Close":btnVol}
 
 root.mainloop()
