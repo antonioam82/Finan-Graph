@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 def get_rolling_mean(values, window):
-    return pd.Series(pd.Series.rolling(values,window).mean(),name='Rolling Mean')
+    return pd.Series(pd.Series.rolling(values,window).mean())#,name='Rolling Mean')
 
 def get_rolling_std(values,window):
-    return pd.Series(pd.Series.rolling(values,window).std(),name='Std Dev')
+    return pd.Series(pd.Series.rolling(values,window).std())#,name='Std Dev')
 
 def get_bollinger_bands(rm,rstd):
     upper_band = rm + rstd * 5
@@ -22,10 +22,11 @@ def test_run():
 
     upper_band, lower_band = get_bollinger_bands(rm_SPY,rstd_SPY)
 
-    ax = df.plot(label='SPY')
-    rm_SPY.plot(label='Rolling mean',ax=ax)
-    upper_band.plot(label='upper band',ax=ax)
-    lower_band.plot(label='lower band',ax=ax)
+    ax = df.plot()
+    ax.set_ylabel("PRICE")
+    rm_SPY.plot(label='Rolling mean',ax=ax).legend()
+    upper_band.plot(label='Upper band',ax=ax).legend()
+    lower_band.plot(label='Lower band',ax=ax).legend()
     plt.grid()
 
     plt.show()
