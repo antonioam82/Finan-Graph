@@ -9,8 +9,8 @@ def get_rolling_std(values,window):
     return pd.Series(pd.Series.rolling(values,window).std())#,name='Std Dev')
 
 def get_bollinger_bands(rm,rstd):
-    upper_band = rm + rstd * 5
-    lower_band = rm - rstd * 5
+    upper_band = rm + rstd * 2
+    lower_band = rm - rstd * 2
     return upper_band, lower_band
 
 def test_run():
