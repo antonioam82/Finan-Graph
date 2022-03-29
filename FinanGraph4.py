@@ -22,6 +22,14 @@ import threading
 import os
 import numpy as np
 
+if not 'symbols' in os.listdir():
+    fichero = open('symbols','wb')
+    pickle.dump([],fichero)
+    fichero.close()
+
+now = datetime.now()
+previous = now - timedelta(days = 500)
+
 style.use('dark_background')
 root = Tk()
 root.title("Finan Graph 3")
@@ -31,6 +39,7 @@ start_date = StringVar()
 end_date = StringVar()
 df2 = ""
 table_head = ""
+used_symbols = sorted(pickle.load(open("symbols","rb")))
 actv = False
 fig = Figure()
 ax1 = fig.add_subplot(111)
@@ -46,7 +55,7 @@ canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
 
 tick_entry = ttk.Combobox(root,width=10)
-#tick_entry["values"]=used_symbols
+tick_entry["values"]=used_symbols
 tick_entry.place(x=50,y=8)
 Label(root,height=2,bg="gray").pack(side=LEFT)
 Label(root,text="TICKER:",bg="gray",fg="white").place(x=3,y=8)
@@ -54,10 +63,10 @@ Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
 Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
 sts_entry = Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=210+11,y=8)
-#start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
+start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
-#end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
+end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
 btnHigh = Button(root,text="High",bg="gray83",width=5)
 btnHigh.place(x=450,y=5)
 btnLow = Button(root,text="Low",bg="gray83",width=5)
@@ -78,3 +87,4 @@ Button(root,text="SHOW GRAPH",bg="gray83").pack(side="right",padx=2)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_50":btnMA50,"MA_200":btnMA200}
 
 root.mainloop()
+
