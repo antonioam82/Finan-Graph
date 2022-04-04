@@ -61,7 +61,11 @@ def selection(n):
     else:
         selected_items.remove(n)
         buttons[n].configure(bg="light gray")
+    if selected_items == []:
+        selected_items.append('Close')
+        buttons['Close'].configure(bg="light green")
     print(selected_items)
+    
 
 
 tick_entry = ttk.Combobox(root,width=10)
