@@ -45,13 +45,23 @@ fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
-item_list = ["Low","High","Open","Close","MA_50","MA_200"]
+item_list = ["Low","High","Open","Close"]
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
 toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
+
+def selection(n):
+    global selected_items
+    if n not in selected_items:
+        selected_items.append(n)
+        buttons[n].configure(bg="light green")
+    else:
+        selected_items.remove(n)
+        buttons[n].configure(bg="light gray")
+    print(selected_items)
 
 
 tick_entry = ttk.Combobox(root,width=10)
@@ -67,13 +77,13 @@ start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
-btnHigh = Button(root,text="High",bg="gray83",width=5)
+btnHigh = Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High"))
 btnHigh.place(x=450,y=5)
-btnLow = Button(root,text="Low",bg="gray83",width=5)
+btnLow = Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low"))
 btnLow.place(x=497,y=5)
-btnOpen = Button(root,text="Open",bg="gray83",width=5)
+btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("Open"))
 btnOpen.place(x=544,y=5)
-btnClose = Button(root,text="Close",bg="light green",width=5)
+btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close"))
 btnClose.place(x=591,y=5)
 btnMA50 = Button(root,text="MA 50",bg="gray83",width=8)
 btnMA50.place(x=740,y=5)
