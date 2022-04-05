@@ -20,6 +20,8 @@ from matplotlib import style
 import threading
 import os
 import numpy as np
+import warnings
+warnings.filterwarnings("ignore")
 
 if not 'symbols' in os.listdir():
     fichero = open('symbols','wb')
