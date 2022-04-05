@@ -6,7 +6,6 @@ from sklearn.preprocessing import MinMaxScaler
 import pickle
 import ta
 import yfinance as yf
-
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
