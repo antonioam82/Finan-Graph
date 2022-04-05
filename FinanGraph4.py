@@ -65,8 +65,20 @@ def selection(n):
         selected_items.append('Close')
         buttons['Close'].configure(bg="light green")
     print(selected_items)
-    
 
+def make_graph():
+    global actv
+    print("ACTIVATED")
+    actv = False
+
+def activate():
+    global actv
+    actv = True
+    
+def represent(i):
+    global actv
+    if actv == True:
+        make_graph()
 
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
@@ -97,9 +109,9 @@ btnBol = Button(root,text="B. BANDS",bg="gray83",width=8)
 btnBol.place(x=674,y=5)
 Button(root,text="SHOW INFO",bg="gray83").pack(side="right",padx=2)
 Button(root,text="SHOW TABLE",bg="gray83").pack(side="right",padx=2)
-Button(root,text="SHOW GRAPH",bg="gray83").pack(side="right",padx=2)
+Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
-#ani = animation.FuncAnimation(fig, represent, interval=1000)
+ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_50":btnMA50,"MA_200":btnMA200}
 
 root.mainloop()
