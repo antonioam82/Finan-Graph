@@ -69,6 +69,10 @@ def selection(n):
 def make_graph():
     global actv
     print("ACTIVATED")
+    ticker = tick_entry.get()
+    if ticker != "":
+        df = yf.Ticker(ticker).history(period="max").reset_index()[selected_items]
+        print(df.head())
     actv = False
 
 def activate():
