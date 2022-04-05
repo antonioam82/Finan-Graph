@@ -71,8 +71,11 @@ def make_graph():
     print("ACTIVATED")
     ticker = tick_entry.get()
     if ticker != "":
-        df = yf.Ticker(ticker).history(period="max").reset_index()[selected_items]
+        df = yf.Ticker(ticker).history(period="max").reset_index()[selected_items+['Date']]
         print(df.head())
+        for i in selected_items:
+            ax1.plot(df["Date"],df[i])
+        #print(df.head())
     actv = False
 
 def activate():
