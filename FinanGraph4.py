@@ -77,6 +77,9 @@ def make_graph():
         print(df.head())
         for i in selected_items:
             ax1.plot(df["Date"],df[i])
+        ax1.legend(selected_items,loc='best', shadow=False)
+        ax1.set_ylabel("PRICE")
+        ax1.set_xlabel("TIME")
         #print(df.head())
     actv = False
 
