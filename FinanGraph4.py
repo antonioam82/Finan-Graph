@@ -37,7 +37,7 @@ root.configure(background="gray")
 root.geometry("1160x800")#1160
 start_date = StringVar()
 end_date = StringVar()
-df2 = ""
+df = ""
 table_head = ""
 used_symbols = sorted(pickle.load(open("symbols","rb")))
 actv = False
@@ -53,6 +53,16 @@ toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
+def show_table():
+    if str(df) != "":
+        top = Toplevel()
+        top.title("INFO TABLE")
+        display = sct.ScrolledText(master=top,width=90,height=20)
+        display.pack(padx=0,pady=0)
+        display.insert(END,table_head+"\n\n"+str(df))
+    else:
+        messagebox.showwarning("EMPTY","No data to show.")
+
 def selection(n):
     global selected_items
     if n not in selected_items:
@@ -67,7 +77,7 @@ def selection(n):
     print(selected_items)
 
 def make_graph():
-    global actv
+    global actv, df, table_head
     print("ACTIVATED")
     ticker = tick_entry.get()
     if ticker != "":
@@ -75,10 +85,11 @@ def make_graph():
         ax1.grid()
         enddate = date.datetime(int(end_datee.get().split("/")[0]),int(end_datee.get().split("/")[1]),int(end_datee.get().split("/")[2]))
         startdate = date.datetime(int(sts_entry.get().split("/")[0]),int(sts_entry.get().split("/")[1]),int(sts_entry.get().split("/")[2]))
-        df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[selected_items+['Date']]
-        print(df.head())
+        df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
+        table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
         for i in selected_items:
             ax1.plot(df["Date"],df[i])
+        ax1.set_title(table_head)
         ax1.legend(selected_items,loc='best', shadow=False)
         ax1.set_ylabel("PRICE")
         ax1.set_xlabel("TIME")
@@ -122,7 +133,7 @@ btnMA200.place(x=806,y=5)
 btnBol = Button(root,text="B. BANDS",bg="gray83",width=8)
 btnBol.place(x=674,y=5)
 Button(root,text="SHOW INFO",bg="gray83").pack(side="right",padx=2)
-Button(root,text="SHOW TABLE",bg="gray83").pack(side="right",padx=2)
+Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
