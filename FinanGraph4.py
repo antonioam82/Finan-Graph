@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 from pandas_datareader import data as pdr
-from sklearn.preprocessing import MinMaxScaler
 import pickle
 import ta
 import yfinance as yf
@@ -125,4 +124,3 @@ ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_50":btnMA50,"MA_200":btnMA200}
 
 root.mainloop()
-
