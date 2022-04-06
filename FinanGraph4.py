@@ -73,7 +73,9 @@ def make_graph():
     if ticker != "":
         ax1.clear()
         ax1.grid()
-        df = yf.Ticker(ticker).history(period="max").reset_index()[selected_items+['Date']]
+        enddate = date.datetime(int(end_datee.get().split("/")[0]),int(end_datee.get().split("/")[1]),int(end_datee.get().split("/")[2]))
+        startdate = date.datetime(int(sts_entry.get().split("/")[0]),int(sts_entry.get().split("/")[1]),int(sts_entry.get().split("/")[2]))
+        df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[selected_items+['Date']]
         print(df.head())
         for i in selected_items:
             ax1.plot(df["Date"],df[i])
