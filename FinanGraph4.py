@@ -54,6 +54,25 @@ toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
 
+def show_info():
+    if tick_entry.get() != "":
+        try:
+            tic = yf.Ticker(tick_entry.get())
+            topp = Toplevel()
+            topp.title("MORE INFO")
+            display = sct.ScrolledText(master=topp,width=95,height=30)
+            display.pack(padx=0,pady=0)
+            display.insert(END,"COLLECTING INFO...")
+            final = tic.info
+            display.delete('1.0',END)
+            display.insert(END,tick_entry.get()+"\n\n")
+            for key, value in final.items():
+                display.insert(END,key+":"+"\n"+str(value)+"\n\n")
+        except Exception as e:
+            messagebox.showwarning("UNEXPECTED ERROR",str(e))
+    else:
+        messagebox.showwarning("EMPTY","No info to show.")
+
 def show_table():
     if str(df) != "":
         top = Toplevel()
@@ -93,8 +112,8 @@ def make_graph():
         df = dropna(df)
         print(df.head())
         bol = ta.volatility.BollingerBands(df["Close"], window=20)#14
-        #df['M-AVG'] = bol.bollinger_mavg()#banda media movil
-        #selected_items.append('M-AVG')
+        df['M-AVG'] = bol.bollinger_mavg()#banda media movil
+        selected_items.append('M-AVG')
         df['Low Band'] = bol.bollinger_lband()#banda inferior
         selected_items.append('Low Band')
         df['High Band'] = bol.bollinger_hband()#banda superior
@@ -121,10 +140,15 @@ def make_graph():
     actv = False
     selected_items.remove("Low Band")
     selected_items.remove("High Band")
+    selected_items.remove("M-AVG")
 
 def activate():
     global actv
     actv = True
+
+def init_task():
+    t = threading.Thread(target=show_info)
+    t.start()
     
 def represent(i):
     global actv
@@ -158,7 +182,7 @@ btnMA200 = Button(root,text="MA 200",bg="gray83",width=8)
 btnMA200.place(x=806,y=5)
 btnBol = Button(root,text="B. BANDS",bg="gray83",width=8)
 btnBol.place(x=674,y=5)
-Button(root,text="SHOW INFO",bg="gray83").pack(side="right",padx=2)
+Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
