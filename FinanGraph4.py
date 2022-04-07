@@ -4,6 +4,7 @@ import pandas as pd
 from pandas_datareader import data as pdr
 import pickle
 import ta
+from ta.utils import dropna
 import yfinance as yf
 from tkinter import *
 from tkinter import ttk
@@ -89,7 +90,7 @@ def make_graph():
         #--------------------------------------------------------------------------------------------------
         df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
 
-        #df = dropna(df)
+        df = dropna(df)
         print(df.head())
         bol = ta.volatility.BollingerBands(df["Close"], window=20)#14
         #df['M-AVG'] = bol.bollinger_mavg()#banda media movil
