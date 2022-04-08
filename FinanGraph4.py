@@ -123,6 +123,7 @@ def make_graph():
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
         
         for i in selected_items:
+            print(i)
             if i == 'Low Band' or i == 'High Band':
                 ax1.plot(df["Date"],df[i],color="purple")
             else:
@@ -138,9 +139,9 @@ def make_graph():
         ax1.set_xlabel("TIME")
         #print(df.head())'''
     actv = False
-    selected_items.remove("Low Band")
-    selected_items.remove("High Band")
-    selected_items.remove("M-AVG")
+    #selected_items.remove("Low Band")
+    #selected_items.remove("High Band")
+    #selected_items.remove("M-AVG")
 
 def activate():
     global actv
@@ -176,17 +177,19 @@ btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("
 btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close"))
 btnClose.place(x=591,y=5)
-btnMA50 = Button(root,text="MA 50",bg="gray83",width=8)
-btnMA50.place(x=740,y=5)
-btnMA200 = Button(root,text="MA 200",bg="gray83",width=8)
-btnMA200.place(x=806,y=5)
-btnBol = Button(root,text="B. BANDS",bg="gray83",width=8)
+btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12)
+btnMA.place(x=770,y=5)
+#btnMA50 = Button(root,text="MA 50",bg="gray83",width=8)
+#btnMA50.place(x=740,y=5)
+#btnMA200 = Button(root,text="MA 200",bg="gray83",width=8)
+#btnMA200.place(x=806,y=5)
+btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12)
 btnBol.place(x=674,y=5)
 Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"MA_50":btnMA50,"MA_200":btnMA200}
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose}
 
 root.mainloop()
