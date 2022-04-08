@@ -46,7 +46,8 @@ fig = Figure()
 ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
-item_list = ["Low","High","Open","Close"]
+special_metrics = []
+#item_list = ["Low","High","Open","Close"]
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
@@ -96,6 +97,16 @@ def selection(n):
         buttons['Close'].configure(bg="light green")
     print(selected_items)
 
+def selection2(n):
+    global special_metrics
+    if n not in special_metrics:
+        special_metrics.append(n)
+        sp_buttons[n].configure(bg="light green")
+    else:
+        special_metrics.remove(n)
+        sp_buttons[n].configure(bg="light gray")
+    print(special_metrics)
+
 def make_graph():
     global actv, df, table_head
     print("ACTIVATED")
@@ -110,15 +121,20 @@ def make_graph():
         df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
 
         df = dropna(df)
-        print(df.head())
+        #print(df.head())
         bol = ta.volatility.BollingerBands(df["Close"], window=20)#14
-        df['M-AVG'] = bol.bollinger_mavg()#banda media movil
-        selected_items.append('M-AVG')
-        df['Low Band'] = bol.bollinger_lband()#banda inferior
-        selected_items.append('Low Band')
-        df['High Band'] = bol.bollinger_hband()#banda superior
-        selected_items.append('High Band')
-        print(df.head())
+        #df['M-AVG'] = bol.bollinger_mavg()#banda media movil
+        #selected_items.append('M-AVG')
+        #df['Low Band'] = bol.bollinger_lband()#banda inferior
+        #selected_items.append('Low Band')
+        #df['High Band'] = bol.bollinger_hband()#banda superior
+        #selected_items.append('High Band')
+        #print(df.head())
+        if len(special_metrics)>0:
+            for e in special_metrics:
+                selected_items.append(e)
+            if "M-AVG" in selected_items:
+                df['M-AVG'] = bol.bollinger_mavg()
         #---------------------------------------------------------------------------------------------------
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
         
@@ -177,13 +193,13 @@ btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("
 btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close"))
 btnClose.place(x=591,y=5)
-btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12)
+btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12,command=lambda:selection2("M-AVG"))
 btnMA.place(x=770,y=5)
 #btnMA50 = Button(root,text="MA 50",bg="gray83",width=8)
 #btnMA50.place(x=740,y=5)
 #btnMA200 = Button(root,text="MA 200",bg="gray83",width=8)
 #btnMA200.place(x=806,y=5)
-btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12)
+btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection2("BOLL. BANDS"))
 btnBol.place(x=674,y=5)
 Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
@@ -191,5 +207,6 @@ Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",pa
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose}
+sp_buttons = {"M-AVG":btnMA,"BOLL. BANDS":btnBol}
 
 root.mainloop()
