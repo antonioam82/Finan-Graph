@@ -133,9 +133,8 @@ def make_graph():
                 selected_items.append('High Band')
                 df['Low Band'] = bol.bollinger_lband()
                 selected_items.append('Low Band')
-                
-                
         #---------------------------------------------------------------------------------------------------
+                
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
         
         for i in selected_items:
@@ -148,6 +147,9 @@ def make_graph():
         ax1.legend(selected_items,loc='best', shadow=False)
         ax1.set_ylabel("PRICE")
         ax1.set_xlabel("TIME")
+
+    else:
+        messagebox.showwarning("NO TICKER","Please, select a ticker")    
 
     actv = False
     print(selected_items)
@@ -194,6 +196,10 @@ btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:sele
 btnClose.place(x=591,y=5)
 btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12,command=lambda:selection2("M-AVG"))
 btnMA.place(x=770,y=5)
+#btnMA50 = Button(root,text="MA 50",bg="gray83",width=8)
+#btnMA50.place(x=740,y=5)
+#btnMA200 = Button(root,text="MA 200",bg="gray83",width=8)
+#btnMA200.place(x=806,y=5)
 btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection2("BOLL. BANDS"))
 btnBol.place(x=674,y=5)
 Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
