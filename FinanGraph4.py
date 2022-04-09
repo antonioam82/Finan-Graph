@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pandas as pd
-from pandas_datareader import data as pdr
+#from pandas_datareader import data as pdr
 import pickle
 import ta
 from ta.utils import dropna
