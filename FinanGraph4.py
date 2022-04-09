@@ -121,10 +121,8 @@ def make_graph():
         df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
 
         df = dropna(df)
-        #print(df.head())
+
         bol = ta.volatility.BollingerBands(df["Close"], window=20)#14
-        #df['M-AVG'] = bol.bollinger_mavg()#banda media movil
-        #selected_items.append('M-AVG')
         #df['Low Band'] = bol.bollinger_lband()#banda inferior
         #selected_items.append('Low Band')
         #df['High Band'] = bol.bollinger_hband()#banda superior
@@ -135,29 +133,36 @@ def make_graph():
                 selected_items.append(e)
             if "M-AVG" in selected_items:
                 df['M-AVG'] = bol.bollinger_mavg()
+            if "BOLL. BANDS" in selected_items:
+                selected_items.remove("BOLL. BANDS")
+                df['High Band'] = bol.bollinger_hband()#banda superior
+                selected_items.append('High Band')
+                df['Low Band'] = bol.bollinger_lband()
+                selected_items.append('Low Band')
+                
+                
         #---------------------------------------------------------------------------------------------------
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
         
         for i in selected_items:
-            print(i)
             if i == 'Low Band' or i == 'High Band':
                 ax1.plot(df["Date"],df[i],color="purple")
             else:
                 ax1.plot(df["Date"],df[i])
-            
-        #plt.plot(df["Date"],df["Low Band"], color="purple")#################################3333
-        #plt.plot(df["Date"],df["High Band"], color="purple")
-        #plt.fill_between(df["Low Band"],df["High Band"], alpha=1, color="orange")
-       
+
         ax1.set_title(table_head)
         ax1.legend(selected_items,loc='best', shadow=False)
         ax1.set_ylabel("PRICE")
         ax1.set_xlabel("TIME")
-        #print(df.head())'''
+
     actv = False
-    #selected_items.remove("Low Band")
-    #selected_items.remove("High Band")
-    #selected_items.remove("M-AVG")
+    print(selected_items)
+    deling = ["M-AVG","BOLL. BANDS","Low Band","High Band"]
+    for i in deling:
+        if i in selected_items:
+            selected_items.remove(i)
+
+    print(selected_items)
 
 def activate():
     global actv
