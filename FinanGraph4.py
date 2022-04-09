@@ -121,14 +121,8 @@ def make_graph():
         df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
 
         df = dropna(df)
-
-        bol = ta.volatility.BollingerBands(df["Close"], window=20)#14
-        #df['Low Band'] = bol.bollinger_lband()#banda inferior
-        #selected_items.append('Low Band')
-        #df['High Band'] = bol.bollinger_hband()#banda superior
-        #selected_items.append('High Band')
-        #print(df.head())
         if len(special_metrics)>0:
+            bol = ta.volatility.BollingerBands(df["Close"], window=20)
             for e in special_metrics:
                 selected_items.append(e)
             if "M-AVG" in selected_items:
