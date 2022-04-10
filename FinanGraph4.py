@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-#import pandas as pd
-#from pandas_datareader import data as pdr
 import pickle
 import ta
 from ta.utils import dropna
@@ -48,7 +45,6 @@ ax1 = fig.add_subplot(111)
 ax1.grid()
 selected_items = ["Close"]
 special_metrics = []
-#item_list = ["Low","High","Open","Close"]
 
 canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
@@ -85,28 +81,19 @@ def show_table():
     else:
         messagebox.showwarning("EMPTY","No data to show.")
 
-def selection(n):
-    global selected_items
-    if n not in selected_items:
-        selected_items.append(n)
+def selection(n,l):
+    global selected_items, special_metrics
+    if n not in l:
+        l.append(n)
         buttons[n].configure(bg="light green")
     else:
-        selected_items.remove(n)
+        l.remove(n)
         buttons[n].configure(bg="light gray")
     if selected_items == []:
         selected_items.append('Close')
         buttons['Close'].configure(bg="light green")
-    print(selected_items)
-
-def selection2(n):
-    global special_metrics
-    if n not in special_metrics:
-        special_metrics.append(n)
-        sp_buttons[n].configure(bg="light green")
-    else:
-        special_metrics.remove(n)
-        sp_buttons[n].configure(bg="light gray")
-    print(special_metrics)
+    print("S. Items:",selected_items)
+    print("Sp. Metrics:",special_metrics)
 
 def make_graph():
     global actv, df, table_head
@@ -127,13 +114,13 @@ def make_graph():
             for e in special_metrics:
                 selected_items.append(e)
             if "M-AVG" in selected_items:
-                df['M-AVG'] = bol.bollinger_mavg()
+                df['M-AVG'] = bol.bollinger_mavg()#media movil
             if "BOLL. BANDS" in selected_items:
                 selected_items.remove("BOLL. BANDS")
                 df['High Band'] = bol.bollinger_hband()#banda superior
                 selected_items.append('High Band')
                 df['Low Band'] = bol.bollinger_lband()
-                selected_items.append('Low Band')
+                selected_items.append('Low Band')#banda inferior
         #---------------------------------------------------------------------------------------------------
                 
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
@@ -187,24 +174,24 @@ start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
 end_datee = Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
-btnHigh = Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High"))
+btnHigh = Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
 btnHigh.place(x=450,y=5)
-btnLow = Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low"))
+btnLow = Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low",selected_items))
 btnLow.place(x=497,y=5)
-btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("Open"))
+btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("Open",selected_items))
 btnOpen.place(x=544,y=5)
-btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close"))
+btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close",selected_items))
 btnClose.place(x=591,y=5)
-btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12,command=lambda:selection2("M-AVG"))
+btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12,command=lambda:selection("M-AVG",special_metrics))
 btnMA.place(x=770,y=5)
-btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection2("BOLL. BANDS"))
+btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
 btnBol.place(x=674,y=5)
 Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose}
-sp_buttons = {"M-AVG":btnMA,"BOLL. BANDS":btnBol}
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
+#sp_buttons = {"M-AVG":btnMA,"BOLL. BANDS":btnBol}
 
 root.mainloop()
