@@ -16,8 +16,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 import matplotlib.animation as animation
 from matplotlib import style
 import threading
+#import numpy as np
 import os
-import numpy as np
 
 if not 'symbols' in os.listdir():
     fichero = open('symbols','wb')
@@ -82,13 +82,13 @@ def show_info():
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
     else:
         messagebox.showwarning("EMPTY","No info to show.")
-        
+
 def init_task():
     t = threading.Thread(target=show_info)
     t.start()
 
 def MA(df, n):
-    MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='MA_'+str(n)) 
+    MA = pd.Series(pd.Series.rolling(df['Close'],n).mean(),name='MA_'+str(n))
     df = df.join(MA)
     return df
 
@@ -100,21 +100,24 @@ def selection(n):
     else:
         selected_items.remove(n)
         buttons[n].configure(bg="light gray")
+    if selected_items == []:
+        selected_items.append("Close")
+        buttons["Close"].configure(bg="light green")
 
 def validate_date(l):
     if int(l[2]) <= 1 and int(l[1]) <= 1 and int(l[0]) <= 1970:
         return None
     else:
         return l
-        
+
 def make_graph():
     try:
         global actv, df2, table_head
         variables = []
         ax1.clear()
         ax1.grid()
-        end_list= validate_date(end_datee.get().split("/"))#2019,11,1
-        start_list= validate_date(sts_entry.get().split("/"))#2010,1,1
+        end_list= validate_date(end_datee.get().split("/"))
+        start_list= validate_date(sts_entry.get().split("/"))
 
         if end_list is not None and start_list is not None:
             enddate = date.datetime(int(end_list[0]),int(end_list[1]),int(end_list[2]))
@@ -122,7 +125,6 @@ def make_graph():
             tick = tick_entry.get()
             yf.pdr_override()
             ipc = pdr.get_data_yahoo(tick, start = startdate, end = enddate)
-            print("MY INFO: ",ipc)
             if not "Empty DataFrame" in str(ipc):
                 df = MA(ipc, 50)
                 df2 = MA(df, 200)
@@ -134,7 +136,7 @@ def make_graph():
                     ax1.plot(df2[i])
                 ax1.legend(variables,loc='best', shadow=False)
                 ax1.set_ylabel("PRICE")
-                ax1.set_xlabel("TIME (YY-MM)")
+                ax1.set_xlabel("TIME (YYYY-MM)")
                 table_head = "{} ({}-{})".format(tick,sts_entry.get(),end_datee.get())
                 ax1.set_title(table_head)
                 update_tickers(tick)
@@ -142,7 +144,7 @@ def make_graph():
                 messagebox.showwarning("NO DATA",str(ipc))
         else:
             messagebox.showwarning("ERROR","Bad date")
-        
+
     except Exception as e:
         messagebox.showwarning("UNEXPECTED ERROR",str(e))
     actv = False
@@ -152,7 +154,7 @@ def update_tickers(t):
         used_symbols.insert(0,tick_entry.get())
         pickle.dump(used_symbols,open("symbols","wb"))
         tick_entry["values"]=pickle.load(open("symbols","rb"))
-    
+
 def represent(i):
     global actv
     if actv == True:
