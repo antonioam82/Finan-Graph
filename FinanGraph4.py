@@ -17,7 +17,7 @@ import matplotlib.animation as animation
 from matplotlib import style
 import threading
 import os
-import numpy as np
+#import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -192,6 +192,5 @@ Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",pa
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
-#sp_buttons = {"M-AVG":btnMA,"BOLL. BANDS":btnBol}
 
 root.mainloop()
