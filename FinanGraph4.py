@@ -17,7 +17,6 @@ import matplotlib.animation as animation
 from matplotlib import style
 import threading
 import os
-#import numpy as np
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -110,6 +109,11 @@ def make_graph():
 
         df = dropna(df)
         if len(special_metrics)>0:
+            if not "Close" in selected_items:
+                selected_items.append("Close")
+                btnClose.configure(bg="light green")
+                df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
+                ax1.plot(df["Date"],df["Close"])
             bol = ta.volatility.BollingerBands(df["Close"], window=20)
             for e in special_metrics:
                 selected_items.append(e)
@@ -192,5 +196,6 @@ Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",pa
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
+#sp_buttons = {"M-AVG":btnMA,"BOLL. BANDS":btnBol}
 
 root.mainloop()
