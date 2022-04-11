@@ -30,7 +30,7 @@ previous = now - timedelta(days = 500)
 
 style.use('dark_background')
 root = Tk()
-root.title("Finan Graph 3")
+root.title("Finan Graph 4")
 root.configure(background="gray")
 root.geometry("1160x800")#1160
 start_date = StringVar()
