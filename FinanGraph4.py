@@ -6,7 +6,7 @@ from ta.utils import dropna
 import yfinance as yf
 from tkinter import *
 from tkinter import ttk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 import tkinter.scrolledtext as sct
 import datetime as date
 from datetime import datetime, timedelta
@@ -65,15 +65,24 @@ def show_info():
             display.insert(END,tick_entry.get()+"\n\n")
             for key, value in final.items():
                 display.insert(END,key+":"+"\n"+str(value)+"\n\n")
+
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
     else:
         messagebox.showwarning("EMPTY","No info to show.")
 
+def save_table():
+    doc = filedialog.asksaveasfilename(initialdir="/",
+                title="Save",defaultextension='.txt')
+    if doc != "":
+        with open(doc,"w") as document:
+                document.write(table_head+"\n\n"+str(df))
+            
 def show_table():
     if str(df) != "":
         top = Toplevel()
         top.title("INFO TABLE")
+        Button(top,text="SAVE TABLE",command=save_table).pack(side=BOTTOM)
         display = sct.ScrolledText(master=top,width=90,height=20)
         display.pack(padx=0,pady=0)
         display.insert(END,table_head+"\n\n"+str(df))
