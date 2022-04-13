@@ -76,7 +76,8 @@ def save_table():
                 title="Save",defaultextension='.txt')
     if doc != "":
         with open(doc,"w") as document:
-                document.write(table_head+"\n\n"+str(df))
+            document.write(table_head+"\n\n"+str(df))
+        messagebox.showinfo("SAVED","Document saved")
             
 def show_table():
     if str(df) != "":
