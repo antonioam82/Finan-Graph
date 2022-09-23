@@ -139,20 +139,24 @@ def make_graph():
                     df['Low Band'] = bol.bollinger_lband()
                     selected_items.append('Low Band')#banda inferior
             update_tickers(ticker)
-        #---------------------------------------------------------------------------------------------------
-                
-        table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
-        
-        for i in selected_items:
-            if i == 'Low Band' or i == 'High Band':
-                ax1.plot(df["Date"],df[i],color="purple")
-            else:
-                ax1.plot(df["Date"],df[i])
 
-        ax1.set_title(table_head)
-        ax1.legend(selected_items,loc='best', shadow=False)
-        ax1.set_ylabel("PRICE")
-        ax1.set_xlabel("TIME")
+            #---------------------------------------------------------------------------------------------------
+                
+            table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
+        
+            for i in selected_items:
+                if i == 'Low Band' or i == 'High Band':
+                    ax1.plot(df["Date"],df[i],color="purple")
+                else:
+                    ax1.plot(df["Date"],df[i])
+
+            ax1.set_title(table_head)
+            ax1.legend(selected_items,loc='best', shadow=False)
+            ax1.set_ylabel("PRICE")
+            ax1.set_xlabel("TIME")
+        else:
+            messagebox.showwarning("INVALID TICKER",str(df))
+            
 
     else:
         messagebox.showwarning("NO TICKER","Please, select ticker and time interval")    
