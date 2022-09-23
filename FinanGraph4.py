@@ -57,7 +57,6 @@ def show_info():
             tic = yf.Ticker(tick_entry.get())
             topp = Toplevel()
             topp.title("MORE INFO")
-            Button(topp,text="SAVE INFO").pack(side=BOTTOM)
             display = sct.ScrolledText(master=topp,width=95,height=30)
             display.pack(padx=0,pady=0)
             display.insert(END,"COLLECTING INFO...")
