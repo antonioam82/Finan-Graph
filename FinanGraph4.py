@@ -137,6 +137,7 @@ def make_graph():
                 selected_items.append('High Band')
                 df['Low Band'] = bol.bollinger_lband()
                 selected_items.append('Low Band')#banda inferior
+        update_tickers(ticker)
         #---------------------------------------------------------------------------------------------------
                 
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
@@ -167,6 +168,12 @@ def make_graph():
 def activate():
     global actv
     actv = True
+
+def update_tickers(t):
+    if t not in used_symbols:
+        used_symbols.insert(0,tick_entry.get())
+        pickle.dump(used_symbols,open("symbols","wb"))
+        tick_entry["values"]=pickle.load(open("symbols","rb"))
 
 def init_task():
     t = threading.Thread(target=show_info)
