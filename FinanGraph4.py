@@ -118,26 +118,27 @@ def make_graph():
 
         #--------------------------------------------------------------------------------------------------
         df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
-
-        df = dropna(df)
-        if len(special_metrics)>0:
-            if not "Close" in selected_items:
-                selected_items.append("Close")
-                btnClose.configure(bg="light green")
-                df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
-                ax1.plot(df["Date"],df["Close"])
-            bol = ta.volatility.BollingerBands(df["Close"], window=20)
-            for e in special_metrics:
-                selected_items.append(e)
-            if "M-AVG" in selected_items:
-                df['M-AVG'] = bol.bollinger_mavg()#media movil
-            if "BOLL. BANDS" in selected_items:
-                selected_items.remove("BOLL. BANDS")
-                df['High Band'] = bol.bollinger_hband()#banda superior
-                selected_items.append('High Band')
-                df['Low Band'] = bol.bollinger_lband()
-                selected_items.append('Low Band')#banda inferior
-        update_tickers(ticker)
+        
+        if df.empty == False:
+            df = dropna(df)
+            if len(special_metrics)>0:
+                if not "Close" in selected_items:
+                    selected_items.append("Close")
+                    btnClose.configure(bg="light green")
+                    df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
+                    ax1.plot(df["Date"],df["Close"])
+                bol = ta.volatility.BollingerBands(df["Close"], window=20)
+                for e in special_metrics:
+                    selected_items.append(e)
+                if "M-AVG" in selected_items:
+                    df['M-AVG'] = bol.bollinger_mavg()#media movil
+                if "BOLL. BANDS" in selected_items:
+                    selected_items.remove("BOLL. BANDS")
+                    df['High Band'] = bol.bollinger_hband()#banda superior
+                    selected_items.append('High Band')
+                    df['Low Band'] = bol.bollinger_lband()
+                    selected_items.append('Low Band')#banda inferior
+            update_tickers(ticker)
         #---------------------------------------------------------------------------------------------------
                 
         table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
