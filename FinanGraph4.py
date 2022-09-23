@@ -108,7 +108,7 @@ def make_graph():
     global actv, df, table_head
     print("ACTIVATED")
     ticker = tick_entry.get()
-    if ticker != "":
+    if ticker != "" and end_datee.get() != "" and sts_entry.get() != "":
         ax1.clear()
         ax1.grid()
         e_date = end_datee.get().split("/")
@@ -153,7 +153,7 @@ def make_graph():
         ax1.set_xlabel("TIME")
 
     else:
-        messagebox.showwarning("NO TICKER","Please, select a ticker")    
+        messagebox.showwarning("NO TICKER","Please, select ticker and time interval")    
 
     actv = False
     print(selected_items)
