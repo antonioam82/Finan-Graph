@@ -57,6 +57,7 @@ def show_info():
             tic = yf.Ticker(tick_entry.get())
             topp = Toplevel()
             topp.title("MORE INFO")
+            Button(topp,text="SAVE INFO",command=save_table).pack(side=BOTTOM)
             display = sct.ScrolledText(master=topp,width=95,height=30)
             display.pack(padx=0,pady=0)
             display.insert(END,"COLLECTING INFO...")
@@ -111,8 +112,10 @@ def make_graph():
     if ticker != "":
         ax1.clear()
         ax1.grid()
-        enddate = date.datetime(int(end_datee.get().split("/")[0]),int(end_datee.get().split("/")[1]),int(end_datee.get().split("/")[2]))
-        startdate = date.datetime(int(sts_entry.get().split("/")[0]),int(sts_entry.get().split("/")[1]),int(sts_entry.get().split("/")[2]))
+        e_date = end_datee.get().split("/")
+        s_date = sts_entry.get().split("/")
+        enddate = date.datetime(int(e_date[0]),int(e_date[1]),int(e_date[2]))
+        startdate = date.datetime(int(s_date[0]),int(s_date[1]),int(s_date[2]))
 
         #--------------------------------------------------------------------------------------------------
         df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
@@ -196,7 +199,7 @@ btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("
 btnOpen.place(x=544,y=5)
 btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close",selected_items))
 btnClose.place(x=591,y=5)
-btnMA = Button(root,text="MOOVING AVG",bg="gray83",width=12,command=lambda:selection("M-AVG",special_metrics))
+btnMA = Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:selection("M-AVG",special_metrics))
 btnMA.place(x=770,y=5)
 btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
 btnBol.place(x=674,y=5)
@@ -206,6 +209,5 @@ Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",pa
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
-#sp_buttons = {"M-AVG":btnMA,"BOLL. BANDS":btnBol}
 
 root.mainloop()
