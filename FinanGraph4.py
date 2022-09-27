@@ -81,12 +81,15 @@ def save_table():
             
 def show_table():
     if str(df) != "":
-        top = Toplevel()
-        top.title("INFO TABLE")
-        Button(top,text="SAVE TABLE",command=save_table).pack(side=BOTTOM)
-        display = sct.ScrolledText(master=top,width=90,height=20)
-        display.pack(padx=0,pady=0)
-        display.insert(END,table_head+"\n\n"+str(df))
+        if df.empty == False:
+            top = Toplevel()
+            top.title("INFO TABLE")
+            Button(top,text="SAVE TABLE",command=save_table).pack(side=BOTTOM)
+            display = sct.ScrolledText(master=top,width=90,height=20)
+            display.pack(padx=0,pady=0)
+            display.insert(END,table_head+"\n\n"+str(df))
+        else:
+            messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
     else:
         messagebox.showwarning("EMPTY","No data to show.")
 
@@ -155,7 +158,7 @@ def make_graph():
             ax1.set_ylabel("PRICE")
             ax1.set_xlabel("TIME")
         else:
-            messagebox.showwarning("INVALID TICKER",str(df))
+            messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
             
 
     else:
