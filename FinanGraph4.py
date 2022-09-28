@@ -4,7 +4,7 @@ import pickle
 import ta
 from ta.utils import dropna
 import yfinance as yf
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox, filedialog
 import tkinter.scrolledtext as sct
@@ -29,12 +29,12 @@ now = datetime.now()
 previous = now - timedelta(days = 500)
 
 style.use('dark_background')
-root = Tk()
+root = tk.Tk()
 root.title("Finan Graph 4")
 root.configure(background="gray")
 root.geometry("1160x800")#1160
-start_date = StringVar()
-end_date = StringVar()
+start_date = tk.StringVar()
+end_date = tk.StringVar()
 df = ""
 table_head = ""
 used_symbols = sorted(pickle.load(open("symbols","rb")))
@@ -49,22 +49,22 @@ canvas = FigureCanvasTkAgg(fig,master=root)
 canvas.draw()
 toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
-canvas.get_tk_widget().pack(side=BOTTOM,fill=BOTH, expand=1)
+canvas.get_tk_widget().pack(side=tk.BOTTOM,fill=tk.BOTH, expand=1)
 
 def show_info():
     if tick_entry.get() != "":
         try:
             tic = yf.Ticker(tick_entry.get())
-            topp = Toplevel()
+            topp = tk.Toplevel()
             topp.title("MORE INFO")
             display = sct.ScrolledText(master=topp,width=95,height=30)
             display.pack(padx=0,pady=0)
-            display.insert(END,"COLLECTING INFO...")
+            display.insert(tk.END,"COLLECTING INFO...")
             final = tic.info
-            display.delete('1.0',END)
-            display.insert(END,tick_entry.get()+"\n\n")
+            display.delete('1.0',tk.END)
+            display.insert(tk.END,tick_entry.get()+"\n\n")
             for key, value in final.items():
-                display.insert(END,key+":"+"\n"+str(value)+"\n\n")
+                display.insert(tk.END,key+":"+"\n"+str(value)+"\n\n")
 
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
@@ -82,12 +82,12 @@ def save_table():
 def show_table():
     if str(df) != "":
         if df.empty == False:
-            top = Toplevel()
+            top = tk.Toplevel()
             top.title("INFO TABLE")
-            Button(top,text="SAVE TABLE",command=save_table).pack(side=BOTTOM)
+            tk.Button(top,text="SAVE TABLE",command=save_table).pack(side=tk.BOTTOM)
             display = sct.ScrolledText(master=top,width=90,height=20)
             display.pack(padx=0,pady=0)
-            display.insert(END,table_head+"\n\n"+str(df))
+            display.insert(tk.END,table_head+"\n\n"+str(df))
         else:
             messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
     else:
@@ -195,31 +195,31 @@ def represent(i):
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 tick_entry.place(x=50,y=8)
-Label(root,height=2,bg="gray").pack(side=LEFT)
-Label(root,text="TICKER:",bg="gray",fg="white").place(x=3,y=8)
-Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
-Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
-sts_entry = Entry(root,textvariable=start_date,width=10)
+tk.Label(root,height=2,bg="gray").pack(side=tk.LEFT)
+tk.Label(root,text="TICKER:",bg="gray",fg="white").place(x=3,y=8)
+tk.Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
+tk.Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
+sts_entry = tk.Entry(root,textvariable=start_date,width=10)
 sts_entry.place(x=210+11,y=8)
 start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
-end_datee = Entry(root,textvariable=end_date,width=10)
+end_datee = tk.Entry(root,textvariable=end_date,width=10)
 end_datee.place(x=362,y=8)
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
-btnHigh = Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
+btnHigh = tk.Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
 btnHigh.place(x=450,y=5)
-btnLow = Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low",selected_items))
+btnLow = tk.Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low",selected_items))
 btnLow.place(x=497,y=5)
-btnOpen = Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("Open",selected_items))
+btnOpen = tk.Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("Open",selected_items))
 btnOpen.place(x=544,y=5)
-btnClose = Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close",selected_items))
+btnClose = tk.Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close",selected_items))
 btnClose.place(x=591,y=5)
-btnMA = Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:selection("M-AVG",special_metrics))
+btnMA = tk.Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:selection("M-AVG",special_metrics))
 btnMA.place(x=770,y=5)
-btnBol = Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
+btnBol = tk.Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
 btnBol.place(x=674,y=5)
-Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
-Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
-Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
+tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
+tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
+tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
