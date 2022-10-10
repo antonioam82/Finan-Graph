@@ -110,59 +110,63 @@ def selection(n,l):
 def make_graph():
     global actv, df, table_head
     print("ACTIVATED")
-    ticker = tick_entry.get()
-    if ticker != "" and end_datee.get() != "" and sts_entry.get() != "":
-        ax1.clear()
-        ax1.grid()
-        e_date = end_datee.get().split("/")
-        s_date = sts_entry.get().split("/")
-        enddate = date.datetime(int(e_date[0]),int(e_date[1]),int(e_date[2]))
-        startdate = date.datetime(int(s_date[0]),int(s_date[1]),int(s_date[2]))
+    try:
+        ticker = tick_entry.get()
+        if ticker != "" and end_datee.get() != "" and sts_entry.get() != "":
+            ax1.clear()
+            ax1.grid()
+            e_date = end_datee.get().split("/")
+            s_date = sts_entry.get().split("/")
+            enddate = date.datetime(int(e_date[0]),int(e_date[1]),int(e_date[2]))
+            startdate = date.datetime(int(s_date[0]),int(s_date[1]),int(s_date[2]))
 
-        #--------------------------------------------------------------------------------------------------
-        df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
+            #--------------------------------------------------------------------------------------------------
+            df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
         
-        if df.empty == False:
-            df = dropna(df)
-            if len(special_metrics)>0:
-                if not "Close" in selected_items:
-                    selected_items.append("Close")
-                    btnClose.configure(bg="light green")
-                    df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
-                    ax1.plot(df["Date"],df["Close"])
-                bol = ta.volatility.BollingerBands(df["Close"], window=20)
-                for e in special_metrics:
-                    selected_items.append(e)
-                if "M-AVG" in selected_items:
-                    df['M-AVG'] = bol.bollinger_mavg()#media movil
-                if "BOLL. BANDS" in selected_items:
-                    selected_items.remove("BOLL. BANDS")
-                    df['High Band'] = bol.bollinger_hband()#banda superior
-                    selected_items.append('High Band')
-                    df['Low Band'] = bol.bollinger_lband()
-                    selected_items.append('Low Band')#banda inferior
-            update_tickers(ticker)
+            if df.empty == False:
+                df = dropna(df)
+                if len(special_metrics)>0:
+                    if not "Close" in selected_items:
+                        selected_items.append("Close")
+                        btnClose.configure(bg="light green")
+                        df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
+                        ax1.plot(df["Date"],df["Close"])
+                    bol = ta.volatility.BollingerBands(df["Close"], window=20)
+                    for e in special_metrics:
+                        selected_items.append(e)
+                    if "M-AVG" in selected_items:
+                        df['M-AVG'] = bol.bollinger_mavg()#media movil
+                    if "BOLL. BANDS" in selected_items:
+                        selected_items.remove("BOLL. BANDS")
+                        df['High Band'] = bol.bollinger_hband()#banda superior
+                        selected_items.append('High Band')
+                        df['Low Band'] = bol.bollinger_lband()
+                        selected_items.append('Low Band')#banda inferior
+                update_tickers(ticker)
 
-            #---------------------------------------------------------------------------------------------------
+                #---------------------------------------------------------------------------------------------------
                 
-            table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
+                table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
         
-            for i in selected_items:
-                if i == 'Low Band' or i == 'High Band':
-                    ax1.plot(df["Date"],df[i],color="purple")
-                else:
-                    ax1.plot(df["Date"],df[i])
+                for i in selected_items:
+                    if i == 'Low Band' or i == 'High Band':
+                        ax1.plot(df["Date"],df[i],color="purple")
+                    else:
+                        ax1.plot(df["Date"],df[i])
 
-            ax1.set_title(table_head)
-            ax1.legend(selected_items,loc='best', shadow=False)
-            ax1.set_ylabel("PRICE")
-            ax1.set_xlabel("TIME")
-        else:
-            messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
+                ax1.set_title(table_head)
+                ax1.legend(selected_items,loc='best', shadow=False)
+                ax1.set_ylabel("PRICE")
+                ax1.set_xlabel("TIME")
+            else:
+                messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
             
 
-    else:
-        messagebox.showwarning("NO TICKER","Please, select ticker and time interval")    
+        else:
+            messagebox.showwarning("NO TICKER","Please, select ticker and time interval")
+
+    except Exception as e:
+        messagebox.showwarning("UNEXPECTED ERROR",str(e))
 
     actv = False
     print(selected_items)
