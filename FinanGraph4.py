@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import pickle
 import ta
@@ -166,7 +166,7 @@ def make_graph():
             
 
         else:
-            messagebox.showwarning("NO TICKER","Please, select ticker and time interval")
+            messagebox.showwarning("NO TICKER OR PERIOD PROVIDED","Please, select ticker and time interval.")
 
     except Exception as e:
         messagebox.showwarning("UNEXPECTED ERROR",str(e))
