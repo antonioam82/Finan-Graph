@@ -78,6 +78,9 @@ def save_table():
         with open(doc,"w") as document:
             document.write(table_head+"\n\n"+str(df))
         messagebox.showinfo("SAVED","Document saved")
+
+def valid_date(char):
+    return char in "0123456789/"
             
 def show_table():
     if str(df) != "":
@@ -203,10 +206,11 @@ tk.Label(root,height=2,bg="gray").pack(side=tk.LEFT)
 tk.Label(root,text="TICKER:",bg="gray",fg="white").place(x=3,y=8)
 tk.Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
 tk.Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
-sts_entry = tk.Entry(root,textvariable=start_date,width=10)
+validate_entry = root.register(valid_date)
+sts_entry = tk.Entry(root,textvariable=start_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
 sts_entry.place(x=210+11,y=8)
 start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
-end_datee = tk.Entry(root,textvariable=end_date,width=10)
+end_datee = tk.Entry(root,textvariable=end_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
 end_datee.place(x=362,y=8)
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
 btnHigh = tk.Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
