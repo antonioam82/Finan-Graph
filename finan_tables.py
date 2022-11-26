@@ -12,7 +12,7 @@ month = now.month
 year = now.year
 
 def main():
-
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('-symbol',type=str,help="Introduce simbolo")
     parser.add_argument('-start',type=str,help="Fecha inicial de la serie")
@@ -25,15 +25,18 @@ def main():
     
 
 def show_table(args):
+    print("RETRIEVING DATA...")
     fecha1 = args.start
     fecha_dt1 = fecha1.split("/")
     fecha2 = args.end
     fecha_dt2 = fecha2.split("/")
+    symbols = args.symbol
+    symbols_data = symbols.split(",")
     
-    df = pdr.get_data_yahoo(args.symbol,start=datetime(int(fecha_dt1[0]),int(fecha_dt1[1]),int(fecha_dt1[2])),
-                                end=datetime(int(fecha_dt2[0]),int(fecha_dt2[1]),int(fecha_dt2[2])),interval=args.interval)
+    df = pdr.get_data_yahoo(symbols_data,start=datetime(int(fecha_dt1[0]),int(fecha_dt1[1]),int(fecha_dt1[2])),
+                            end=datetime(int(fecha_dt2[0]),int(fecha_dt2[1]),int(fecha_dt2[2])),interval=args.interval)
     
-    #print(""+Back.GREEN+Fore.WHITE)
+    #print(""+Back.BLUE+Fore.WHITE)
     print("")
     print(df)
     #print(Back.RESET+Fore.RESET)
