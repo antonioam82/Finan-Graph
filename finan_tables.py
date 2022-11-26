@@ -4,7 +4,7 @@ import pandas_datareader as pdr
 from datetime import datetime
 #from colorama import init, Fore, Back
 
-init()
+#init()
 
 now = datetime.now()
 day = now.day
