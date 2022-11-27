@@ -2,7 +2,7 @@ import argparse
 import sys
 import pandas_datareader as pdr
 from datetime import datetime
-#import plotext as plt
+import plotext as plt
 #from colorama import init, Fore, Back
 
 #init()
@@ -15,6 +15,9 @@ year = now.year
 def main():
     
     parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--head',type=int,help='numero de lineas iniciales')
+    group.add_argument('--tail',type=int,help='numero de lineas finales')
     parser.add_argument('--symbol',type=str,help="Introduce simbolo")
     parser.add_argument('--start',type=str,help="Fecha inicial de la serie")
     parser.add_argument('--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
@@ -44,4 +47,3 @@ def show_table(args):
     
 if __name__=='__main__':
     main()
-
