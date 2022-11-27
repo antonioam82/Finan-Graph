@@ -2,7 +2,7 @@ import argparse
 import sys
 import pandas_datareader as pdr
 from datetime import datetime
-import plotext as plt
+#import plotext as plt
 #from colorama import init, Fore, Back
 
 #init()
