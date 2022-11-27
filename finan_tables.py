@@ -16,8 +16,8 @@ def main():
     
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--head',type=int,help='numero de lineas iniciales')
-    group.add_argument('--tail',type=int,help='numero de lineas finales')
+    group.add_argument('--head',default=0,type=int,help='numero de lineas iniciales')
+    group.add_argument('--tail',default=0,type=int,help='numero de lineas finales')
     parser.add_argument('--symbol',type=str,help="Introduce simbolo")
     parser.add_argument('--start',type=str,help="Fecha inicial de la serie")
     parser.add_argument('--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
@@ -42,7 +42,12 @@ def show_table(args):
     
     #print(""+Back.BLUE+Fore.WHITE)
     print("")
-    print(df)
+    if args.tail > 0:
+        print(df.tail(args.tail))
+    elif args.head > 0:
+        print(df.head(args.head))
+    else:
+        print(df)
     #print(Back.RESET+Fore.RESET)
     
 if __name__=='__main__':
