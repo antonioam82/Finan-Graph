@@ -23,8 +23,7 @@ def main():
     parser.add_argument('--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
     parser.add_argument('--interval',default='d',choices=['d','wk','mo'],type=str,help="Intervalos de tiempo")
     #parser.add_argument('-plot',default=False,type=bool,help="Grafica")
-    #parser.add_argument('-tail',default=0,type=int,help="Valores finales")
-    #parser.add_argument('-head',default=0,type=int,help="Valores iniciales")
+
     args=parser.parse_args()
     show_table(args)
 
