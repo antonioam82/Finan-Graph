@@ -17,7 +17,7 @@ def main():
     group.add_argument('-hd','--head',default=0,type=int,help='Número de lineas iniciales')
     group.add_argument('-tl','--tail',default=0,type=int,help='Número de lineas finales')
     parser.add_argument('-sym','--symbol',type=str,help="Introduce ticker/s.")
-    parser.add_argument('-i','--info',type=str,default="All",choices=["All","Open","High","Low","Close","Volume","Dividens","Stock_Splits"],help="Data")
+    parser.add_argument('-i','--info',type=str,default="All",choices=["All","Open","High","Low","Close","Volume","Dividends","Stock_Splits"],help="Data")
     parser.add_argument('-s','--start',type=str,help="Fecha inicial de la serie")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
     parser.add_argument('-int','--interval',default='1d',
@@ -28,21 +28,24 @@ def main():
     show_table(args)
 
 def show_table(args):
-    print("RETRIEVING DATA...")
-    symbol = yf.Ticker(args.symbol)
-    print(""+Fore.GREEN+f"SYMBOL: {args.symbol}")
-    if args.info == "All":
-        df = symbol.history(start=args.start,end=args.end, interval=args.interval)
-    else: 
-        df = symbol.history(start=args.start,end=args.end, interval=args.interval)[args.info.replace('_',' ')]
+    try:
+        print("RETRIEVING DATA...")
+        symbol = yf.Ticker(args.symbol)
+        print(""+Fore.GREEN+f"SYMBOL: {args.symbol}")
+        if args.info == "All":
+            df = symbol.history(start=args.start,end=args.end, interval=args.interval)
+        else: 
+            df = symbol.history(start=args.start,end=args.end, interval=args.interval)[args.info.replace('_',' ')]
     
-    if args.tail > 0:
-        print(df.tail(args.tail))
-    elif args.head > 0:
-        print(df.head(args.head))
-    else:
-        print(df)
-    print(Fore.RESET)
+        if args.tail > 0:
+            print(df.tail(args.tail))
+        elif args.head > 0:
+            print(df.head(args.head))
+        else:
+            print(df)
+        print(Fore.RESET)
+    except Exception as e:
+        print(Fore.RED+f"UNEXPECTED ERROR: {str(e)}"+Fore.RESET)
     
 if __name__=='__main__':
     main()
