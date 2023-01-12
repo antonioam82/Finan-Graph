@@ -1,6 +1,6 @@
 import argparse
 import sys
-import pandas_datareader as pdr
+import yfinance as yf
 from datetime import datetime
 import plotext as plt
 #from colorama import init, Fore, Back
@@ -29,15 +29,8 @@ def main():
 
 def show_table(args):
     print("RETRIEVING DATA...")
-    fecha1 = args.start
-    fecha_dt1 = fecha1.split("/")
-    fecha2 = args.end
-    fecha_dt2 = fecha2.split("/")
-    symbols = args.symbol
-    symbols_data = symbols.split(",")
-    
-    df = pdr.get_data_yahoo(symbols_data,start=datetime(int(fecha_dt1[0]),int(fecha_dt1[1]),int(fecha_dt1[2])),
-                            end=datetime(int(fecha_dt2[0]),int(fecha_dt2[1]),int(fecha_dt2[2])),interval=args.interval)
+    symbol = yf.Ticker(args.symbol)
+    df = symbol.history(start=args.start,end=args.end, interval='1m')#nterval=args.interval)
     
     #print(""+Back.BLUE+Fore.WHITE)
     print("")
@@ -51,3 +44,4 @@ def show_table(args):
     
 if __name__=='__main__':
     main()
+
