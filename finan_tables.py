@@ -3,9 +3,7 @@ import sys
 import yfinance as yf
 from datetime import datetime
 import plotext as plt
-#from colorama import init, Fore, Back
-
-#init()
+from colorama import Fore, init
 
 now = datetime.now()
 day = now.day
@@ -19,6 +17,7 @@ def main():
     group.add_argument('-hd','--head',default=0,type=int,help='Número de lineas iniciales')
     group.add_argument('-tl','--tail',default=0,type=int,help='Número de lineas finales')
     parser.add_argument('-sym','--symbol',type=str,help="Introduce ticker/s.")
+    parser.add_argument('-i','--info',type=str,default="All",choices=["All","Open","High","Low","Close","Volume","Dividens","Stock_Splits"],help="Data")
     parser.add_argument('-s','--start',type=str,help="Fecha inicial de la serie")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
     parser.add_argument('-int','--interval',default='1d',
@@ -31,18 +30,19 @@ def main():
 def show_table(args):
     print("RETRIEVING DATA...")
     symbol = yf.Ticker(args.symbol)
-    df = symbol.history(start=args.start,end=args.end, interval=args.interval)#nterval=args.interval)
+    print(""+Fore.GREEN+f"SYMBOL: {args.symbol}")
+    if args.info == "All":
+        df = symbol.history(start=args.start,end=args.end, interval=args.interval)
+    else: 
+        df = symbol.history(start=args.start,end=args.end, interval=args.interval)[args.info.replace('_',' ')]
     
-    #print(""+Back.BLUE+Fore.WHITE)
-    print("")
     if args.tail > 0:
         print(df.tail(args.tail))
     elif args.head > 0:
         print(df.head(args.head))
     else:
         print(df)
-    #print(Back.RESET+Fore.RESET)
+    print(Fore.RESET)
     
 if __name__=='__main__':
     main()
-
