@@ -16,12 +16,13 @@ def main():
     
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--head',default=0,type=int,help='Número de lineas iniciales')
-    group.add_argument('--tail',default=0,type=int,help='Número de lineas finales')
-    parser.add_argument('--symbol',type=str,help="Introduce ticker/s.")
-    parser.add_argument('--start',type=str,help="Fecha inicial de la serie")
-    parser.add_argument('--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
-    parser.add_argument('--interval',default='d',choices=['d','wk','mo','m','w'],type=str,help="Intervalos de tiempo")
+    group.add_argument('-hd','--head',default=0,type=int,help='Número de lineas iniciales')
+    group.add_argument('-tl','--tail',default=0,type=int,help='Número de lineas finales')
+    parser.add_argument('-sym','--symbol',type=str,help="Introduce ticker/s.")
+    parser.add_argument('-s','--start',type=str,help="Fecha inicial de la serie")
+    parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
+    parser.add_argument('-int','--interval',default='1d',
+                        choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Intervalos de tiempo")
     #parser.add_argument('-plot',default=False,type=bool,help="Grafica")
 
     args=parser.parse_args()
@@ -30,7 +31,7 @@ def main():
 def show_table(args):
     print("RETRIEVING DATA...")
     symbol = yf.Ticker(args.symbol)
-    df = symbol.history(start=args.start,end=args.end, interval='1m')#nterval=args.interval)
+    df = symbol.history(start=args.start,end=args.end, interval=args.interval)#nterval=args.interval)
     
     #print(""+Back.BLUE+Fore.WHITE)
     print("")
