@@ -16,7 +16,7 @@ def main():
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-hd','--head',default=0,type=int,help='Número de lineas iniciales')
     group.add_argument('-tl','--tail',default=0,type=int,help='Número de lineas finales')
-    parser.add_argument('-sym','--symbol',type=str,help="Introduce ticker/s.")
+    parser.add_argument('-sym','--symbol',required=True,type=str,help="Introduce ticker/s.")
     parser.add_argument('-i','--info',type=str,default="All",choices=["All","Open","High","Low","Close","Volume","Dividends","Stock_Splits"],help="Data")
     parser.add_argument('-s','--start',type=str,help="Fecha inicial de la serie")
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
