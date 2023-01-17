@@ -30,7 +30,7 @@ previous = now - timedelta(days = 500)
 
 style.use('dark_background')
 root = tk.Tk()
-root.title("Finan Graph 4")
+root.title("Finan Graph 8")
 root.configure(background="gray")
 root.geometry("1270x800")#1160
 start_date = tk.StringVar()
@@ -115,6 +115,7 @@ def make_graph():
     print("ACTIVATED")
     try:
         ticker = tick_entry.get()
+        interv = time_intervals.get()
         if ticker != "" and end_datee.get() != "" and sts_entry.get() != "":
             ax1.clear()
             ax1.grid()
@@ -124,7 +125,7 @@ def make_graph():
             startdate = date.datetime(int(s_date[0]),int(s_date[1]),int(s_date[2]))
 
             #--------------------------------------------------------------------------------------------------
-            df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval="1mo").reset_index()[['Date']+selected_items]
+            df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval=interv).reset_index()[['Date']+selected_items]
         
             if df.empty == False:
                 df = dropna(df)
@@ -132,7 +133,7 @@ def make_graph():
                     if not "Close" in selected_items:
                         selected_items.append("Close")
                         btnClose.configure(bg="light green")
-                        df = yf.Ticker(ticker).history(start=startdate,end=enddate).reset_index()[['Date']+selected_items]
+                        df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval=interv).reset_index()[['Date']+selected_items]
                         ax1.plot(df["Date"],df["Close"])
                     bol = ta.volatility.BollingerBands(df["Close"], window=20)
                     for e in special_metrics:
@@ -201,17 +202,25 @@ def represent(i):
 
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
-tick_entry.place(x=50,y=8)
-tk.Label(root,height=2,bg="gray").pack(side=tk.LEFT)
-tk.Label(root,text="TICKER:",bg="gray",fg="white").place(x=3,y=8)
-tk.Label(root,text="START DATE:",bg="gray",fg="white").place(x=135+11,y=8)
-tk.Label(root,text="END DATE:",bg="gray",fg="white").place(x=296,y=8)
+time_intervals = ttk.Combobox(root,width=5)
+time_intervals["values"] = ["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"]
+tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=3,y=8)
+tick_entry.pack(side=tk.LEFT)#.place(x=50,y=8)
+tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=135+11,y=8)
 validate_entry = root.register(valid_date)
 sts_entry = tk.Entry(root,textvariable=start_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
-sts_entry.place(x=210+11,y=8)
-start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
+sts_entry.pack(side=tk.LEFT)
+#sts_entry.place(x=210+11,y=8)
+tk.Label(root,text="END DATE:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=296,y=8)
 end_datee = tk.Entry(root,textvariable=end_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
-end_datee.place(x=362,y=8)
+end_datee.pack(side=tk.LEFT)
+#end_datee.place(x=362,y=8)
+tk.Label(root,text="INTERVAL",bg="gray",fg="white").pack(side=tk.LEFT)
+time_intervals.pack(side=tk.LEFT)
+time_intervals.set("1d")
+
+tk.Label(root,height=2,bg="gray").pack(side=tk.LEFT)
+start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))################################################################################
 btnHigh = tk.Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
 btnHigh.place(x=579,y=5)
@@ -228,8 +237,3 @@ btnBol.place(x=794,y=5)
 tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
-
-ani = animation.FuncAnimation(fig, represent, interval=1000)
-buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
-
-root.mainloop()
