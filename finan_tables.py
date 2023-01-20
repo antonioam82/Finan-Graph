@@ -2,7 +2,7 @@ import argparse
 import sys
 import yfinance as yf
 from datetime import datetime
-import plotext as plt
+#import plotext as plt
 from colorama import Fore, init
 
 now = datetime.now()
@@ -22,12 +22,12 @@ def main():
     parser.add_argument('-e','--end',default='{}/{}/{}'.format(year,month,day),type=str,help="Fecha final de la serie")
     parser.add_argument('-int','--interval',default='1d',
                         choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Intervalos de tiempo")
-    parser.add_argument('--plot','-plt',default=False,type=bool,help="Grafica")
+    #parser.add_argument('--plot','-plt',default=False,type=bool,help="Grafica")
 
     args=parser.parse_args()
     show_table(args)
 
-def plot_graph(args,data):
+'''def plot_graph(args,data):
     if args.plot == True:
         plt.datetime.set_datetime_form(date_form='%Y-%m-%d')
         start = plt.datetime.string_to_datetime(args.start)
@@ -40,7 +40,7 @@ def plot_graph(args,data):
         plt.title(f"{args.symbol} Stock Prices")
         plt.xlabel("Date")
         plt.ylabel("Stock Prices")
-        plt.show()
+        plt.show()'''
 
 def show_table(args):
     try:
@@ -58,10 +58,11 @@ def show_table(args):
             print(df.head(args.head))
         else:
             print(df)
-        plot_graph(args,df)
+        #plot_graph(args,df)
         print(Fore.RESET)
     except Exception as e:
         print(Fore.RED+f"UNEXPECTED ERROR: {str(e)}"+Fore.RESET)
     
 if __name__=='__main__':
     main()
+
