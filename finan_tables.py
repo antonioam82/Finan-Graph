@@ -5,6 +5,8 @@ from datetime import datetime
 #import plotext as plt
 from colorama import Fore, init
 
+init()
+
 now = datetime.now()
 day = now.day
 month = now.month
@@ -35,7 +37,6 @@ def main():
         a = args.interval
         prices = list(data["Close"])
         dates = [plt.datetime.datetime_to_string(el) for el in data.index]
-
         plt.plot_date(dates,prices)
         plt.title(f"{args.symbol} Stock Prices")
         plt.xlabel("Date")
@@ -46,7 +47,7 @@ def show_table(args):
     try:
         print("RETRIEVING DATA...")
         symbol = yf.Ticker(args.symbol)
-        print(""+Fore.GREEN+f"SYMBOL: {args.symbol}")
+        print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}")
         if args.info == "All":
             df = symbol.history(start=args.start,end=args.end, interval=args.interval)
         else: 
@@ -65,4 +66,5 @@ def show_table(args):
     
 if __name__=='__main__':
     main()
+
 
