@@ -150,7 +150,7 @@ def make_graph():
 
                 #---------------------------------------------------------------------------------------------------
                 
-                table_head = "{} ({}-{})".format(ticker,sts_entry.get(),end_datee.get())
+                table_head = "{} ({}-{}) interv: {}".format(ticker,sts_entry.get(),end_datee.get(),interv)
         
                 for i in selected_items:
                     if i == 'Low Band' or i == 'High Band':
@@ -237,3 +237,8 @@ btnBol.place(x=794,y=5)
 tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
+
+ani = animation.FuncAnimation(fig, represent, interval=1000)
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG":btnMA,"BOLL. BANDS":btnBol}
+
+root.mainloop()
