@@ -29,13 +29,34 @@ def main():
     args=parser.parse_args()
     show_table(args)
 
+'''def plot_graph(args,data):
+    if args.plot == True:
+        plt.datetime.set_datetime_form(date_form='%Y-%m-%d')
+        start = plt.datetime.string_to_datetime(args.start)
+        end = plt.datetime.string_to_datetime(args.end)
+        a = args.interval
+        prices = list(data["Close"])
+        dates = [plt.datetime.datetime_to_string(el) for el in data.index]
+        plt.plot_date(dates,prices)
+        plt.title(f"{args.symbol} Stock Prices")
+        plt.xlabel("Date")
+        plt.ylabel("Stock Prices")
+        plt.show()'''
+
+def head(args):
+    if args.start:
+        print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}, PERIOD: {args.start}/{args.end}, INTERVAL: {args.interval}, QUOTE: {args.info}\n")
+    else:
+        print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}, PERIOD: Max, INTERVAL: {args.interval}, QUOTE: {args.info}\n")
+
 def show_table(args):
     try:
         print("RETRIEVING DATA...")
         symbol = yf.Ticker(args.symbol)
-        print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}")
+        #print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}")
+        head(args)
         if args.info == "All":
-            if args.start is not None:
+            if args.start:
                 df = symbol.history(start=args.start,end=args.end, interval=args.interval)
             else:
                 df = symbol.history(period="max",end=args.end, interval=args.interval)
