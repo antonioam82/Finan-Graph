@@ -4,6 +4,7 @@ import yfinance as yf
 from datetime import datetime
 #import plotext as plt
 from colorama import Fore, init
+import matplotlib.pyplot as plt
 
 init()
 
@@ -24,24 +25,10 @@ def main():
     parser.add_argument('-e','--end',default='{}-{}-{}'.format(year,month,day),type=str,help="Fecha final de la serie")
     parser.add_argument('-int','--interval',default='1d',
                         choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Intervalos de tiempo")
-    #parser.add_argument('--plot','-plt',default=False,type=bool,help="Grafica")
+    parser.add_argument('--plot','-plt',default=False,type=bool,help="Grafica")
 
     args=parser.parse_args()
     show_table(args)
-
-'''def plot_graph(args,data):
-    if args.plot == True:
-        plt.datetime.set_datetime_form(date_form='%Y-%m-%d')
-        start = plt.datetime.string_to_datetime(args.start)
-        end = plt.datetime.string_to_datetime(args.end)
-        a = args.interval
-        prices = list(data["Close"])
-        dates = [plt.datetime.datetime_to_string(el) for el in data.index]
-        plt.plot_date(dates,prices)
-        plt.title(f"{args.symbol} Stock Prices")
-        plt.xlabel("Date")
-        plt.ylabel("Stock Prices")
-        plt.show()'''
 
 def head(args):
     if args.start:
@@ -53,13 +40,13 @@ def show_table(args):
     try:
         print("RETRIEVING DATA...")
         symbol = yf.Ticker(args.symbol)
-        #print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}")
         head(args)
         if args.info == "All":
             if args.start:
                 df = symbol.history(start=args.start,end=args.end, interval=args.interval)
             else:
                 df = symbol.history(period="max",end=args.end, interval=args.interval)
+
         else:
             if args.start is not None:
                 df = symbol.history(start=args.start,end=args.end, interval=args.interval)[args.info.replace('_',' ')]
@@ -72,6 +59,11 @@ def show_table(args):
             print(df.head(args.head))
         else:
             print(df)
+        if args.plot == True:
+            plt.plot(df)
+            plt.grid()
+            plt.show()
+            
         print(Fore.RESET)
     except Exception as e:
         print(Fore.RED+f"UNEXPECTED ERROR: {str(e)}"+Fore.RESET)
