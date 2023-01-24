@@ -25,7 +25,7 @@ def main():
     parser.add_argument('-e','--end',default='{}-{}-{}'.format(year,month,day),type=str,help="Fecha final de la serie")
     parser.add_argument('-int','--interval',default='1d',
                         choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Intervalos de tiempo")
-    parser.add_argument('--plot','-plt',default=False,type=bool,help="Grafica")
+    parser.add_argument('--plot','-plt',default=None,action='store_true',help="Grafica")
 
     args=parser.parse_args()
     show_table(args)
@@ -54,12 +54,13 @@ def show_table(args):
                 df = symbol.history(period="max",end=args.end, interval=args.interval)[args.info.replace('_',' ')]
 
         if args.tail > 0:
-            print(df.tail(args.tail))
+            df = df.tail(args.tail)
         elif args.head > 0:
-            print(df.head(args.head))
-        else:
-            print(df)
-        if args.plot == True:
+            df = df.head(args.head)
+
+        print(df)
+            
+        if args.plot:
             plt.plot(df)
             plt.grid()
             plt.show()
