@@ -1,8 +1,9 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import argparse
 import sys
 import yfinance as yf
 from datetime import datetime
-#import plotext as plt
 from colorama import Fore, init
 import matplotlib.pyplot as plt
 
@@ -17,15 +18,15 @@ def main():
     
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('-hd','--head',default=0,type=int,help='Número de lineas iniciales')
-    group.add_argument('-tl','--tail',default=0,type=int,help='Número de lineas finales')
-    parser.add_argument('-sym','--symbol',required=True,type=str,help="Introduce ticker/s.")
-    parser.add_argument('-i','--info',type=str,default="All",choices=["All","Open","High","Low","Close","Volume","Dividends","Stock_Splits"],help="Data")
-    parser.add_argument('-s','--start',type=str,default=None,help="Fecha inicial de la serie")
-    parser.add_argument('-e','--end',default='{}-{}-{}'.format(year,month,day),type=str,help="Fecha final de la serie")
+    group.add_argument('-hd','--head',default=0,type=int,help='Number of head lines')
+    group.add_argument('-tl','--tail',default=0,type=int,help='Number of end lines')
+    parser.add_argument('-sym','--symbol',required=True,type=str,help="Ticker symbol")
+    parser.add_argument('-i','--info',type=str,default="All",choices=["All","Open","High","Low","Close","Volume","Dividends","Stock_Splits"],help="Quote data")
+    parser.add_argument('-s','--start',type=str,default=None,help="Start date of time series")
+    parser.add_argument('-e','--end',default='{}-{}-{}'.format(year,month,day),type=str,help="End date of time series")
     parser.add_argument('-int','--interval',default='1d',
-                        choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Intervalos de tiempo")
-    parser.add_argument('--plot','-plt',default=None,action='store_true',help="Grafica")
+                        choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Time intervals")
+    parser.add_argument('--plot','-plt',default=None,action='store_true',help="Show graph")
 
     args=parser.parse_args()
     show_table(args)
@@ -67,9 +68,8 @@ def show_table(args):
             
         print(Fore.RESET)
     except Exception as e:
-        print(Fore.RED+f"UNEXPECTED ERROR: {str(e)}"+Fore.RESET)
+        print(Fore.RED+f"\nUNEXPECTED ERROR: {str(e)}"+Fore.RESET)
     
 if __name__=='__main__':
     main()
-
 
