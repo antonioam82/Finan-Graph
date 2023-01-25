@@ -51,7 +51,8 @@ toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=tk.BOTTOM,fill=tk.BOTH, expand=1)
 
-def show_info():
+# This functionality is currently not available due to a problem with the yahoo finance API.
+'''def show_info():
     if tick_entry.get() != "":
         try:
             tic = yf.Ticker(tick_entry.get())
@@ -69,7 +70,7 @@ def show_info():
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
     else:
-        messagebox.showwarning("EMPTY","No info to show.")
+        messagebox.showwarning("EMPTY","No info to show.")'''
 
 def save_table():
     doc = filedialog.asksaveasfilename(initialdir="/",
@@ -203,7 +204,7 @@ def represent(i):
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 time_intervals = ttk.Combobox(root,width=5)
-time_intervals["values"] = ["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"]
+time_intervals["values"] = ["1d","5d","1wk","1mo","3mo"]
 tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=3,y=8)
 tick_entry.pack(side=tk.LEFT)#.place(x=50,y=8)
 tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=135+11,y=8)
@@ -234,7 +235,7 @@ btnMA = tk.Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:select
 btnMA.place(x=890,y=5)
 btnBol = tk.Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
 btnBol.place(x=794,y=5)
-tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
+#tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
