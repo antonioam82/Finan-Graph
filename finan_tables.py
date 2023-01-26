@@ -28,16 +28,16 @@ def main():
     parser.add_argument('-int','--interval',default='1d',
                         choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Time intervals")
     parser.add_argument('--plot','-plt',default=None,action='store_true',help="Show graph")
-    parser.add_argument('--save','-sv',action="store_true",help="Save table")
+    parser.add_argument('--save','-sv',type=str,default=None,help="Save table")
 
     args=parser.parse_args()
     show_table(args)
 
-def save_table(df):
-    doc = "f_table.txt"
+def save_table(args,df):
+    doc = args.save
     with open(doc, "w") as document:
         document.write(head+"\n\n"+str(df))
-    print(Fore.YELLOW+f"\nSaved document as f_table.txt"+Fore.RESET)
+    print(Fore.YELLOW+f"\nSaved document as {doc}"+Fore.RESET)
 
 def head(args):
     global head
@@ -77,8 +77,8 @@ def show_table(args):
             plt.grid()
             plt.show()
 
-        if args.save:
-            save_table(df)
+        if args.save is not None:
+            save_table(args,df)
             
         print(Fore.RESET)
     except Exception as e:
