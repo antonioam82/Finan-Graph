@@ -39,7 +39,7 @@ def save_table(args,df):
     if pathlib.Path(doc).suffix == ".txt":
         with open(doc, "w") as document:
             document.write(head+"\n\n"+str(df))
-        print(Fore.YELLOW+f"\nSaved document as {doc}"+Fore.RESET)
+        print(Fore.YELLOW+f"\nDocument saved as {doc}"+Fore.RESET)
     else:
         print(Fore.RED+"\nBAD FILE FORMAT: File extension must be '.txt'"+Fore.RESET)
 
@@ -90,4 +90,3 @@ def show_table(args):
     
 if __name__=='__main__':
     main()
-
