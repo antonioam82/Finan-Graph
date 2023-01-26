@@ -75,15 +75,15 @@ def show_table(args):
             df = df.head(args.head)
 
         print(df)
+
+        if args.save is not None:
+            save_table(args,df)        
             
         if args.plot:
             plt.plot(df)
             plt.grid()
             plt.show()
 
-        if args.save is not None:
-            save_table(args,df)
-            
         print(Fore.RESET)
     except Exception as e:
         print(Fore.RED+f"\nUNEXPECTED ERROR: {str(e)}"+Fore.RESET)
