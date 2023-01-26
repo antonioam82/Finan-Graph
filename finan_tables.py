@@ -13,6 +13,7 @@ now = datetime.now()
 day = now.day
 month = now.month
 year = now.year
+head = ""
 
 def main():
     
@@ -35,14 +36,17 @@ def main():
 def save_table(df):
     doc = "f_table.txt"
     with open(doc, "w") as document:
-        document.write(str(df))
+        document.write(head+"\n\n"+str(df))
     print(Fore.YELLOW+f"\nSaved document as f_table.txt"+Fore.RESET)
 
 def head(args):
+    global head
     if args.start:
-        print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}, PERIOD: {args.start}/{args.end}, INTERVAL: {args.interval}, QUOTE: {args.info}\n")
+        head = f"SYMBOL: {args.symbol}, PERIOD: {args.start}/{args.end}, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
+        print("\n"+Fore.GREEN+head)
     else:
-        print("\n"+Fore.GREEN+f"SYMBOL: {args.symbol}, PERIOD: Max, INTERVAL: {args.interval}, QUOTE: {args.info}\n")
+        head = f"SYMBOL: {args.symbol}, PERIOD: Max, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
+        print("\n"+Fore.GREEN+head)
 
 def show_table(args):
     try:
