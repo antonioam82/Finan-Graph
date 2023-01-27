@@ -59,6 +59,7 @@ def plot_graph(args,df):
     plt.plot(df)
     plt.xlabel("PRICE")
     plt.ylabel("TIME")
+    plt.legend(loc='best',facecolor="w")
     plt.grid()
     plt.show()
 
@@ -95,7 +96,6 @@ def show_table(args):
             
 
         print(Fore.RESET)
-        
     except Exception as e:
         print(Fore.RED+f"\nUNEXPECTED ERROR: {str(e)}"+Fore.RESET)
     
