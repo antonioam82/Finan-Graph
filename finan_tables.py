@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-import sys
+import sys ####################
 import yfinance as yf
 import pathlib
 from datetime import datetime
@@ -31,6 +31,8 @@ def main():
     parser.add_argument('--plot','-plt',default=None,action='store_true',help="Show graph")
     parser.add_argument('--save','-sv',type=str,default=None,help="Save table")
 
+    #TODO: DATAFRAMES VACIOS, INFORMACION EN LAS GRAFICAS
+
     args=parser.parse_args()
     show_table(args)
 
@@ -52,6 +54,15 @@ def head(args):
         head = f"SYMBOL: {args.symbol}, PERIOD: Max, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
         print("\n"+Fore.GREEN+head)
 
+def plot_graph(args,df):
+    plt.title(f'{args.symbol}-{args.info}')
+    plt.plot(df)
+    plt.xlabel("PRICE")
+    plt.ylabel("TIME")
+    plt.grid()
+    plt.show()
+
+    
 def show_table(args):
     try:
         print("RETRIEVING DATA...")
@@ -80,11 +91,11 @@ def show_table(args):
             save_table(args,df)        
             
         if args.plot:
-            plt.plot(df)
-            plt.grid()
-            plt.show()
+            plot_graph(args,df)
+            
 
         print(Fore.RESET)
+        
     except Exception as e:
         print(Fore.RED+f"\nUNEXPECTED ERROR: {str(e)}"+Fore.RESET)
     
