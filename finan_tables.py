@@ -60,6 +60,7 @@ def plot_graph(args,df):
     plt.xlabel("PRICE")
     plt.ylabel("TIME")
     plt.legend(loc='best',facecolor="w")
+    plt.xticks(rotation=20)
     plt.grid()
     plt.show()
 
@@ -92,7 +93,11 @@ def show_table(args):
             save_table(args,df)        
             
         if args.plot:
-            plot_graph(args,df)
+            if args.info != "All":
+                plot_graph(args,df)
+            else:
+                args.info = 'Close'
+                plot_graph(args,df['Close'])
             
 
         print(Fore.RESET)
