@@ -82,22 +82,25 @@ def show_table(args):
             else:
                 df = symbol.history(period="max",end=args.end, interval=args.interval)[args.info.replace('_',' ')]
 
-        if args.tail > 0:
-            df = df.tail(args.tail)
-        elif args.head > 0:
-            df = df.head(args.head)
+        if df.empty == False:
+            if args.tail > 0:
+                df = df.tail(args.tail)
+            elif args.head > 0:
+                df = df.head(args.head)
 
-        print(df)
+            print(df)
 
-        if args.save is not None:
-            save_table(args,df)        
+            if args.save is not None:
+                save_table(args,df)        
             
-        if args.plot:
-            if args.info != "All":
-                plot_graph(args,df)
-            else:
-                args.info = 'Close'
-                plot_graph(args,df['Close'])
+            if args.plot:
+                if args.info != "All":
+                    plot_graph(args,df)
+                else:
+                    args.info = 'Close'
+                    plot_graph(args,df['Close'])
+        else:
+            print(Fore.RED+"\nEmpty dataframe")
             
 
         print(Fore.RESET)
