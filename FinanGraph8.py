@@ -32,7 +32,7 @@ style.use('dark_background')
 root = tk.Tk()
 root.title("Finan Graph 8")
 root.configure(background="gray")
-root.geometry("1270x800")#1160
+root.geometry("1270x800")
 start_date = tk.StringVar()
 end_date = tk.StringVar()
 df = ""
@@ -162,7 +162,7 @@ def make_graph():
                 ax1.set_title(table_head)
                 ax1.legend(selected_items,loc='best', shadow=False)
                 ax1.set_ylabel("PRICE")
-                ax1.set_xlabel("TIME")
+                ax1.set_xlabel("DATE")
             else:
                 messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
             
@@ -204,25 +204,23 @@ def represent(i):
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 time_intervals = ttk.Combobox(root,width=5)
-time_intervals["values"] = ["1d","5d","1wk","1mo","3mo"]
-tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=3,y=8)
-tick_entry.pack(side=tk.LEFT)#.place(x=50,y=8)
-tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=135+11,y=8)
+time_intervals["values"] = ["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"]
+tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)
+tick_entry.pack(side=tk.LEFT)
+tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)
 validate_entry = root.register(valid_date)
 sts_entry = tk.Entry(root,textvariable=start_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
 sts_entry.pack(side=tk.LEFT)
-#sts_entry.place(x=210+11,y=8)
-tk.Label(root,text="END DATE:",bg="gray",fg="white").pack(side=tk.LEFT)#.place(x=296,y=8)
+tk.Label(root,text="END DATE:",bg="gray",fg="white").pack(side=tk.LEFT)
 end_datee = tk.Entry(root,textvariable=end_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
 end_datee.pack(side=tk.LEFT)
-#end_datee.place(x=362,y=8)
 tk.Label(root,text="INTERVAL",bg="gray",fg="white").pack(side=tk.LEFT)
 time_intervals.pack(side=tk.LEFT)
 time_intervals.set("1d")
 
 tk.Label(root,height=2,bg="gray").pack(side=tk.LEFT)
 start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
-end_date.set("{}/{}/{}".format(now.year,now.month,now.day))################################################################################
+end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
 btnHigh = tk.Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
 btnHigh.place(x=579,y=5)
 btnLow = tk.Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low",selected_items))
