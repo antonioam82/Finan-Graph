@@ -207,6 +207,7 @@ time_intervals = ttk.Combobox(root,width=5)
 time_intervals["values"] = ["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"]
 tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)
 tick_entry.pack(side=tk.LEFT)
+tk.Button(root,text="DELETE",bg="gray83").pack(side=tk.LEFT)
 tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)
 validate_entry = root.register(valid_date)
 sts_entry = tk.Entry(root,textvariable=start_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
