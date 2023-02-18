@@ -67,7 +67,10 @@ def plot_graph(args,df):
 def show_table(args):
     try:
         print("RETRIEVING DATA...")
-        symbol = yf.Tickers(args.symbol.replace(',',' '))
+        if args.symbol.count(',') >= 1:
+            symbol = yf.Tickers(args.symbol.replace(',',' '))
+        else:
+            symbol = yf.Ticker(args.symbol)
         
         if args.info == "All":
             if args.start:
