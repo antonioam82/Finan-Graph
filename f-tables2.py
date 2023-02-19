@@ -48,10 +48,10 @@ def save_table(args,df):
 def head(args):
     global head
     if args.start:
-        head = f"SYMBOL: {args.symbol}, PERIOD: {args.start}/{args.end}, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
+        head = f"SYMBOL: ({args.symbol}), PERIOD: {args.start}/{args.end}, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
         print("\n"+Fore.GREEN+head)
     else:
-        head = f"SYMBOL: {args.symbol}, PERIOD: Max, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
+        head = f"SYMBOL: ({args.symbol}), PERIOD: Max, INTERVAL: {args.interval}, QUOTE: {args.info}\n"
         print("\n"+Fore.GREEN+head)
 
 def plot_graph(args,df):
