@@ -15,6 +15,7 @@ day = now.day
 month = now.month
 year = now.year
 head = ""
+tickers = []
 
 def main():
     
@@ -61,16 +62,21 @@ def plot_graph(args,df):
     plt.legend(loc='best',facecolor="w")
     plt.xticks(rotation=20)
     plt.grid()
+    plt.legend(tickers,loc='best', shadow=False)
     plt.show()
 
     
 def show_table(args):
+    global tickers
     try:
         print("RETRIEVING DATA...")
         if args.symbol.count(',') >= 1:
             symbol = yf.Tickers(args.symbol.replace(',',' '))
+            tickers = args.symbol.replace(',',' ').split(" ")
+            tickers.sort()
         else:
             symbol = yf.Ticker(args.symbol)
+            tickers = [args.symbol]
         
         if args.info == "All":
             if args.start:
