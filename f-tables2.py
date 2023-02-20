@@ -17,8 +17,8 @@ year = now.year
 head = ""
 tickers = []
 indexed_syms = ['IXIC','N225','GSPC','GDAXI','FCHI','DJI','IBEX','DJT','STOXX50E','FTSE',
-                'HSI','BVSP','MXX','ATX','SSMI','OMXC20','OSEAX','OMXSPI','JKSE',
-                'KS11','TWII','TA125.TA','KLSE','NZ50','CASE30','BVSP','IPSA','JN0U.JO']
+                'HSI','BVSP','MXX','ATX','SSMI','OMXC20','OSEAX','OMXSPI','JKSE','NSEMDCP50',
+                'CRSMID','KS11','TWII','TA125.TA','KLSE','NZ50','CASE30','BVSP','IPSA','JN0U.JO']
 
 def main():
     
