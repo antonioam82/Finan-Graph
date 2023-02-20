@@ -15,10 +15,12 @@ day = now.day
 month = now.month
 year = now.year
 head = ""
+indexed_syms = ['IXIC','N225','GSPC','GDAXI','FCHI','DJI','DJT']
 
 def main():
     
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="f-tables",conflict_handler='resolve',description="Display finantial tables on your teminal.",
+                                     epilog= "REPO: https://github.com/antonioam82/f-tables")
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-hd','--head',default=0,type=int,help='Number of head lines')
     group.add_argument('-tl','--tail',default=0,type=int,help='Number of end lines')
@@ -30,8 +32,6 @@ def main():
                         choices=["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"],type=str,help="Time intervals")
     parser.add_argument('--plot','-plt',default=None,action='store_true',help="Show graph")
     parser.add_argument('--save','-sv',type=str,default=None,help="Save table")
-
-    #TODO: DATAFRAMES VACIOS, INFORMACION EN LAS GRAFICAS
 
     args=parser.parse_args()
     show_table(args)
@@ -57,8 +57,8 @@ def head(args):
 def plot_graph(args,df):
     plt.title(f'{args.symbol}-{args.info}')
     plt.plot(df)
-    plt.xlabel("PRICE")
-    plt.ylabel("TIME")
+    plt.xlabel("DATE")
+    plt.ylabel("PRICE")
     plt.legend(loc='best',facecolor="w")
     plt.xticks(rotation=20)
     plt.grid()
@@ -68,7 +68,10 @@ def plot_graph(args,df):
 def show_table(args):
     try:
         print("RETRIEVING DATA...")
-        symbol = yf.Ticker(args.symbol)
+        if args.symbol in indexed_syms:
+            symbol = yf.Ticker("^"+args.symbol)
+        else:
+            symbol = yf.Ticker(args.symbol)
         head(args)
         if args.info == "All":
             if args.start:
