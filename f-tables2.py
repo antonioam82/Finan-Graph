@@ -72,9 +72,15 @@ def show_table(args):
     try:
         print("RETRIEVING DATA...")
         if args.symbol.count(',') >= 1:
-            
-            symbol = yf.Tickers(args.symbol.replace(',',' '))
-            tickers = args.symbol.replace(',',' ').split(" ")
+            lista = args.symbol.replace(',',' ').split(" ")
+            c=0
+            for i in lista:
+                if i in indexed_syms:
+                    lista[c] = "^"+i
+                c+=1
+            symbols = (" ").join(tuple(lista))
+            symbol = yf.Tickers(symbols)
+            tickers = lista
             tickers.sort()
         else:
             if args.symbol in indexed_syms:
