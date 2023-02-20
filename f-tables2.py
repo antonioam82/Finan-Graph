@@ -16,6 +16,7 @@ month = now.month
 year = now.year
 head = ""
 tickers = []
+indexed_syms = ['IXIC']
 
 def main():
     
@@ -71,11 +72,15 @@ def show_table(args):
     try:
         print("RETRIEVING DATA...")
         if args.symbol.count(',') >= 1:
+            
             symbol = yf.Tickers(args.symbol.replace(',',' '))
             tickers = args.symbol.replace(',',' ').split(" ")
             tickers.sort()
         else:
-            symbol = yf.Ticker(args.symbol)
+            if args.symbol in indexed_syms:
+                symbol = yf.Ticker("^"+args.symbol)
+            else:
+                symbol = yf.Ticker(args.symbol)
             tickers = [args.symbol]
         
         if args.info == "All":
