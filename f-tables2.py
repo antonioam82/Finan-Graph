@@ -16,7 +16,7 @@ month = now.month
 year = now.year
 head = ""
 tickers = []
-indexed_syms = ['IXIC','N225','GSPC','GDAXI','FCHI']
+indexed_syms = ['IXIC','N225','GSPC','GDAXI','FCHI','DJI','DJT']
 
 def main():
     
