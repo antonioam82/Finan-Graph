@@ -22,7 +22,7 @@ indexed_syms = ['IXIC','N225','GSPC','GDAXI','FCHI','DJI','IBEX','DJT','STOXX50E
 
 def main():
     
-    parser = argparse.ArgumentParser(prog="f-tables",conflict_handler='resolve',description="Display finantial tables on your teminal.",
+    parser = argparse.ArgumentParser(prog="f-tables",conflict_handler='resolve',description="Display finantial tables on your terminal.",
                                      epilog= "REPO: https://github.com/antonioam82/f-tables")
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-hd','--head',default=0,type=int,help='Number of head lines')
