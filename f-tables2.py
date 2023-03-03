@@ -60,7 +60,7 @@ def head(args):
 def plot_graph(args,df):
     plt.title(f'{args.symbol}-{args.info}')
     plt.plot(df)
-    plt.xlabel("DATE")
+    plt.xlabel("TIME")
     plt.ylabel("PRICE")
     plt.legend(loc='best',facecolor="w")
     plt.xticks(rotation=20)
@@ -96,7 +96,6 @@ def show_table(args):
                 df = symbol.history(start=args.start,end=args.end, interval=args.interval)
             else:
                 df = symbol.history(period="max",end=args.end, interval=args.interval)
-
         else:
             if args.start is not None:
                 df = symbol.history(start=args.start,end=args.end, interval=args.interval)[args.info.replace('_',' ')]
