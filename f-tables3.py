@@ -46,12 +46,21 @@ def main():
 
 def save_table(args,df):
     doc = args.save
-    if pathlib.Path(doc).suffix == ".txt":
-        with open(doc, "w") as document:
-            document.write(head+"\n\n"+str(df))
-        print(Fore.YELLOW+f"\nDocument saved as '{doc}'"+Fore.RESET)
+    extension = pathlib.Path(doc).suffix
+    if extension == ".txt" or extension == ".xlsx":
+        try:
+            if extension == ".txt":
+                with open(doc, "w") as document:
+                    document.write(head+"\n\n"+str(df))
+            else:
+                df.to_excel(doc,index=False)
+            print(Fore.YELLOW+f"\nDocument saved as '{doc}'"+Fore.RESET)
+            
+        except Exception as e:
+            print(Fore.RED+f"\nUNEXPECTED ERROR: {str(e)}"+Fore.RESET)
+            
     else:
-        print(Fore.RED+"\nBAD FILE FORMAT: File extension must be '.txt'"+Fore.RESET)
+        print(Fore.RED+"\nBAD FILE FORMAT: File extension must be '.txt' or '.xlsx'"+Fore.RESET)
 
 def head(args):
     global head
