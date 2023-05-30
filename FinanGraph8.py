@@ -124,7 +124,7 @@ def make_graph():
             s_date = sts_entry.get().split("/")
             enddate = date.datetime(int(e_date[0]),int(e_date[1]),int(e_date[2]))
             startdate = date.datetime(int(s_date[0]),int(s_date[1]),int(s_date[2]))
-
+            print("END DATE --> ",e_date)
             #--------------------------------------------------------------------------------------------------
             df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval=interv).reset_index()[['Date']+selected_items]
         
@@ -164,7 +164,7 @@ def make_graph():
                 ax1.set_ylabel("PRICE")
                 ax1.set_xlabel("DATE")
             else:
-                messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
+                messagebox.showwarning("INVALID DATA",str(df)+"\n"+"Enter a valid ticker and date range.")
             
 
         else:
@@ -207,7 +207,7 @@ time_intervals = ttk.Combobox(root,width=5)
 time_intervals["values"] = ["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"]
 tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)
 tick_entry.pack(side=tk.LEFT)
-tk.Button(root,text="DELETE",bg="gray83").pack(side=tk.LEFT)
+#tk.Button(root,text="DELETE",bg="gray83").pack(side=tk.LEFT)
 tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)
 validate_entry = root.register(valid_date)
 sts_entry = tk.Entry(root,textvariable=start_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
