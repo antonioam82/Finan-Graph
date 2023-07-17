@@ -7,6 +7,7 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 from os import system
+import colorama
 import argparse
 
 def validate_date(d):
@@ -26,4 +27,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
     
