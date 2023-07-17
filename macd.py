@@ -11,4 +11,10 @@ def main():
     parser = argparse.ArgumentParser(prog="macd 0.0", description="MCAD from CMD",
                                      epilog="")
     parser.add_argument('-sym','--symbol',required=True,type=str, help="Thicker symbol")
-    parser.add_argument('-st','--start',type=str, help="Thicker symbol")
+    parser.add_argument('-st','--start',type=str, help="Start date")
+    parser.add_argument('-e','--end',type=str, help="End date")
+
+    args = parser.parse_args()
+
+if __name__ == "__main__":
+    main()
