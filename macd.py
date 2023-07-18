@@ -18,6 +18,13 @@ def validate_date(d):
     except:
         raise argparse.ArgumentTypeError(Fore.RED + Style.BRIGHT + "Bad date format (must be '%Y-%m-%d')" + Fore.RESET +Style.RESET_ALL)
 
+def get_data(s,st,e):
+    try:
+        df = yf.download(s, start = st, end = e)
+        print(df.tail())
+    except Exception as e:
+        print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET +Style.RESET_ALL )
+
 def main():
     parser = argparse.ArgumentParser(prog="macd 0.0", description="MCAD from CMD",
                                      epilog="")
@@ -29,6 +36,8 @@ def main():
     print(args.start)
     if str(args.start) >= str(args.end):
         parser.error(Fore.RED + Style.BRIGHT + "Start date must be minor than end date" + Fore.RESET +Style.RESET_ALL)
+
+    get_data(args.symbol,args.start,args.end)
         
 
 if __name__ == "__main__":
