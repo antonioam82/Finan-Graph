@@ -25,7 +25,10 @@ def get_data(s,st,e):
         df["EMA26"] = df.Close.ewm(span=26).mean()
         df["MACD"] = df.EMA12-df.EMA26
         df["Senal"] = df.MACD.ewm(span = 9).mean()
-        print(df.tail())
+        print(Fore.GREEN)
+        print(df)
+        print(Fore.RESET)
+        
     except Exception as e:
         print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET +Style.RESET_ALL )
 
