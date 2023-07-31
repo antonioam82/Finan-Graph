@@ -28,7 +28,12 @@ def get_data(s,st,e):
         print(Fore.GREEN)
         print(df)
         print(Fore.RESET)
-        
+
+        plt.subplot(2,1,2)
+        plt.plot(df.Senal, color="red")
+        plt.plot(df.MACD)
+        Buy, Sell = [], []
+  
     except Exception as e:
         print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET +Style.RESET_ALL )
 
@@ -49,6 +54,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-    
-    
