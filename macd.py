@@ -21,6 +21,10 @@ def validate_date(d):
 def get_data(s,st,e):
     try:
         df = yf.download(s, start = st, end = e)
+        df["EMA12"] = df.Close.ewm(span=12).mean()
+        df["EMA26"] = df.Close.ewm(span=26).mean()
+        df["MACD"] = df.EMA12-df.EMA26
+        df["Senal"] = df.MACD.ewm(span = 9).mean()
         print(df.tail())
     except Exception as e:
         print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET +Style.RESET_ALL )
@@ -42,7 +46,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
     
     
     
