@@ -20,7 +20,10 @@ def validate_date(d):
 
 def get_data(s,st,e):
     try:
-        df = yf.download(s, start = st, end = e)
+        if e == "":
+            df = yf.download(s, start = st)
+        else:
+            df = yf.download(s, start = st, end = e)
         df["EMA12"] = df.Close.ewm(span=12).mean()
         df["EMA26"] = df.Close.ewm(span=26).mean()
         df["MACD"] = df.EMA12-df.EMA26
@@ -81,9 +84,12 @@ def get_data(s,st,e):
         else:
             print("Not news")
 
-
-        
-        
+        plt.subplot(2,1,1)
+        plt.scatter(df.iloc[Buy].index, df.iloc[Buy].Close, marker="o", color="green")
+        plt.scatter(df.iloc[Sell].index, df.iloc[Sell].Close, marker="o", color="red")
+        plt.plot(df.Close, color="black")
+        plt.show()
+  
     except Exception as e:
         print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET +Style.RESET_ALL )
 
@@ -92,7 +98,7 @@ def main():
                                      epilog="")
     parser.add_argument('-sym','--symbol',required=True,type=str, help="Thicker symbol")
     parser.add_argument('-st','--start',type=validate_date, required=True, help="Start date")
-    parser.add_argument('-e','--end',type=validate_date, required=True, help="End date")
+    parser.add_argument('-e','--end',type=validate_date, help="End date")
 
     args = parser.parse_args()
     print(args.start)
