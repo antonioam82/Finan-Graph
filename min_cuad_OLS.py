@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import pandas_datareader.data as wb
 import matplotlib.pyplot as plt
 import statsmodels.formula.api as smf
@@ -5,10 +7,18 @@ import numpy as np
 import warnings
 import argparse
 from colorama import init, Fore, Style
+from datetime import datetime
 
 init()
 
 warnings.filterwarnings("ignore")
+
+def make_model(v,s):
+    data = wb.DataReader(v, 'fred', s)
+    mod = smf.ols(f'{v[0]} ~ {v[1]}', np.log(data)).fit()
+    print(Fore.GREEN + '\n')
+    print(mod.summary(), mod.params)
+    print(Fore.RESET)
 
 def validate_date(d):
     try:
@@ -24,6 +34,7 @@ def main():
     parser.add_argument('-e','--end',type=validate_date, help="End date for regression")
     
     args = parser.parse_args()
+    make_model([args.dependent_var,args.independent_var],args.start)
 
     
 if __name__ == "__main__":
