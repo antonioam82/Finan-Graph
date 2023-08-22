@@ -66,7 +66,6 @@ canvas.get_tk_widget().pack(side=tk.BOTTOM,fill=tk.BOTH, expand=1)
             display.insert(tk.END,tick_entry.get()+"\n\n")
             for key, value in final.items():
                 display.insert(tk.END,key+":"+"\n"+str(value)+"\n\n")
-
         except Exception as e:
             messagebox.showwarning("UNEXPECTED ERROR",str(e))
     else:
@@ -136,14 +135,14 @@ def make_graph():
                         btnClose.configure(bg="light green")
                         df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval=interv).reset_index()[['Date']+selected_items]
                         ax1.plot(df["Date"],df["Close"])
-                    bol = ta.volatility.BollingerBands(df["Close"], window=12)
-                    bol2= ta.volatility.BollingerBands(df["Close"], window=26)
+                    bol = ta.volatility.BollingerBands(df["Close"], window=10)
+                    bol2= ta.volatility.BollingerBands(df["Close"], window=20)
                     for e in special_metrics:
                         selected_items.append(e)
-                    if "M-AVG12" in selected_items:
-                        df['M-AVG12'] = bol.bollinger_mavg()#media movil
-                    if "M-AVG26" in selected_items:
-                        df['M-AVG26'] = bol2.bollinger_mavg()#media movil
+                    if "M-AVG10" in selected_items:
+                        df['M-AVG10'] = bol.bollinger_mavg()#media movil
+                    if "M-AVG20" in selected_items:
+                        df['M-AVG20'] = bol2.bollinger_mavg()#media movil
                     if "BOLL. BANDS" in selected_items:
                         selected_items.remove("BOLL. BANDS")
                         df['High Band'] = bol.bollinger_hband()#banda superior
@@ -233,10 +232,10 @@ btnOpen = tk.Button(root,text="Open",bg="gray83",width=5,command=lambda:selectio
 btnOpen.place(x=673,y=5)
 btnClose = tk.Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close",selected_items))
 btnClose.place(x=720,y=5)#591
-btnMA12 = tk.Button(root,text="MAVG 12",bg="gray83",width=12,command=lambda:selection("M-AVG12",special_metrics))
-btnMA12.place(x=890-20,y=5)
-btnMA26 = tk.Button(root,text="MAVG 26",bg="gray83",width=12,command=lambda:selection("M-AVG26",special_metrics))
-btnMA26.place(x=966,y=5)
+btnMA10 = tk.Button(root,text="MAVG 10",bg="gray83",width=12,command=lambda:selection("M-AVG10",special_metrics))
+btnMA10.place(x=890-20,y=5)
+btnMA20 = tk.Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:selection("M-AVG20",special_metrics))
+btnMA20.place(x=966,y=5)
 btnBol = tk.Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
 btnBol.place(x=794-20,y=5)
 #tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
@@ -244,6 +243,6 @@ tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="righ
 tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
 ani = animation.FuncAnimation(fig, represent, interval=1000)
-buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG12":btnMA12,"M-AVG26":btnMA26,"BOLL. BANDS":btnBol}
+buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG10":btnMA10,"M-AVG20":btnMA20,"BOLL. BANDS":btnBol}
 
 root.mainloop()
