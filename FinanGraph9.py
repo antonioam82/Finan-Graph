@@ -30,7 +30,7 @@ previous = now - timedelta(days = 500)
 
 style.use('dark_background')
 root = tk.Tk()
-root.title("Finan Graph 8")
+root.title("Finan Graph 9")
 root.configure(background="gray")
 root.geometry("1270x800")
 start_date = tk.StringVar()
@@ -50,26 +50,6 @@ canvas.draw()
 toolbar = NavigationToolbar2Tk(canvas, root)
 toolbar.update()
 canvas.get_tk_widget().pack(side=tk.BOTTOM,fill=tk.BOTH, expand=1)
-
-# This functionality is currently not available due to a problem with the yahoo finance API.
-'''def show_info():
-    if tick_entry.get() != "":
-        try:
-            tic = yf.Ticker(tick_entry.get())
-            topp = tk.Toplevel()
-            topp.title("MORE INFO")
-            display = sct.ScrolledText(master=topp,width=95,height=30)
-            display.pack(padx=0,pady=0)
-            display.insert(tk.END,"COLLECTING INFO...")
-            final = tic.info
-            display.delete('1.0',tk.END)
-            display.insert(tk.END,tick_entry.get()+"\n\n")
-            for key, value in final.items():
-                display.insert(tk.END,key+":"+"\n"+str(value)+"\n\n")
-        except Exception as e:
-            messagebox.showwarning("UNEXPECTED ERROR",str(e))
-    else:
-        messagebox.showwarning("EMPTY","No info to show.")'''
 
 def save_table():
     doc = filedialog.asksaveasfilename(initialdir="/",
@@ -153,7 +133,7 @@ def make_graph():
 
                 #---------------------------------------------------------------------------------------------------
                 
-                table_head = "{} ({}-{}) interv: {}".format(ticker,sts_entry.get(),end_datee.get(),interv)
+                table_head = "{} ({} - {}) interv: {}".format(ticker,sts_entry.get(),end_datee.get(),interv)
         
                 for i in selected_items:
                     if i == 'Low Band' or i == 'High Band':
@@ -207,7 +187,7 @@ def represent(i):
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 time_intervals = ttk.Combobox(root,width=5)
-time_intervals["values"] = ["1m","2m","5m","15m","30m","60m","90m","1h","1d","5d","1wk","1mo","3mo"]
+time_intervals["values"] = ["1d","5d","1wk","1mo","3mo"]
 tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)
 tick_entry.pack(side=tk.LEFT)
 #tk.Button(root,text="DELETE",bg="gray83").pack(side=tk.LEFT)
@@ -239,7 +219,6 @@ btnMA20 = tk.Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:sele
 btnMA20.place(x=966,y=5)
 btnBol = tk.Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
 btnBol.place(x=794-20,y=5)
-#tk.Button(root,text="SHOW INFO",bg="gray83",command=init_task).pack(side="right",padx=2)
 tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
