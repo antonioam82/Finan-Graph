@@ -177,12 +177,13 @@ def make_graph():
 
     actv = False
     print(selected_items)
-    deling = ["M-AVG12","M-AVG26","BOLL. BANDS","Low Band","High Band"]
+    deling = ["M-AVG10","M-AVG20","BOLL. BANDS","Low Band","High Band"]
     for i in deling:
         if i in selected_items:
             selected_items.remove(i)
 
     print(selected_items)
+    
 
 def activate():
     global actv
