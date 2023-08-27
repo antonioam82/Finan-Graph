@@ -90,6 +90,21 @@ def selection(n,l):
     print("S. Items:",selected_items)
     print("Sp. Metrics:",special_metrics)
 
+def delete_symbol():
+    if tick_entry.get() != "":
+        symbol_to_delete = tick_entry.get()
+        if symbol_to_delete in used_symbols:
+            message = messagebox.askquestion("REMOVE SYMBOL",f"Do you want to delete '{symbol_to_delete}' from list?")
+            if message == 'yes':
+                used_symbols.remove(symbol_to_delete)
+                pickle.dump(used_symbols, open("symbols", "wb"))
+                tick_entry["values"] = pickle.load(open("symbols", "rb"))
+                messagebox.showinfo("Symbol Deleted", f"Symbol '{symbol_to_delete}' deleted successfully.")
+        else:
+            messagebox.showwarning("Symbol Not Found", f"Symbol '{symbol_to_delete}' is not in the list.")
+    else:
+        messagebox.showwarning("No Symbol Entered", "Please enter a symbol to delete.")
+
 def make_graph():
     global actv, df, table_head
     print("ACTIVATED")
@@ -190,7 +205,7 @@ time_intervals = ttk.Combobox(root,width=5)
 time_intervals["values"] = ["1d","5d","1wk","1mo","3mo"]
 tk.Label(root,text="TICKER:",bg="gray",fg="white").pack(side=tk.LEFT)
 tick_entry.pack(side=tk.LEFT)
-#tk.Button(root,text="DELETE",bg="gray83").pack(side=tk.LEFT)
+tk.Button(root,text="DELETE",bg="gray83",command=delete_symbol).pack(side=tk.LEFT)
 tk.Label(root,text="START DATE:",bg="gray",fg="white").pack(side=tk.LEFT)
 validate_entry = root.register(valid_date)
 sts_entry = tk.Entry(root,textvariable=start_date,width=10,validate="key",validatecommand=(validate_entry, "%S"))
