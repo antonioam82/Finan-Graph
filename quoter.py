@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from alpha_vantage.timeseries import TimeSeries
 from pprint import pprint
 import argparse
