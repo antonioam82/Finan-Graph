@@ -23,7 +23,7 @@ def quoter(args):
     listener.start()
     prev_value = ""
     try:
-        print(Fore.BLACK + Back.GREEN + f"\nREAL TIME {args.ticker} QUOTATION -[PRESS SPACE BAR TO EXIT]" + Fore.RESET + Back.RESET)
+        print(Fore.BLACK + Back.WHITE + f"\nREAL TIME {args.ticker} QUOTATION -[PRESS SPACE BAR TO EXIT]" + Fore.RESET + Back.RESET)
         while stop == False:
             stock_data = yf.download(args.ticker, period="1d",interval="1m").tail(2)
             #print(stock_data)
