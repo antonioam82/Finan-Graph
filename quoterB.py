@@ -21,6 +21,7 @@ def on_press(key):
 def quoter(args):
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
+    prev_value = ""
     try:
         while stop == False:
             stock_data = yf.download(args.ticker, period="1d",interval="1m").tail(2)
@@ -35,9 +36,17 @@ def quoter(args):
 
             current_datetime = stock_data.index[-1]
             
-            print(Fore.GREEN + Style.BRIGHT + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
-                  f" Volume: {last_volume:.2f} | Close: {last_close_price:.2f}" + Fore.RESET + Style.RESET_ALL)
+            if last_close_price == prev_value or prev_value == "":
+                color = Fore.YELLOW
+            elif last_close_price > prev_value:
+                color = Fore.GREEN
+            else:
+                color = Fore.RED
+            
+            print(Fore.BLUE + Style.BRIGHT + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
+                  f" Volume: {last_volume:.2f} | Close: " + color + f"{last_close_price:.2f}" + Fore.RESET + Style.RESET_ALL)
 
+            prev_value = last_close_price
             time.sleep(args.time_delay)
 
             if stop == True:
