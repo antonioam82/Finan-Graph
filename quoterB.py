@@ -30,7 +30,7 @@ def quoter(args):
             last_close_price = stock_data["Close"].iloc[-1]
             last_volume = stock_data["Volume"].iloc[-1]
             last_open_price = stock_data["Open"].iloc[-1]
-            last_adj_close = stock_data["Adj Close"].iloc[-1]
+            #last_adj_close = stock_data["Adj Close"].iloc[-1]
             last_high_price = stock_data["High"].iloc[-1]
             last_low_price = stock_data["Low"].iloc[-1]
             current_datetime = stock_data.index[-1]
@@ -53,7 +53,6 @@ def main():
     parser.add_argument('-delay', '--time_delay', type=float, default=30, help='Call delay to the API, in seconds')
 
     args = parser.parse_args()
-    #ts = "hhd"
     quoter(args)
 
 if __name__ == '__main__':
