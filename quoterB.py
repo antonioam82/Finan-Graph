@@ -35,15 +35,20 @@ def quoter(args):
             last_volume = stock_data["Volume"].iloc[-1]
 
             current_datetime = stock_data.index[-1]
-            
-            if last_close_price == prev_value or prev_value == "":
-                color = Fore.YELLOW
-            elif last_close_price > prev_value:
-                color = Fore.GREEN
+
+            if args.color:
+                line_color = Fore.BLUE
+                if last_close_price == prev_value or prev_value == "":
+                    color = Fore.YELLOW
+                elif last_close_price > prev_value:
+                    color = Fore.GREEN
+                else:
+                    color = Fore.RED
             else:
-                color = Fore.RED
+                color = Fore.GREEN
+                line_color = Fore.GREEN
             
-            print(Fore.BLUE + Style.BRIGHT + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
+            print(line_color + Style.BRIGHT + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
                   f" Volume: {last_volume:.2f} | Close: " + color + f"{last_close_price:.2f}" + Fore.RESET + Style.RESET_ALL)
 
             prev_value = last_close_price
@@ -59,6 +64,7 @@ def quoter(args):
 def main():
     parser = argparse.ArgumentParser(prog="QUOTER 0.0",description="Show quotes in real time")
     parser.add_argument('-tick', '--ticker', required=True, type=str, help='Ticker name')
+    parser.add_argument('-clr', '--color', action='store_true', help='Use this action for color close values')
     parser.add_argument('-delay', '--time_delay', type=float, default=30, help='Call delay to the API, in seconds')
 
     args = parser.parse_args()
