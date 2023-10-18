@@ -24,7 +24,8 @@ def quoter(args):
     try:
         while stop == False:
             #print("HELLO")
-            stock_data = yf.download(args.ticker, period="1d",interval="1m")
+            stock_data = yf.download(args.ticker, period="1d",interval="1m").tail(2)
+            #print(stock_data)
             
             last_close_price = stock_data["Close"].iloc[-1]
             last_volume = stock_data["Volume"].iloc[-1]
