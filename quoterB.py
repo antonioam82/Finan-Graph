@@ -7,6 +7,8 @@ from pynput import keyboard
 from colorama import init, Fore, Back, Style
 import time
 
+init()
+
 stop = False
 
 def on_press(key):
@@ -32,7 +34,8 @@ def quoter(args):
             last_low_price = stock_data["Low"].iloc[-1]
             current_datetime = stock_data.index[-1]
             
-            print(f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} | Volume: {last_volume:.2f} | Close: {last_close_price:.2f}")
+            print(Fore.GREEN + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
+                  f" Volume: {last_volume:.2f} | Close: {last_close_price:.2f}" + Fore.RESET)
 
             time.sleep(args.time_delay)
 
