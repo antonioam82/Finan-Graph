@@ -34,8 +34,8 @@ def quoter(args):
             last_low_price = stock_data["Low"].iloc[-1]
             current_datetime = stock_data.index[-1]
             
-            print(Fore.GREEN + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
-                  f" Volume: {last_volume:.2f} | Close: {last_close_price:.2f}" + Fore.RESET)
+            print(Fore.GREEN + Style.BRIGHT + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
+                  f" Volume: {last_volume:.2f} | Close: {last_close_price:.2f}" + Fore.RESET + Style.RESET_ALL)
 
             time.sleep(args.time_delay)
 
@@ -44,12 +44,12 @@ def quoter(args):
                 break
                 
     except Exception as e:
-        print(str(e))
+        print(Fore.RED + Style.BRIGHT + str(e) + Fore.RESET + Style.RESET_ALL)
 
 def main():
     parser = argparse.ArgumentParser(prog="QUOTER 0.0",description="Show quotes in real time")
     parser.add_argument('-tick', '--ticker', required=True, type=str, help='Ticker name')
-    parser.add_argument('-delay', '--time_delay', type=float, default=6, help='Call delay to the API, in seconds')
+    parser.add_argument('-delay', '--time_delay', type=float, default=30, help='Call delay to the API, in seconds')
 
     args = parser.parse_args()
     #ts = "hhd"
