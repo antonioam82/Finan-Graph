@@ -23,16 +23,16 @@ def quoter(args):
     listener.start()
     try:
         while stop == False:
-            #print("HELLO")
             stock_data = yf.download(args.ticker, period="1d",interval="1m").tail(2)
             #print(stock_data)
-            
-            last_close_price = stock_data["Close"].iloc[-1]
-            last_volume = stock_data["Volume"].iloc[-1]
+
             last_open_price = stock_data["Open"].iloc[-1]
-            #last_adj_close = stock_data["Adj Close"].iloc[-1]
             last_high_price = stock_data["High"].iloc[-1]
             last_low_price = stock_data["Low"].iloc[-1]
+            #last_adj_close = stock_data["Adj Close"].iloc[-1]
+            last_close_price = stock_data["Close"].iloc[-1]
+            last_volume = stock_data["Volume"].iloc[-1]
+
             current_datetime = stock_data.index[-1]
             
             print(Fore.GREEN + Style.BRIGHT + f"{current_datetime} | Ticker: {args.ticker} | Low: {last_low_price:.2f} | High: {last_high_price:.2f} | Open: {last_open_price:.2f} |"
