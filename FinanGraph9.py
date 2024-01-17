@@ -201,7 +201,7 @@ def represent(i):
     if actv == True:
         make_graph()
 
-tk.Entry(root, width=214, textvariable=current_dir, state='readonly').pack(side=tk.TOP)
+tk.Entry(root, textvariable=current_dir, state='readonly').pack(side=tk.TOP,fill=tk.X)
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 time_intervals = ttk.Combobox(root,width=5)
