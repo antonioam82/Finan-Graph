@@ -244,3 +244,4 @@ ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG10":btnMA10,"M-AVG20":btnMA20,"BOLL. BANDS":btnBol}
 
 root.mainloop()
+
