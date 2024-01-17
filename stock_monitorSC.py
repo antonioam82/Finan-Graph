@@ -1,44 +1,34 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import tkinter as tk
-import os
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from tkinter import ttk
+from tkinter import messagebox, filedialog
+import tkinter.scrolledtext as sct
+import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+import matplotlib.animation as animation
 from matplotlib import style
-import numpy as np
+import threading
+import os
+import warnings
+warnings.filterwarnings("ignore")
 
-'''def generate_data():
-    x = np.linspace(0, 10, 100)
-    y = np.sin(x)
-    return x, y'''
+style.use('grayscale')
+root = tk.Tk()
+root.title("Finan Graph 9")
+root.configure(background="gray")
+root.geometry("1270x800")
 
-# Función principal
-def main():
-    # grayscale, _classic_test, 
-    # Crear la ventana principal
-    style.use('dark_background')
-    root = tk.Tk()
-    root.title("Stock Screen")
-    root.geometry("730x500")
+fig = Figure()
+ax1 = fig.add_subplot(111)
+ax1.grid()
 
-    #x, y = generate_data()
+canvas = FigureCanvasTkAgg(fig,master=root)
+canvas.draw()
+toolbar = NavigationToolbar2Tk(canvas, root)
+toolbar.update()
 
-    fig = Figure(figsize=(5, 4), dpi=100)
-    plot = fig.add_subplot(1, 1, 1)
-    plot.grid()
-    '''plot.plot(x, y, label='Función Seno')
-    plot.set_title('Gráfica de Ejemplo')
-    plot.set_xlabel('Eje X')
-    plot.set_ylabel('Eje Y')
-    plot.legend()'''  
+canvas.get_tk_widget().pack(side=tk.BOTTOM,fill=tk.BOTH, expand=1)
 
-    # Incorporar la figura en la interfaz de Tkinter
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas_widget = canvas.get_tk_widget()
-    canvas_widget.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=1)
-
-    # Iniciar el bucle principal de Tkinter
-    root.mainloop()
-
-if __name__ == "__main__":
-    main()
+root.mainloop()
