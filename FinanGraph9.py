@@ -35,6 +35,8 @@ root.configure(background="gray")
 root.geometry("1270x800")
 start_date = tk.StringVar()
 end_date = tk.StringVar()
+current_dir = tk.StringVar()
+current_dir.set(os.getcwd())
 df = ""
 table_head = ""
 used_symbols = sorted(pickle.load(open("symbols","rb")))
@@ -199,6 +201,7 @@ def represent(i):
     if actv == True:
         make_graph()
 
+tk.Entry(root, width=214, textvariable=current_dir, state='readonly').pack(side=tk.TOP)
 tick_entry = ttk.Combobox(root,width=10)
 tick_entry["values"]=used_symbols
 time_intervals = ttk.Combobox(root,width=5)
@@ -221,19 +224,19 @@ tk.Label(root,height=2,bg="gray").pack(side=tk.LEFT)
 start_date.set("{}/{}/{}".format(previous.year,previous.month,previous.day))
 end_date.set("{}/{}/{}".format(now.year,now.month,now.day))
 btnHigh = tk.Button(root,text="High",bg="gray83",width=5,command=lambda:selection("High",selected_items))
-btnHigh.place(x=579,y=5)
+btnHigh.place(x=579,y=24)
 btnLow = tk.Button(root,text="Low",bg="gray83",width=5,command=lambda:selection("Low",selected_items))
-btnLow.place(x=626,y=5)
+btnLow.place(x=626,y=24)
 btnOpen = tk.Button(root,text="Open",bg="gray83",width=5,command=lambda:selection("Open",selected_items))
-btnOpen.place(x=673,y=5)
+btnOpen.place(x=673,y=24)
 btnClose = tk.Button(root,text="Close",bg="light green",width=5,command=lambda:selection("Close",selected_items))
-btnClose.place(x=720,y=5)#591
+btnClose.place(x=720,y=24)#591
 btnMA10 = tk.Button(root,text="MAVG 10",bg="gray83",width=12,command=lambda:selection("M-AVG10",special_metrics))
-btnMA10.place(x=890-20,y=5)
+btnMA10.place(x=890-20,y=24)
 btnMA20 = tk.Button(root,text="MAVG 20",bg="gray83",width=12,command=lambda:selection("M-AVG20",special_metrics))
-btnMA20.place(x=966,y=5)
+btnMA20.place(x=966,y=24)
 btnBol = tk.Button(root,text="BOLL. BANDS",bg="gray83",width=12,command=lambda:selection("BOLL. BANDS",special_metrics))
-btnBol.place(x=794-20,y=5)
+btnBol.place(x=794-20,y=24)
 tk.Button(root,text="SHOW TABLE",bg="gray83",command=show_table).pack(side="right",padx=2)
 tk.Button(root,text="SHOW GRAPH",bg="gray83",command=activate).pack(side="right",padx=2)
 
