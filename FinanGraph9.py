@@ -173,6 +173,7 @@ def make_graph():
         messagebox.showwarning("UNEXPECTED ERROR",str(e))
 
     actv = False
+    ani.event_source.stop()
     print(selected_items)
     deling = ["M-AVG10","M-AVG20","BOLL. BANDS","Low Band","High Band"]
     for i in deling:
@@ -184,6 +185,7 @@ def make_graph():
 
 def activate():
     global actv
+    ani.event_source.start()
     actv = True
 
 def update_tickers(t):
@@ -198,6 +200,7 @@ def init_task():
     
 def represent(i):
     global actv
+    ani.event_source.stop()
     if actv == True:
         make_graph()
 
@@ -244,4 +247,5 @@ ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG10":btnMA10,"M-AVG20":btnMA20,"BOLL. BANDS":btnBol}
 
 root.mainloop()
+
 
