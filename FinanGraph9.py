@@ -122,7 +122,8 @@ def make_graph():
             startdate = date.datetime(int(s_date[0]),int(s_date[1]),int(s_date[2]))
             print("END DATE --> ",e_date)
             #--------------------------------------------------------------------------------------------------
-            df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval=interv).reset_index()[['Date']+selected_items]
+            #df = yf.Ticker(ticker).history(start=startdate,end=enddate,interval=interv).reset_index()[['Date']+selected_items]
+            df = yf.download(ticker,start=startdate,end=enddate,interval=interv,progress=False).reset_index()[['Date']+selected_items]
         
             if df.empty == False:
                 df = dropna(df)
@@ -247,5 +248,4 @@ ani = animation.FuncAnimation(fig, represent, interval=1000)
 buttons = {"High":btnHigh,"Low":btnLow,"Open":btnOpen,"Close":btnClose,"M-AVG10":btnMA10,"M-AVG20":btnMA20,"BOLL. BANDS":btnBol}
 
 root.mainloop()
-
 
