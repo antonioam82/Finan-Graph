@@ -114,8 +114,6 @@ def make_graph():
         ticker = tick_entry.get()
         interv = time_intervals.get()
         if ticker != "" and end_datee.get() != "" and sts_entry.get() != "":
-            ax1.clear()
-            ax1.grid()
             e_date = end_datee.get().split("/")
             s_date = sts_entry.get().split("/")
             enddate = date.datetime(int(e_date[0]),int(e_date[1]),int(e_date[2]))
@@ -126,6 +124,9 @@ def make_graph():
             df = yf.download(ticker,start=startdate,end=enddate,interval=interv,progress=False).reset_index()[['Date']+selected_items]
         
             if df.empty == False:
+                ax1.clear()
+                ax1.grid()
+                print("noooooooot empty")
                 df = dropna(df)
                 if len(special_metrics)>0:
                     if not "Close" in selected_items:
@@ -166,7 +167,6 @@ def make_graph():
             else:
                 messagebox.showwarning("INVALID TICKER",str(df)+"\n"+"Enter a valid ticker.")
             
-
         else:
             messagebox.showwarning("NO TICKER OR PERIOD PROVIDED","Please, select ticker and time interval.")
 
@@ -175,6 +175,7 @@ def make_graph():
 
     actv = False
     ani.event_source.stop()
+    print("helloeoeoe")
     print(selected_items)
     deling = ["M-AVG10","M-AVG20","BOLL. BANDS","Low Band","High Band"]
     for i in deling:
