@@ -126,7 +126,6 @@ def make_graph():
             if df.empty == False:
                 ax1.clear()
                 ax1.grid()
-                print("noooooooot empty")
                 df = dropna(df)
                 if len(special_metrics)>0:
                     if not "Close" in selected_items:
